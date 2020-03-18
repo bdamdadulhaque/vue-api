@@ -4,7 +4,6 @@ import router from './router'
 //import bootstrapCss from '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import Jquery from 'jquery'
 window.$ = window.jQuery = Jquery;
-
 import dt from '../node_modules/datatables.net/js/jquery.dataTables.min.js'
 //window.DataTable = dt;
 import dtbjs from '../node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js'
@@ -22,14 +21,17 @@ window.axios = axios;
 let token = localStorage.getItem('AToken');
 window.token = token; 
 axios.defaults.baseURL = 'http://localhost/laraapiskel/public/api';
+//axios.defaults.baseURL = 'http://localhost/laraapiskel/public/';
 axios.defaults.headers.common['Authorization'] = 'Bearer '+ token;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 let uploadPath = 'http://localhost/laraapiskel/public/';
 window.uploadPath = uploadPath;
 
-let currentUser = localStorage.getItem("currentUser");
-window.currentUser = currentUser;
+let loggedInUserId = localStorage.getItem("loggedInUserId");
+window.loggedInUserId = loggedInUserId;
+let loggedInUserName = localStorage.getItem("loggedInUserName");
+window.loggedInUserName = loggedInUserName;
 
 import { Form, HasError, AlertError } from 'vform'
 

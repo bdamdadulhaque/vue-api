@@ -33,10 +33,10 @@
           <!-- Messages Dropdown Menu -->
           <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
-              Welcome, {{currentUser}} 
+              Welcome, {{loggedInUserName}}
             </a>
             <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-              <a href="#" class="dropdown-item">My Account</a>
+              <router-link :to="{name:'profile'}" class="dropdown-item">My Account</router-link>
               <div class="dropdown-divider"></div>
                 <a href @click.prevent="logout()" class="dropdown-item">Logout</a>
               <div class="dropdown-divider"></div>
@@ -62,7 +62,7 @@
               <img src="../../../node_modules/admin-lte/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image" />
             </div>
             <div class="info">
-              <a href="#" class="d-block">{{currentUser}}</a>
+              <router-link :to="{name:'profile'}" class="d-block">{{loggedInUserName}}</router-link>
             </div>
           </div>
 
@@ -106,7 +106,7 @@ import Sidebar from './Sidebar';
 export default {
     data(){
       return{
-        currentUser
+        loggedInUserName:localStorage.getItem("loggedInUserName")
       }
     },
     components:{
@@ -115,7 +115,7 @@ export default {
   methods: {
     logout() {
       localStorage.removeItem("AToken");
-      localStorage.removeItem("currentUser");
+      localStorage.removeItem("loggedInUserId");
       this.$router.push("/admin-login");
     }
   },

@@ -40,6 +40,12 @@ const routes = [
         name:'dashboard',
         component:() => import('../views/admin/Dashboard.vue')
       },
+      // admin profile
+      {
+        path:'/profile',
+        name:'profile',
+        component:() => import('../views/admin/admin-auth/Admin-profile.vue')
+      },
       {
         path:'category-add',
         name:'category-add',

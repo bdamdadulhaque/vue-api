@@ -3,17 +3,16 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Category Add</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item">
-                <a href="#">Home</a>
-              </li>
-              <li class="breadcrumb-item active">Category Add</li>
-            </ol>
+        <div>
+          <div class="d-flex justify-content-between">
+            <div>
+              <h1>Category Add</h1>
+            </div>
+            <div>
+              <button @click="$router.go(-1)" class="btn btn-outline-secondary btn-sm d-inline-block mr-1">
+                <i class="fas fa-arrow-left"></i> Back
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -25,12 +24,10 @@
         <div class="row">
           <!-- left column -->
           <div class="col-md-12">
-            <!-- jquery validation -->
             <div class="card card-primary">
               <div class="card-header">
                 <h3 class="card-title">
-                  Category Add
-                  <small>Note write here</small>
+                  <small>All star marked ( * ) fields are mandatory, please fill up all mandatory fields.</small>
                 </h3>
               </div>
               <!-- /.card-header -->
@@ -50,19 +47,17 @@
                         <has-error :form="form" field="category_image"></has-error>
                       </div>
                   </div>
+                  <input v-model="form.created_by" name="created_by" type="hidden">
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Save</button>
+                  <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Save</button>
+                  <button type="reset" class="btn btn-warning ml-2"><i class="fas fa-undo-alt"></i> Reset</button>
                 </div>
               </form>
             </div>
             <!-- /.card -->
           </div>
-          <!--/.col (left) -->
-          <!-- right column -->
-          <div class="col-md-6"></div>
-          <!--/.col (right) -->
         </div>
         <!-- /.row -->
       </div>
@@ -77,7 +72,8 @@ export default {
     return {
       form: new Form({
         category_name: '',
-        category_image:''
+        category_image:'',
+        created_by:''
       })
     };
   },
@@ -120,6 +116,9 @@ export default {
           });
         });
     }
+  },
+  mounted(){
+    this.form.created_by = localStorage.getItem("loggedInUserId");
   }
 };
 </script>

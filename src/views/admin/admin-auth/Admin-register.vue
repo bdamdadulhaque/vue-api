@@ -5,11 +5,9 @@
       <div class="register-logo">
         <router-link :to="{name:'admin-register'}"><b>Vue</b>API</router-link>
       </div>
-
       <div class="card">
         <div class="card-body register-card-body">
           <p class="login-box-msg">Register a new membership</p>
-
           <form>
             <div class="input-group mb-3">
               <input type="text" class="form-control" placeholder="Full name" />
@@ -60,7 +58,6 @@
               <!-- /.col -->
             </div>
           </form>
-
           <div class="social-auth-links text-center">
             <p>- OR -</p>
             <a href="#" class="btn btn-block btn-primary">
@@ -72,7 +69,6 @@
               Sign up using Google+
             </a>
           </div>
-
           <router-link :to="{name:'admin-login'}" class="text-center">I already have an account</router-link>
         </div>
         <!-- /.form-box -->
@@ -87,8 +83,6 @@
 //import adminLte from 'admin-lte';
 import("../../../../node_modules/admin-lte/dist/css/adminlte.min.css");
 import("../../../../node_modules/admin-lte/dist/js/adminlte.min.js");
-import(
-  "../../../../node_modules/admin-lte/plugins/fontawesome-free/css/all.min.css"
-);
+import("../../../../node_modules/admin-lte/plugins/fontawesome-free/css/all.min.css");
 export default {};
 </script>

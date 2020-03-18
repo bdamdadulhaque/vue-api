@@ -11,7 +11,6 @@
       <div class="card">
         <div class="card-body login-card-body">
           <p class="login-box-msg">Sign in to start your session</p>
-
           <form @submit.prevent="userLogin()">
             <div class="input-group mb-3">
               <input v-model="user.email" type="email" class="form-control" placeholder="Email" />
@@ -43,7 +42,6 @@
               <!-- /.col -->
             </div>
           </form>
-
           <div class="social-auth-links text-center mb-3">
             <p>- OR -</p>
             <a href="#" class="btn btn-block btn-primary">
@@ -54,7 +52,6 @@
             </a>
           </div>
           <!-- /.social-auth-links -->
-
           <p class="mb-1">
             <a href="forgot-password.html">I forgot my password</a>
           </p>
@@ -72,34 +69,32 @@
 <script>
 //import adminLte from 'admin-lte';
 import("../../../../node_modules/admin-lte/dist/js/adminlte.min.js");
-
 import("../../../../node_modules/admin-lte/dist/css/adminlte.min.css");
 import("../../../../node_modules/admin-lte/plugins/fontawesome-free/css/all.min.css");
 import axios from 'axios';
 export default {
     data(){
-        return{
-            user:{
-                email:null,
-                password:null
-            }
+      return{
+        user:{
+          email:'',
+          password:''
         }
+      }
     },
     methods:{
-        userLogin(){
-            axios.post('/login', {
-                email: this.user.email,
-                password: this.user.password
-            })
-            .then(response =>{
-                console.log(response);
-                localStorage.setItem('AToken', response.data.accessToken);
-                localStorage.setItem('currentUser', response.data.user.name);
-                this.$router.push({name:'admin'});
-            })
-            .catch(error => {
-                console.log(error)
-            });
+      userLogin(){
+        axios.post('/login',{
+          email: this.user.email,
+          password: this.user.password
+          })
+          .then(response =>{
+            localStorage.setItem('AToken', response.data.accessToken);
+            localStorage.setItem('loggedInUserId', response.data.user.id);
+            localStorage.setItem('loggedInUserName', response.data.user.name);
+            this.$router.push({name:'admin'});
+          })
+          .catch(error => {
+          });
         }
     }
 };

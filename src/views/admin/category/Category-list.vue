@@ -3,17 +3,16 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Category</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item">
-                <a href="#">Home</a>
-              </li>
-              <li class="breadcrumb-item active">Category</li>
-            </ol>
+        <div>
+          <div class="d-flex justify-content-between">
+            <div>
+              <h1>Category</h1>
+            </div>
+            <div>
+              <button @click="$router.go(-1)" class="btn btn-outline-secondary btn-sm d-inline-block mr-1">
+                <i class="fas fa-arrow-left"></i> Back
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -25,14 +24,16 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <h5>Category List</h5>
-                    </div>
-                    <div>
-                        <router-link :to="{name:'category-add'}" class="btn btn-outline-primary d-inline-block"><i class="fas fa-plus"></i> Add New</router-link>
-                    </div>
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h5>Category List</h5>
                 </div>
+                <div>
+                  <router-link :to="{name:'category-add'}" class="btn btn-outline-primary d-inline-block">
+                    <i class="fas fa-plus"></i> Add New
+                  </router-link>
+                </div>
+              </div>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -51,7 +52,10 @@
                     <td>{{category.id}}</td>
                     <td>{{category.category_name}}</td>
                     <td><img :src="categoryImageFind(category.category_image)" width="60" height="50"></td>
-                    <td>{{category.category_status}}</td>
+                    <td>
+                      <span v-if="category.category_status == 1" class="badge bg-success">Active</span>
+                      <span v-if="category.category_status == 0" class="badge bg-warning">Inactive</span>
+                    </td>
                     <td>
                       <div class="btn-group">
                         <router-link :to="{name:'category-edit', params:{category_id:category.id}}" class="btn btn-outline-warning">Edit</router-link>
@@ -81,55 +85,65 @@
     </section>
     <!-- /.content -->
   </div>
+  <!-- /.card -->
 </template>
 <script>
 export default {
-    data(){
-        return{
-            categories:[]
-        }
+  data(){
+    return{
+      categories:[]
+      }
     },
-    methods:{
-        categoryList(){
-            axios.get('/category')
-            .then(response =>{
-                this.categories = response.data;
-                 $(function () {
-                   $("#example1").DataTable();
-                 });
-            })
-            .catch(error => {
-              iziToast.error({
-                title: "Error",
-                message: "Something wrong, record not fetched!",
-                position: 'topRight',
-                timeout: 2000
-            });
-            })
-        },
-        categoryImageFind(imageId){
-          return uploadPath+"categoryImage/"+imageId;
-        },
-        categoryDelete(category_id){
-          axios.delete('/category/'+category_id)
-          .then(response => {
-            this.categoryList();
-            iziToast.warning({
-              title: 'Caution',
-              message: 'Successfully deleted record!',
-              position: 'topRight',
-              timeout: 2000
-            });
-          })
-          .catch(error => {
-            iziToast.warning({
-            title: "Warning",
-            message: "Something wrong, record not deleted!",
-            position: 'topRight',
-            timeout: 2000
-            });
-          });
-        }
+  methods:{
+    categoryList(){
+      axios.get('/category')
+        .then(response =>{
+          this.categories = response.data.fetched_category;
+          // data table
+          $(function() {
+            if($.fn.dataTable.isDataTable('#example1')){
+              var table = $('#example1').DataTable();
+            }
+            else{
+              table = $('#example1').DataTable({
+                      paging: true,
+                      "order":[[0,"desc"]]
+              });
+            }
+          }); // data table
+      })
+      .catch(error => {
+        iziToast.error({
+          title: "Error",
+          message: "Something wrong, record not fetched!",
+          position: 'topRight',
+          timeout: 2000
+        });
+      })
+    },
+    categoryImageFind(imageId){
+      return uploadPath+"categoryImage/"+imageId;
+    },
+    categoryDelete(category_id){
+      axios.delete('/category/'+category_id)
+      .then(response => {
+        this.categoryList();
+        iziToast.warning({
+          title: 'Caution',
+          message: 'Successfully deleted record!',
+          position: 'topRight',
+          timeout: 2000
+        });
+      })
+      .catch(error => {
+        iziToast.warning({
+        title: "Warning",
+        message: "Something wrong, record not deleted!",
+        position: 'topRight',
+        timeout: 2000
+        });
+      });
+    }
     },
     mounted(){
         this.categoryList();

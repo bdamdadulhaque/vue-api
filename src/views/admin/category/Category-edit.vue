@@ -3,17 +3,16 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Category Edit</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item">
-                <a href="#">Home</a>
-              </li>
-              <li class="breadcrumb-item active">Category Edit</li>
-            </ol>
+        <div>
+          <div class="d-flex justify-content-between">
+            <div>
+              <h1>Category Edit</h1>
+            </div>
+            <div>
+              <button @click="$router.go(-1)" class="btn btn-outline-secondary btn-sm d-inline-block mr-1">
+                <i class="fas fa-arrow-left"></i> Back
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -25,12 +24,10 @@
         <div class="row">
           <!-- left column -->
           <div class="col-md-12">
-            <!-- jquery validation -->
             <div class="card card-primary">
               <div class="card-header">
                 <h3 class="card-title">
-                  Category Edit
-                  <small>Note write here</small>
+                  <small>All star marked ( * ) fields are mandatory, please fill up all mandatory fields.</small>
                 </h3>
               </div>
               <!-- /.card-header -->
@@ -49,20 +46,28 @@
                         <img :src="updateImage()" alt="" width="70" height="70">
                         <has-error :form="form" field="category_image"></has-error>
                       </div>
+                      <input v-model="form.updated_by" name="updated_by" type="hidden">
+                  </div>
+                  <div class="form-group">
+                    <label for="categoryStatus" class="mr-3">Status:</label>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input v-model="form.category_status" value="1" type="radio" id="customRadioInline1" name="category_status" class="custom-control-input" checked>
+                      <label class="custom-control-label" for="customRadioInline1">Active</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input v-model="form.category_status" value="0" type="radio" id="customRadioInline2" name="category_status" class="custom-control-input">
+                      <label class="custom-control-label" for="customRadioInline2">Inactive</label>
+                    </div>
                   </div>
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Update</button>
+                  <button type="submit" class="btn btn-primary"><i class="fas fa-sync-alt"></i> Update</button>
                 </div>
               </form>
             </div>
             <!-- /.card -->
           </div>
-          <!--/.col (left) -->
-          <!-- right column -->
-          <div class="col-md-6"></div>
-          <!--/.col (right) -->
         </div>
         <!-- /.row -->
       </div>
@@ -77,7 +82,9 @@ export default {
     return {
       form: new Form({
         category_name: '',
-        category_image: ''
+        category_image: '',
+        category_status: '',
+        updated_by: ''
       })
     };
   },
@@ -85,7 +92,10 @@ export default {
     singleCategory(){
       axios.get('/category/'+this.$route.params.category_id)
         .then(response => {
-          this.form.fill(response.data);
+           if(response.data.updated_by != localStorage.getItem("loggedInUserId")){
+             response.data.fetched_single_category.updated_by = localStorage.getItem("loggedInUserId");
+             this.form.fill(response.data.fetched_single_category);
+           }
         })
         .catch(error => {
           iziToast.error({
