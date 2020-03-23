@@ -16,7 +16,24 @@
             <p>Categories</p>
           </router-link>
         </li>
-    
+        <li class="nav-item">
+          <router-link :to="{name:'product-list'}" class="nav-link">
+            <i class="nav-icon fab fa-product-hunt"></i>
+            <p>Products</p>
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link :to="{name:'admin-list'}" class="nav-link">
+            <i class="nav-icon fas fa-user"></i>
+            <p>Admin list</p>
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link :to="{name:'setting-list'}" class="nav-link">
+            <i class="nav-icon fas fa-tools"></i>
+            <p>Settings</p>
+          </router-link>
+        </li>
       </ul>
     </nav>
   </div>

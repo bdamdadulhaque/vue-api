@@ -8,7 +8,7 @@
             <div class="card card-primary">
               <div class="card-header">
                 <div class="d-flex justify-content-between">
-                  <h3 class="card-title">Category Edit</h3>
+                  <h3 class="card-title">Product Edit</h3>
                   <button @click="$router.go(-1)" class="btn btn-default btn-xs d-inline-block mr-1">
                     <i class="fas fa-arrow-left"></i> Back
                   </button>
@@ -16,45 +16,44 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form @submit.prevent="categoryUpdate()">
+              <form @submit.prevent="productUpdate()">
                 <div class="card-body">
                   <div class="form-row">
                     <div class="form-group col-md-6">
-                      <label for="categoryName">Category Name <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
-                      <input v-model="form.category_name" name="category_name" :class="{'is-invalid': form.errors.has('category_name')}" type="text" class="form-control" id="categoryName" placeholder="Enter category"/>
-                      <has-error :form="form" field="category_name"></has-error>
+                      <label for="productName">Product Name <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
+                      <input v-model="form.product_name" name="product_name" :class="{'is-invalid': form.errors.has('product_name')}" type="text" class="form-control" id="productName" placeholder="Enter product"/>
+                      <has-error :form="form" field="product_name"></has-error>
                     </div>
                     <div class="form-group col-md-6">
-                      <label for="categoryImage">Category Image</label>
-                      <div class="custom-file">
-                        <input type="file" name="category_image" @change="changePhoto($event)" class="form-control" id="categoryImage"/>
-                        <img :src="updateImage()" alt="" width="70" height="70">
-                      </div>
+                      <label for="productCategory">Category</label>
+                      <select v-model="form.category_id" name="category_id" class="form-control" id="productCategory">
+                        <option disabled value="">Select Category</option>
+                        <option v-for="(category,index) in categories" :key="index" :value="category.id">{{category.category_name}}</option>
+                      </select>
                     </div>
                   </div>
-                  <!-- <div class="form-group">
-                    <label for="inputAddress">Address</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-                  </div> -->
-                  <div>
+                  <div class="form-row">
                     <div class="form-group col-md-6">
-                      <label for="categoryStatus" class="mr-4">Status:</label>
+                      <label for="productImage">Product Image</label>
+                        <div class="custom-file">
+                          <input type="file" name="product_image" @change="changePhoto($event)" class="form-control" id="productImage"/>
+                          <img :src="updateImage()" alt="" width="70" height="70">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="productStatus" class="mr-3">Status:</label>
                       <div class="custom-control custom-radio custom-control-inline">
-                        <input v-model="form.category_status" value="1" type="radio" id="customRadioInline1" name="category_status" class="custom-control-input">
+                        <input v-model="form.product_status" value="1" type="radio" id="customRadioInline1" name="product_status" class="custom-control-input" checked>
                         <label class="custom-control-label" for="customRadioInline1">Active</label>
                       </div>
                       <div class="custom-control custom-radio custom-control-inline">
-                        <input v-model="form.category_status" value="0" type="radio" id="customRadioInline2" name="category_status" class="custom-control-input">
+                        <input v-model="form.product_status" value="0" type="radio" id="customRadioInline2" name="product_status" class="custom-control-input">
                         <label class="custom-control-label" for="customRadioInline2">Inactive</label>
                       </div>
                     </div>
-                    <!-- <div class="form-group col-md-6">
-                      <label for="inputCity">City</label>
-                      <input type="text" class="form-control" id="inputCity">
-                    </div> -->
                     <!-- hidden input begin -->
                     <input v-model="form.updated_by" name="updated_by" type="hidden">
-                    <!-- hidden input end -->
+                    <!-- hidden input -- end -->
                   </div>
                 </div>
                 <!-- /.card-body -->
@@ -80,20 +79,22 @@ export default {
   data() {
     return {
       form: new Form({
-        category_name: '',
-        category_image: '',
-        category_status: '',
+        product_name: '',
+        category_id: '',
+        product_image: '',
+        product_status: '',
         updated_by: ''
-      })
+      }),
+      categories:''
     };
   },
   methods: {
-    singleCategory(){
-      axios.get('/category/'+this.$route.params.category_id)
+    singleProduct(){
+      axios.get('/product/'+this.$route.params.product_id)
         .then(response => {
            if(response.data.updated_by != localStorage.getItem("loggedInUserId")){
-             response.data.fetched_single_category.updated_by = localStorage.getItem("loggedInUserId");
-             this.form.fill(response.data.fetched_single_category);
+             response.data.fetched_single_product.updated_by = localStorage.getItem("loggedInUserId");
+             this.form.fill(response.data.fetched_single_product);
            }
         })
         .catch(error => {
@@ -105,13 +106,27 @@ export default {
           });
         });
     },
+    getCategories(){
+      axios.get('/category')
+        .then(response =>{
+          this.categories = response.data.fetched_category;
+        })
+        .catch(error => {
+          iziToast.error({
+            title: "Error",
+            message: "Something wrong, Category not fetched!",
+            position: "topRight",
+            timeout: 2000
+          });
+        });
+    },
     updateImage(){
-      let img = this.form.category_image;
+      let img = this.form.product_image;
         if(img.length > 100){
-          return  this.form.category_image
+          return  this.form.product_image
         }
         else{
-          return uploadPath+"categoryImage/"+this.form.category_image;
+          return uploadPath+"productImage/"+this.form.product_image;
         }
     },
     changePhoto(event){
@@ -127,13 +142,13 @@ export default {
       else{
         let reader = new FileReader();
         reader.onload = event => {
-        this.form.category_image = event.target.result;
+        this.form.product_image = event.target.result;
       };
       reader.readAsDataURL(file);
       }
     },
-    categoryUpdate() {
-      this.form.put('/category/'+this.$route.params.category_id)
+    productUpdate() {
+      this.form.put('/product/'+this.$route.params.product_id)
         .then(response => {
           iziToast.success({
             title: "OK",
@@ -141,7 +156,7 @@ export default {
             position: 'topRight',
             timeout: 2000
           });
-          this.$router.push({ name: "category-list" });
+          this.$router.push({ name: "product-list" });
         })
         .catch(error => {
           iziToast.warning({
@@ -154,7 +169,10 @@ export default {
     }
   },
   mounted(){
-    this.singleCategory();
+    this.singleProduct();
+  },
+  created(){
+    this.getCategories();
   }
 };
 </script>

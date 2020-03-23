@@ -46,7 +46,6 @@
         </ul>
       </nav>
       <!-- /.navbar -->
-
       <!-- Main Sidebar Container -->
       <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
@@ -65,24 +64,17 @@
               <router-link :to="{name:'profile'}" class="d-block">{{loggedInUserName}}</router-link>
             </div>
           </div>
-
           <!-- Sidebar Menu -->
             <sidebar></sidebar>
           <!-- /.sidebar-menu -->
         </div>
         <!-- /.sidebar -->
       </aside>
-
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
         <router-view></router-view>
       </div>
       <!-- /.content-wrapper -->
-
-      <!-- Control Sidebar -->
-
-      <!-- /.control-sidebar -->
-
       <!-- Main Footer -->
       <footer class="main-footer">
         <!-- To the right -->
@@ -99,19 +91,18 @@
 </template>
 <script>
 import('../../../node_modules/admin-lte/dist/js/adminlte.min.js');
-
 import('../../../node_modules/admin-lte/dist/css/adminlte.min.css');
 import('../../../node_modules/admin-lte/plugins/fontawesome-free/css/all.css');
 import Sidebar from './Sidebar';
 export default {
-    data(){
-      return{
-        loggedInUserName:localStorage.getItem("loggedInUserName")
-      }
-    },
-    components:{
-        sidebar:Sidebar
-    },
+  data(){
+    return{
+      loggedInUserName:localStorage.getItem("loggedInUserName")
+    }
+  },
+  components:{
+    sidebar:Sidebar
+  },
   methods: {
     logout() {
       localStorage.removeItem("AToken");

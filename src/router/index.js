@@ -42,10 +42,11 @@ const routes = [
       },
       // admin profile
       {
-        path:'/profile',
+        path:'profile',
         name:'profile',
         component:() => import('../views/admin/admin-auth/Admin-profile.vue')
       },
+      // category
       {
         path:'category-add',
         name:'category-add',
@@ -60,6 +61,44 @@ const routes = [
         path:'category-edit/:category_id',
         name:'category-edit',
         component:() => import('../views/admin/category/Category-edit.vue')
+      },
+      // product
+      {
+        path:'product-add',
+        name:'product-add',
+        component:() => import('../views/admin/product/Product-add.vue')
+      },
+      {
+        path:'product-list',
+        name:'product-list',
+        component:() => import('../views/admin/product/Product-list.vue')
+      },
+      {
+        path:'product-edit/:product_id',
+        name:'product-edit',
+        component:() => import('../views/admin/product/Product-edit.vue')
+      },
+      // admin user
+      {
+        path:'admin-list',
+        name:'admin-list',
+        component:() => import('../views/admin/admin-auth/Admin-list.vue')
+      },
+      {
+        path:'admin-add',
+        name:'admin-add',
+        component:() => import('../views/admin/admin-auth/Admin-register.vue')
+      },
+      {
+        path:'admin-edit/:admin_id',
+        name:'admin-edit',
+        component:() => import('../views/admin/admin-auth/Admin-edit.vue')
+      },
+      // settings
+      {
+        path:'setting-list',
+        name:'setting-list',
+        component:() => import('../views/admin/Setting-list.vue')
       }
     ]
   }

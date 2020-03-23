@@ -8,7 +8,7 @@
             <div class="card card-primary">
               <div class="card-header">
                 <div class="d-flex justify-content-between">
-                  <h3 class="card-title">Category Add</h3>
+                  <h3 class="card-title">Admin Edit</h3>
                   <button @click="$router.go(-1)" class="btn btn-default btn-xs d-inline-block mr-1">
                     <i class="fas fa-arrow-left"></i> Back
                   </button>
@@ -16,7 +16,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form @submit.prevent="adminUserSave()">
+              <form @submit.prevent="adminUserUpdate()">
                 <div class="card-body">
                   <div class="form-row">
                     <div class="form-group col-md-6">
@@ -32,14 +32,12 @@
                   </div>
                   <div class="form-row">
                     <div class="form-group col-md-6">
-                      <label for="password">Password <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
-                      <input v-model="form.password" name="password" :class="{'is-invalid': form.errors.has('password')}" type="password" class="form-control" id="password" placeholder="Password" />
-                      <has-error :form="form" field="password"></has-error>
+                      <label for="password">Password</label>
+                      <input v-model="form.password" name="password" type="password" class="form-control" id="password" placeholder="Password" />
                     </div>
                     <div class="form-group col-md-6">
-                      <label for="confirmPassword">Confirm Password <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
-                      <input v-model="form.password_confirmation" name="password_confirmation" :class="{'is-invalid': form.errors.has('password_confirmation')}" type="password" class="form-control" id="confirmPassword" placeholder="Retype password" />
-                      <has-error :form="form" field="password_confirmation"></has-error>
+                      <label for="confirmPassword">Confirm Password</label>
+                      <input v-model="form.password_confirmation" name="password_confirmation" type="password" class="form-control" id="confirmPassword" placeholder="Retype password" />
                     </div>
                   </div>
                   <div class="form-row">
@@ -50,16 +48,22 @@
                           <img v-if="form.user_photo !=null" :src="form.user_photo" width="70" height="70" alt="">
                         </div>
                     </div>
+                    <div class="form-group col-md-6">
+                      <label for="userStatus" class="mr-4">Status:</label>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input v-model="form.user_status" value="1" type="radio" id="customRadioInline1" name="category_status" class="custom-control-input">
+                        <label class="custom-control-label" for="customRadioInline1">Active</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input v-model="form.user_status" value="0" type="radio" id="customRadioInline2" name="category_status" class="custom-control-input">
+                        <label class="custom-control-label" for="customRadioInline2">Inactive</label>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-check"></i> Save
-                  </button>
-                  <button type="reset" class="btn btn-warning ml-2">
-                    <i class="fas fa-undo-alt"></i> Reset
-                  </button>
+                  <button type="submit" class="btn btn-primary"><i class="fas fa-sync-alt"></i> Update</button>
                 </div>
               </form>
               <!-- /.form -->
@@ -83,19 +87,43 @@ export default {
         name:'',
         email:'',
         user_photo:'',
+        user_status:'',
         password:'',
         password_confirmation:''
       })
     }
   },
-  methods:{
+  methods: {
+    singleAdmin(){
+      axios.get('/singleadmin/'+this.$route.params.admin_id)
+        .then(response => {
+          this.form.fill(response.data.fetched_single_admin);
+        })
+        .catch(error => {
+          iziToast.error({
+            title: "Error",
+            message: "Something wrong, record not fetched!",
+            position: 'topRight',
+            timeout: 2000
+          });
+        });
+    },
+    updateImage(){
+      let img = this.form.user_photo;
+        if(img.length > 100){
+          return  this.form.user_photo
+        }
+        else{
+          return uploadPath+"userPhoto/"+this.form.user_photo;
+        }
+    },
     changePhoto(event){
       let file = event.target.files[0];
       if(file.size > 524288){
         iziToast.warning({
           title: "Wrong",
           message: "Max image size 500KB!",
-          position: 'topRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
+          position: 'topRight',
           timeout: 2000,
         });
       }
@@ -107,26 +135,29 @@ export default {
       reader.readAsDataURL(file);
       }
     },
-    adminUserSave(){
-      this.form.post('/register')
+    adminUserUpdate() {
+      this.form.put('/adminupdate/'+this.$route.params.admin_id)
         .then(response => {
-          iziToast.success({
-            title: "OK",
-            message: "Successfully created user!",
-            position: 'topRight',
-            timeout: 2000
-          });
-          this.$router.push({ name: 'admin-list' });
+            iziToast.success({
+                title: "OK",
+                message: "Successfully updated record!",
+                position: 'topRight',
+                timeout: 2000
+            });
+          this.$router.push({ name: "admin-list" });
         })
         .catch(error => {
           iziToast.warning({
             title: "Warning",
-            message: "Please fill up required field!",
+            message: "Something wrong, record not updated!",
             position: 'topRight',
             timeout: 2000
           });
         });
     }
+  },
+  mounted(){
+    this.singleAdmin();
   }
 };
 </script>

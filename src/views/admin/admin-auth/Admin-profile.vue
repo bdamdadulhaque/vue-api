@@ -10,8 +10,7 @@
             </div>
             <div>
               <button
-                @click="$router.go(-1)"
-                class="btn btn-outline-secondary btn-sm d-inline-block mr-1">
+                @click="$router.go(-1)" class="btn btn-outline-secondary btn-sm d-inline-block mr-1">
                 <i class="fas fa-arrow-left"></i> Back
               </button>
             </div>
@@ -72,10 +71,12 @@
                     <div class="post">
                       <ul class="list-group list-group-unbordered mb-3">
                         <li class="list-group-item">
-                          <b>Name:</b> {{loggedInAdminUser.name}}
+                          <b>Name:</b>
+                          {{loggedInAdminUser.name}}
                         </li>
                         <li class="list-group-item">
-                          <b>Email:</b> {{loggedInAdminUser.email}}
+                          <b>Email:</b>
+                          {{loggedInAdminUser.email}}
                         </li>
                       </ul>
                     </div>
@@ -87,19 +88,38 @@
                       <div class="form-group row">
                         <label for="inputName" class="col-sm-2 col-form-label">Name</label>
                         <div class="col-sm-10">
-                          <input v-model="form.name" name="name" type="text" class="form-control" id="inputName" placeholder="Name"/>
+                          <input
+                            v-model="form.name"
+                            name="name"
+                            type="text"
+                            class="form-control"
+                            id="inputName"
+                            placeholder="Name"
+                          />
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                         <div class="col-sm-10">
-                          <input v-model="form.email" name="email" type="email" class="form-control" id="inputEmail" placeholder="Email"/>
+                          <input
+                            v-model="form.email"
+                            name="email"
+                            type="email"
+                            class="form-control"
+                            id="inputEmail"
+                            placeholder="Email"
+                          />
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputMobile" class="col-sm-2 col-form-label">Mobile</label>
                         <div class="col-sm-10">
-                          <input type="phone" class="form-control" id="inputMobile" placeholder="Mobile"/>
+                          <input
+                            type="phone"
+                            class="form-control"
+                            id="inputMobile"
+                            placeholder="Mobile"
+                          />
                         </div>
                       </div>
                       <div class="form-group row">
@@ -127,37 +147,33 @@
     </section>
     <!-- /.content -->
   </div>
-  <!-- /.card -->
 </template>
 <script>
 export default {
-    data(){
-        return{
-            loggedInAdminUser:[],
-            form: new Form({
-                name:'',
-                email:''
-            })
-        }
-    },
-    methods:{
-        getLoggedInAdminUser(){
-            //axios.defaults.baseURL = 'http://localhost/laraapiskel/public/';
-            axios.get('/user')
-            .then(response =>{
-                this.loggedInAdminUser = response.data;
-                this.form.fill(response.data);
-                console.log(response.data);
-            })
-            .catch(error =>{
-                console.log(error)
-            });
-
-        }
-    },
-    mounted(){
-        this.getLoggedInAdminUser();
+  data() {
+    return {
+      loggedInAdminUser: [],
+      form: new Form({
+        name: "",
+        email: ""
+      })
+    };
+  },
+  methods: {
+    getLoggedInAdminUser() {
+      //axios.defaults.baseURL = 'http://localhost/laraapiskel/public/';
+      axios
+        .get("/user")
+        .then(response => {
+          this.loggedInAdminUser = response.data;
+          this.form.fill(response.data);
+        })
+        .catch(error => {
+        });
     }
-
-}
+  },
+  mounted() {
+    this.getLoggedInAdminUser();
+  }
+};
 </script>
