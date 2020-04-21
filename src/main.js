@@ -28,17 +28,16 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 let uploadPath = 'http://localhost/laraapiskel/public/';
 window.uploadPath = uploadPath;
 
-let loggedInUserId = localStorage.getItem("loggedInUserId");
-window.loggedInUserId = loggedInUserId;
-let loggedInUserName = localStorage.getItem("loggedInUserName");
-window.loggedInUserName = loggedInUserName;
+//let loggedInUserId = localStorage.getItem("loggedInUserId");
+//window.loggedInUserId = loggedInUserId;
+//let loggedInUserName = localStorage.getItem("loggedInUserName");
+//window.loggedInUserName = loggedInUserName;
 
 import { Form, HasError, AlertError } from 'vform'
 
 window.Form = Form;
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
-
 
 Vue.config.productionTip = false
 

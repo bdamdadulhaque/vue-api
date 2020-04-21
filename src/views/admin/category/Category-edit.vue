@@ -19,26 +19,20 @@
               <form @submit.prevent="categoryUpdate()">
                 <div class="card-body">
                   <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                       <label for="categoryName">Category Name <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
                       <input v-model="form.category_name" name="category_name" :class="{'is-invalid': form.errors.has('category_name')}" type="text" class="form-control" id="categoryName" placeholder="Enter category"/>
                       <has-error :form="form" field="category_name"></has-error>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                       <label for="categoryImage">Category Image</label>
                       <div class="custom-file">
                         <input type="file" name="category_image" @change="changePhoto($event)" class="form-control" id="categoryImage"/>
                         <img :src="updateImage()" alt="" width="70" height="70">
                       </div>
                     </div>
-                  </div>
-                  <!-- <div class="form-group">
-                    <label for="inputAddress">Address</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-                  </div> -->
-                  <div>
-                    <div class="form-group col-md-6">
-                      <label for="categoryStatus" class="mr-4">Status:</label>
+                    <div class="form-group col-md-4">
+                      <label for="categoryStatus" class="mr-4">Status</label><br>
                       <div class="custom-control custom-radio custom-control-inline">
                         <input v-model="form.category_status" value="1" type="radio" id="customRadioInline1" name="category_status" class="custom-control-input">
                         <label class="custom-control-label" for="customRadioInline1">Active</label>
@@ -48,6 +42,12 @@
                         <label class="custom-control-label" for="customRadioInline2">Inactive</label>
                       </div>
                     </div>
+                  </div>
+                  <!-- <div class="form-group">
+                    <label for="inputAddress">Address</label>
+                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                  </div> -->
+                  <div>
                     <!-- <div class="form-group col-md-6">
                       <label for="inputCity">City</label>
                       <input type="text" class="form-control" id="inputCity">
@@ -158,3 +158,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+.custom-control-label{
+  color:rgba(0, 0, 0, 0.5);
+}
+</style>

@@ -28,6 +28,11 @@
                 </div>
               </div>
             </div>
+            <div v-if="invalidCredentials" class="row">
+              <div class="col-12 text-center invalidCredentials">
+                <p>Username or Password invalid!</p>
+              </div>
+            </div>
             <div class="row">
               <div class="col-8">
                 <div class="icheck-primary">
@@ -78,7 +83,8 @@ export default {
         user:{
           email:'',
           password:''
-        }
+        },
+        invalidCredentials:false
       }
     },
     methods:{
@@ -87,15 +93,22 @@ export default {
           email: this.user.email,
           password: this.user.password
           })
-          .then(response =>{
+          .then(response => {
             localStorage.setItem('AToken', response.data.accessToken);
             localStorage.setItem('loggedInUserId', response.data.user.id);
             localStorage.setItem('loggedInUserName', response.data.user.name);
             this.$router.push({name:'admin'});
           })
           .catch(error => {
+            this.invalidCredentials = true
+            console.log("Invalid credentials")
           });
         }
     }
 };
 </script>
+<style scoped>
+.invalidCredentials p{
+  color:red;
+}
+</style>

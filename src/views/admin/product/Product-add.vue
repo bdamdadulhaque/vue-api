@@ -42,10 +42,17 @@
                           <has-error :form="form" field="product_image"></has-error>
                         </div>
                     </div>
-                    <!-- <div class="form-group col-md-6">
-                      <label for="productStatus">Status</label>
-                      <input name="product_status" type="radio" class="form-control" id="productStatus"/>
-                    </div> -->
+                    <div class="form-group col-md-4">
+                      <label for="productStatus" class="mr-4">Status</label><br>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input v-model="form.product_status" value="1" type="radio" id="customRadioInline1" name="category_status" class="custom-control-input">
+                        <label class="custom-control-label" for="customRadioInline1">Active</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input v-model="form.product_status" value="0" type="radio" id="customRadioInline2" name="category_status" class="custom-control-input">
+                        <label class="custom-control-label" for="customRadioInline2">Inactive</label>
+                      </div>
+                    </div>
                     <!-- hidden input begin -->
                     <input v-model="form.created_by" name="created_by" type="hidden">
                     <!-- hidden input -- end -->
@@ -82,6 +89,7 @@ export default {
         product_name: '',
         category_id:'',
         product_image:'',
+        product_status:1,
         created_by:''
       }),
       categories:[]
@@ -149,3 +157,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+.custom-control-label{
+  color:rgba(0, 0, 0, 0.5);
+}
+</style>

@@ -33,7 +33,7 @@
           <!-- Messages Dropdown Menu -->
           <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
-              Welcome, {{loggedInUserName}}
+              <i class="fas fa-user"></i> {{loggedInUserName}}
             </a>
             <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
               <router-link :to="{name:'profile'}" class="dropdown-item">My Account</router-link>
@@ -56,14 +56,6 @@
         <!-- Sidebar -->
         <div class="sidebar">
           <!-- Sidebar user panel (optional) -->
-          <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-              <img src="../../../node_modules/admin-lte/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image" />
-            </div>
-            <div class="info">
-              <router-link :to="{name:'profile'}" class="d-block">{{loggedInUserName}}</router-link>
-            </div>
-          </div>
           <!-- Sidebar Menu -->
             <sidebar></sidebar>
           <!-- /.sidebar-menu -->
@@ -107,6 +99,7 @@ export default {
     logout() {
       localStorage.removeItem("AToken");
       localStorage.removeItem("loggedInUserId");
+      localStorage.removeItem("loggedInUserName");
       this.$router.push("/admin-login");
     }
   },

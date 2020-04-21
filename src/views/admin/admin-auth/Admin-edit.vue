@@ -19,46 +19,59 @@
               <form @submit.prevent="adminUserUpdate()">
                 <div class="card-body">
                   <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                       <label for="name">Name <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
                       <input v-model="form.name" name="name" :class="{'is-invalid': form.errors.has('name')}" type="text" class="form-control" id="name" placeholder="Full name" />
                       <has-error :form="form" field="name"></has-error>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                       <label for="email">Email <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
                       <input v-model="form.email" name="email" :class="{'is-invalid': form.errors.has('email')}" type="email" class="form-control" id="email" placeholder="Email" />
                       <has-error :form="form" field="email"></has-error>
                     </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                       <label for="password">Password</label>
                       <input v-model="form.password" name="password" type="password" class="form-control" id="password" placeholder="Password" />
                     </div>
-                    <div class="form-group col-md-6">
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-4">
                       <label for="confirmPassword">Confirm Password</label>
                       <input v-model="form.password_confirmation" name="password_confirmation" type="password" class="form-control" id="confirmPassword" placeholder="Retype password" />
+                      <p id="passwordConfirmed" v-if="passwordConfirmed">Password not matched!</p>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="userRole" class="mr-4">Role</label><br>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input v-model="form.user_role" value="1" type="radio" id="customRadioInline1" name="user_role" class="custom-control-input">
+                        <label class="custom-control-label" for="customRadioInline1">Super Admin</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input v-model="form.user_role" value="2" type="radio" id="customRadioInline2" name="user_role" class="custom-control-input">
+                        <label class="custom-control-label" for="customRadioInline2">Admin</label>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="userStatus" class="mr-4">Status</label><br>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input v-model="form.user_status" value="1" type="radio" id="customRadioInlineStatus1" name="user_status" class="custom-control-input">
+                        <label class="custom-control-label" for="customRadioInlineStatus1">Active</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input v-model="form.user_status" value="0" type="radio" id="customRadioInlineStatus2" name="user_status" class="custom-control-input">
+                        <label class="custom-control-label" for="customRadioInlineStatus2">Inactive</label>
+                      </div>
                     </div>
                   </div>
                   <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                       <label for="userPhoto">Photo</label>
                         <div class="custom-file">
                           <input type="file" name="user_photo" @change="changePhoto($event)" class="form-control" id="userPhoto"/>
-                          <img v-if="form.user_photo !=null" :src="form.user_photo" width="70" height="70" alt="">
+                          <img :src="updateImage()" alt="" width="70" height="70">
                         </div>
                     </div>
-                    <div class="form-group col-md-6">
-                      <label for="userStatus" class="mr-4">Status:</label>
-                      <div class="custom-control custom-radio custom-control-inline">
-                        <input v-model="form.user_status" value="1" type="radio" id="customRadioInline1" name="category_status" class="custom-control-input">
-                        <label class="custom-control-label" for="customRadioInline1">Active</label>
-                      </div>
-                      <div class="custom-control custom-radio custom-control-inline">
-                        <input v-model="form.user_status" value="0" type="radio" id="customRadioInline2" name="category_status" class="custom-control-input">
-                        <label class="custom-control-label" for="customRadioInline2">Inactive</label>
-                      </div>
-                    </div>
+
                   </div>
                 </div>
                 <!-- /.card-body -->
@@ -87,10 +100,12 @@ export default {
         name:'',
         email:'',
         user_photo:'',
+        user_role:'',
         user_status:'',
         password:'',
         password_confirmation:''
-      })
+      }),
+      passwordConfirmed:false
     }
   },
   methods: {
@@ -136,7 +151,8 @@ export default {
       }
     },
     adminUserUpdate() {
-      this.form.put('/adminupdate/'+this.$route.params.admin_id)
+      if(this.form.password == this.form.password_confirmation){
+        this.form.put('/adminupdate/'+this.$route.params.admin_id)
         .then(response => {
             iziToast.success({
                 title: "OK",
@@ -154,6 +170,10 @@ export default {
             timeout: 2000
           });
         });
+      }
+      else{
+        this.passwordConfirmed = true
+      }
     }
   },
   mounted(){
@@ -161,3 +181,11 @@ export default {
   }
 };
 </script>
+<style scoped>
+#passwordConfirmed{
+  color:red;
+}
+.custom-control-label{
+  color:rgba(0, 0, 0, 0.5);
+}
+</style>

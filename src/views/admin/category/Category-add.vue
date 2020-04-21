@@ -19,17 +19,28 @@
               <form @submit.prevent="categorySave()" enctype="multipart/form-data">
                 <div class="card-body">
                   <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                       <label for="categoryName">Category Name <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
                       <input v-model="form.category_name" name="category_name" :class="{'is-invalid': form.errors.has('category_name')}" type="text" class="form-control" id="categoryName" placeholder="Enter category"/>
                       <has-error :form="form" field="category_name"></has-error>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                       <label for="categoryImage">Category Image <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
                       <div class="custom-file">
                         <input type="file" name="category_image" @change="changePhoto($event)" :class="{'is-invalid': form.errors.has('category_image')}" class="form-control" id="categoryImage"/>
                         <has-error :form="form" field="category_image"></has-error>
                         <img v-if="form.category_image !=null" :src="form.category_image" width="70" height="70" alt/>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="categoryStatus" class="mr-4">Status</label><br>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input v-model="form.category_status" value="1" type="radio" id="customRadioInline1" name="category_status" class="custom-control-input">
+                        <label class="custom-control-label" for="customRadioInline1">Active</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input v-model="form.category_status" value="0" type="radio" id="customRadioInline2" name="category_status" class="custom-control-input">
+                        <label class="custom-control-label" for="customRadioInline2">Inactive</label>
                       </div>
                     </div>
                   </div>
@@ -96,8 +107,8 @@ export default {
       form: new Form({
         category_name: '',
         category_image: '',
-        //category_status: '',
-        created_by: '',
+        category_status: 1,
+        created_by: ''
       })
     };
   },
@@ -146,3 +157,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+.custom-control-label{
+  color:rgba(0, 0, 0, 0.5);
+}
+</style>

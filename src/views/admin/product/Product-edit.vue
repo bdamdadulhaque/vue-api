@@ -41,7 +41,7 @@
                         </div>
                     </div>
                     <div class="form-group col-md-6">
-                      <label for="productStatus" class="mr-3">Status:</label>
+                      <label for="productStatus" class="mr-3">Status</label><br>
                       <div class="custom-control custom-radio custom-control-inline">
                         <input v-model="form.product_status" value="1" type="radio" id="customRadioInline1" name="product_status" class="custom-control-input" checked>
                         <label class="custom-control-label" for="customRadioInline1">Active</label>
@@ -176,3 +176,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+.custom-control-label{
+  color:rgba(0, 0, 0, 0.5);
+}
+</style>
