@@ -51,6 +51,10 @@
                         <input v-model="form.user_role" value="2" type="radio" id="customRadioInline2" name="user_role" class="custom-control-input">
                         <label class="custom-control-label" for="customRadioInline2">Admin</label>
                       </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input v-model="form.user_role" value="3" type="radio" id="customRadioInline3" name="user_role" class="custom-control-input">
+                        <label class="custom-control-label" for="customRadioInline3">Employee</label>
+                      </div>
                     </div>
                     <div class="form-group col-md-4">
                       <label for="userStatus" class="mr-4">Status</label><br>
@@ -72,6 +76,9 @@
                           <img v-if="form.user_photo !=null" :src="form.user_photo" width="70" height="70" alt="">
                         </div>
                     </div>
+                    <!-- hidden input begin -->
+                    <input v-model="form.created_by" name="created_by" type="hidden" />
+                    <!-- hidden input -- end -->
                   </div>
                 </div>
                 <!-- /.card-body -->
@@ -108,7 +115,8 @@ export default {
         password:'',
         password_confirmation:'',
         user_role:2,
-        user_status:0
+        user_status:0,
+        created_by: ''
       })
     }
   },
@@ -151,6 +159,9 @@ export default {
           });
         });
     }
+  },
+  mounted() {
+    this.form.created_by = localStorage.getItem("loggedInUserName");
   }
 };
 </script>

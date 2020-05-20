@@ -11,6 +11,8 @@ import dtbjs from '../node_modules/datatables.net-bs4/js/dataTables.bootstrap4.m
 import dtcss from '../node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css'
 //window.DataTable = dtcss;
 //import popper from 'popper.js'
+import moment from 'moment'
+window.moment = moment
 import bootstrapjs from '../node_modules/bootstrap/dist/js/bootstrap.min.js'
 window.bootstrapjs = bootstrapjs;
 import izitoastCss from '../node_modules/izitoast/dist/css/iziToast.min.css'

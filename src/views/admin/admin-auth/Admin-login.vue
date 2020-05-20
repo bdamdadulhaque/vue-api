@@ -4,7 +4,7 @@
     <div class="login-box">
       <div class="login-logo">
         <router-link :to="{name:'admin-login'}">
-          <b>Vue</b>API
+          <b>Vue</b> API Skeleton
         </router-link>
       </div>
       <!-- /.login-logo -->
@@ -28,41 +28,29 @@
                 </div>
               </div>
             </div>
+            <div v-if="allFieldRequired" class="row">
+              <div class="col-12 text-center text-danger">
+                <p>All fields are required!</p>
+              </div>
+            </div>
             <div v-if="invalidCredentials" class="row">
-              <div class="col-12 text-center invalidCredentials">
+              <div class="col-12 text-center text-danger">
                 <p>Username or Password invalid!</p>
               </div>
             </div>
-            <div class="row">
-              <div class="col-8">
-                <div class="icheck-primary">
-                  <input type="checkbox" id="remember" />
-                  <label for="remember">Remember Me</label>
-                </div>
+            <div v-if="inActiveUser" class="row">
+              <div class="col-12 text-center text-danger">
+                <p>Your account status is inactive!</p>
               </div>
+            </div>
+            <div class="row">
               <!-- /.col -->
-              <div class="col-4">
+              <div class="col-4 m-auto">
                 <button type="submit" class="btn btn-primary btn-block">Sign In</button>
               </div>
               <!-- /.col -->
             </div>
           </form>
-          <div class="social-auth-links text-center mb-3">
-            <p>- OR -</p>
-            <a href="#" class="btn btn-block btn-primary">
-              <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-            </a>
-            <a href="#" class="btn btn-block btn-danger">
-              <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-            </a>
-          </div>
-          <!-- /.social-auth-links -->
-          <p class="mb-1">
-            <a href="forgot-password.html">I forgot my password</a>
-          </p>
-          <p class="mb-0">
-            <router-link :to="{name:'admin-register'}" class="text-center">Register</router-link>
-          </p>
         </div>
         <!-- /.login-card-body -->
       </div>
@@ -84,31 +72,46 @@ export default {
           email:'',
           password:''
         },
-        invalidCredentials:false
+        allFieldRequired:false,
+        invalidCredentials:false,
+        inActiveUser:false
       }
     },
     methods:{
       userLogin(){
-        axios.post('/login',{
+        if(this.user.email != '' && this.user.password != ''){
+                  axios.post('/login',{
           email: this.user.email,
           password: this.user.password
           })
           .then(response => {
-            localStorage.setItem('AToken', response.data.accessToken);
-            localStorage.setItem('loggedInUserId', response.data.user.id);
-            localStorage.setItem('loggedInUserName', response.data.user.name);
-            this.$router.push({name:'admin'});
+            if(response.data.user.user_status == 1){
+              localStorage.setItem('AToken', response.data.accessToken);
+              localStorage.setItem('loggedInUserId', response.data.user.id);
+              localStorage.setItem('loggedInUserName', response.data.user.name);
+              localStorage.setItem('loggedInUserPhoto', response.data.user.user_photo);
+              //this.$router.push({name:'admin'});
+              this.$router.push({name:'dashboard'});
+            }
+            else{
+              this.inActiveUser = true
+              this.invalidCredentials = false
+              this.allFieldRequired = false
+            }
           })
           .catch(error => {
             this.invalidCredentials = true
-            console.log("Invalid credentials")
+            this.inActiveUser = false
+            this.allFieldRequired = false
           });
+        }
+        else{
+          this.allFieldRequired = true
+          this.inActiveUser = false
+          this.invalidCredentials = false
+        }
+
         }
     }
 };
 </script>
-<style scoped>
-.invalidCredentials p{
-  color:red;
-}
-</style>

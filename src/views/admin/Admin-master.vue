@@ -33,7 +33,7 @@
           <!-- Messages Dropdown Menu -->
           <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
-              <i class="fas fa-user"></i> {{loggedInUserName}}
+              <img :src="userPhotoFind()" width="20" height="20" class="brand-image img-circle elevation-3"> {{loggedInUserName}}
             </a>
             <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
               <router-link :to="{name:'profile'}" class="dropdown-item">My Account</router-link>
@@ -89,17 +89,22 @@ import Sidebar from './Sidebar';
 export default {
   data(){
     return{
-      loggedInUserName:localStorage.getItem("loggedInUserName")
+      loggedInUserName:localStorage.getItem("loggedInUserName"),
+      loggedInUserPhoto:localStorage.getItem("loggedInUserPhoto")
     }
   },
   components:{
     sidebar:Sidebar
   },
   methods: {
+    userPhotoFind(){
+      return uploadPath+"userPhoto/"+this.loggedInUserPhoto;
+    },
     logout() {
       localStorage.removeItem("AToken");
       localStorage.removeItem("loggedInUserId");
       localStorage.removeItem("loggedInUserName");
+      localStorage.removeItem("loggedInUserPhoto");
       this.$router.push("/admin-login");
     }
   },

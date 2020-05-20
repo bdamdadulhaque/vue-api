@@ -25,10 +25,9 @@
                       <has-error :form="form" field="category_name"></has-error>
                     </div>
                     <div class="form-group col-md-4">
-                      <label for="categoryImage">Category Image <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
+                      <label for="categoryImage">Category Image</label>
                       <div class="custom-file">
-                        <input type="file" name="category_image" @change="changePhoto($event)" :class="{'is-invalid': form.errors.has('category_image')}" class="form-control" id="categoryImage"/>
-                        <has-error :form="form" field="category_image"></has-error>
+                        <input type="file" name="category_image" @change="changeImage($event)" class="form-control" id="categoryImage"/>
                         <img v-if="form.category_image !=null" :src="form.category_image" width="70" height="70" alt/>
                       </div>
                     </div>
@@ -113,7 +112,7 @@ export default {
     };
   },
   methods: {
-    changePhoto(event) {
+    changeImage(event) {
       let file = event.target.files[0];
       if (file.size > 524288) {
         iziToast.warning({

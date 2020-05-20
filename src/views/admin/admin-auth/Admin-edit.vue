@@ -35,11 +35,11 @@
                     </div>
                   </div>
                   <div class="form-row">
-                    <div class="form-group col-md-4">
+                    <!-- <div class="form-group col-md-4">
                       <label for="confirmPassword">Confirm Password</label>
                       <input v-model="form.password_confirmation" name="password_confirmation" type="password" class="form-control" id="confirmPassword" placeholder="Retype password" />
                       <p id="passwordConfirmed" v-if="passwordConfirmed">Password not matched!</p>
-                    </div>
+                    </div> -->
                     <div class="form-group col-md-4">
                       <label for="userRole" class="mr-4">Role</label><br>
                       <div class="custom-control custom-radio custom-control-inline">
@@ -49,6 +49,10 @@
                       <div class="custom-control custom-radio custom-control-inline">
                         <input v-model="form.user_role" value="2" type="radio" id="customRadioInline2" name="user_role" class="custom-control-input">
                         <label class="custom-control-label" for="customRadioInline2">Admin</label>
+                      </div>
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input v-model="form.user_role" value="3" type="radio" id="customRadioInline3" name="user_role" class="custom-control-input">
+                        <label class="custom-control-label" for="customRadioInline3">Employee</label>
                       </div>
                     </div>
                     <div class="form-group col-md-4">
@@ -71,7 +75,9 @@
                           <img :src="updateImage()" alt="" width="70" height="70">
                         </div>
                     </div>
-
+                    <!-- hidden input begin -->
+                    <input v-model="form.updated_by" name="updated_by" type="hidden">
+                    <!-- hidden input end -->
                   </div>
                 </div>
                 <!-- /.card-body -->
@@ -102,17 +108,20 @@ export default {
         user_photo:'',
         user_role:'',
         user_status:'',
-        password:'',
-        password_confirmation:''
-      }),
-      passwordConfirmed:false
+        updated_by: '',
+        password:''
+        //password_confirmation:''
+      })
     }
   },
   methods: {
     singleAdmin(){
       axios.get('/singleadmin/'+this.$route.params.admin_id)
         .then(response => {
-          this.form.fill(response.data.fetched_single_admin);
+          if(response.data.updated_by != localStorage.getItem("loggedInUserName")){
+             response.data.fetched_single_admin.updated_by = localStorage.getItem("loggedInUserName");
+             this.form.fill(response.data.fetched_single_admin);
+          }
         })
         .catch(error => {
           iziToast.error({
@@ -151,29 +160,24 @@ export default {
       }
     },
     adminUserUpdate() {
-      if(this.form.password == this.form.password_confirmation){
-        this.form.put('/adminupdate/'+this.$route.params.admin_id)
-        .then(response => {
-            iziToast.success({
-                title: "OK",
-                message: "Successfully updated record!",
-                position: 'topRight',
-                timeout: 2000
-            });
-          this.$router.push({ name: "admin-list" });
-        })
-        .catch(error => {
-          iziToast.warning({
-            title: "Warning",
-            message: "Something wrong, record not updated!",
-            position: 'topRight',
-            timeout: 2000
+      this.form.put('/adminupdate/'+this.$route.params.admin_id)
+      .then(response => {
+          iziToast.success({
+              title: "OK",
+              message: "Successfully updated record!",
+              position: 'topRight',
+              timeout: 2000
           });
+        this.$router.push({ name: "admin-list" });
+      })
+      .catch(error => {
+        iziToast.warning({
+          title: "Warning",
+          message: "Something wrong, record not updated!",
+          position: 'topRight',
+          timeout: 2000
         });
-      }
-      else{
-        this.passwordConfirmed = true
-      }
+      });
     }
   },
   mounted(){

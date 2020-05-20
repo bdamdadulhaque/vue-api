@@ -28,7 +28,12 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Photo</th>
+                    <th>Role</th>
                     <th>Status</th>
+                    <th>Created By</th>
+                    <th>Updated By</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -37,11 +42,20 @@
                     <td>{{adminUser.id}}</td>
                     <td>{{adminUser.name}}</td>
                     <td>{{adminUser.email}}</td>
-                    <td><img :src="userImageFind(adminUser.user_photo)" width="60" height="50"></td>
+                    <td><img :src="userPhotoFind(adminUser.user_photo)" width="60" height="50"></td>
+                    <td>
+                      <span v-if="adminUser.user_role == 1" class="badge bg-primary">Super Admin</span>
+                      <span v-if="adminUser.user_role == 2" class="badge bg-primary">Admin</span>
+                      <span v-if="adminUser.user_role == 3" class="badge bg-primary">Employee</span>
+                    </td>
                     <td>
                       <span v-if="adminUser.user_status == 1" class="badge bg-success">Active</span>
                       <span v-if="adminUser.user_status == 0" class="badge bg-warning">Inactive</span>
                     </td>
+                    <td>{{adminUser.created_by}}</td>
+                    <td>{{adminUser.updated_by}}</td>
+                    <td>{{moment(adminUser.created_at).format('Do MMMM YYYY, h:mm:ss a')}}</td>
+                    <td>{{moment(adminUser.updated_at).format('Do MMMM YYYY, h:mm:ss a')}}</td>
                     <td>
                       <div class="btn-group">
                         <router-link :to="{name:'admin-edit', params:{admin_id:adminUser.id}}" class="btn btn-sm btn-outline-warning">Edit</router-link>
@@ -56,7 +70,12 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Photo</th>
+                    <th>Role</th>
                     <th>Status</th>
+                    <th>Created By</th>
+                    <th>Updated By</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
                     <th>Action</th>
                   </tr>
                 </tfoot>
@@ -79,7 +98,8 @@
 export default {
   data(){
     return{
-      adminUsers:[]
+      adminUsers:[],
+      moment
       }
     },
   methods:{
@@ -109,8 +129,13 @@ export default {
         });
       })
     },
-    userImageFind(imageId){
-      return uploadPath+"userPhoto/"+imageId;
+    userPhotoFind(photoId){
+      if(photoId == null){
+        return uploadPath + "defaultImage/noimage.png";
+      }
+      else{
+        return uploadPath+"userPhoto/"+photoId;
+      }
     },
     adminDelete(admin_id) {
     let localThis = this;

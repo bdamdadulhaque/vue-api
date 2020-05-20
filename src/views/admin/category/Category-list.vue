@@ -28,6 +28,10 @@
                       <th>Category Name</th>
                       <th>Category Image</th>
                       <th>Status</th>
+                      <th>Created By</th>
+                      <th>Updated By</th>
+                      <th>Created At</th>
+                      <th>Updated At</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -42,6 +46,13 @@
                         <span v-if="category.category_status == 1" class="badge bg-success">Active</span>
                         <span v-if="category.category_status == 0" class="badge bg-warning">Inactive</span>
                       </td>
+                      <td>{{category.created_user.name}}</td>
+                      <td>
+                        <span v-if="category.updated_by != null">{{category.updated_user.name}}</span>
+                        <span v-else>Not Updated</span>
+                      </td>
+                      <td>{{moment(category.created_at).format('Do MMMM YYYY, h:mm:ss a')}}</td>
+                      <td>{{moment(category.updated_at).format('Do MMMM YYYY, h:mm:ss a')}}</td>
                       <td>
                         <div class="btn-group">
                           <router-link :to="{name:'category-edit', params:{category_id:category.id}}" class="btn btn-sm btn-outline-warning">Edit</router-link>
@@ -56,6 +67,10 @@
                       <th>Category Name</th>
                       <th>Category Image</th>
                       <th>Status</th>
+                      <th>Created By</th>
+                      <th>Updated By</th>
+                      <th>Created At</th>
+                      <th>Updated At</th>
                       <th>Action</th>
                     </tr>
                   </tfoot>
@@ -78,7 +93,8 @@
 export default {
   data() {
     return {
-      categories: []
+      categories: [],
+      moment
     };
   },
   methods: {
@@ -109,7 +125,12 @@ export default {
         });
     },
     categoryImageFind(imageId) {
-      return uploadPath + "categoryImage/" + imageId;
+      if(imageId == null){
+        return uploadPath + "defaultImage/noimage.png";
+      }
+      else{
+        return uploadPath + "categoryImage/" + imageId;
+      }
     },
     categoryDelete(category_id) {
     let localThis = this;
@@ -127,13 +148,23 @@ export default {
         ['<button><b>YES</b></button>', function (instance, toast) {
           axios.delete("/category/" + category_id)
               .then(response => {
-                localThis.categoryList();
-                iziToast.warning({
-                title: "Caution",
-                message: "Successfully deleted record!",
-                position: "topRight",
-                timeout: 2000
-              });
+                if(response.data.product_exists_check == true){
+                  iziToast.warning({
+                    title: "Warning",
+                    message: "You can't delete, related data exists!",
+                    position: "topRight",
+                    timeout: 2000
+                  });
+                }
+                else{
+                  localThis.categoryList();
+                  iziToast.warning({
+                  title: "Caution",
+                  message: "Successfully deleted record!",
+                  position: "topRight",
+                  timeout: 2000
+                  });
+                }
           })
           .catch(error => {
             iziToast.warning({

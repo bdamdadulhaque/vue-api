@@ -28,23 +28,21 @@
             <div class="card card-primary card-outline">
               <div class="card-body box-profile">
                 <div class="text-center">
-                  <img class="profile-user-img img-fluid img-circle" src alt="User profile picture" />
+                  <img class="profile-user-img img-fluid img-circle" :src="userPhotoFind()" alt="User profile picture" />
                 </div>
                 <h3 class="profile-username text-center">{{loggedInAdminUser.name}}</h3>
-                <p class="text-muted text-center">Software Engineer</p>
+                <p v-if="loggedInAdminUser.user_role == 1" class="text-muted text-center">Super Admin</p>
+                <p v-if="loggedInAdminUser.user_role == 2" class="text-muted text-center">Admin</p>
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
-                    <b>Mobile:</b>
-                    <a class="float-right">1,322</a>
+                    <b>Name:</b>
+                    <a class="float-right">{{loggedInAdminUser.name}}</a>
                   </li>
                   <li class="list-group-item">
                     <b>Email:</b>
                     <a class="float-right">{{loggedInAdminUser.email}}</a>
                   </li>
                 </ul>
-                <a href="#" class="btn btn-primary btn-block">
-                  <b>Follow</b>
-                </a>
               </div>
               <!-- /.card-body -->
             </div>
@@ -59,7 +57,7 @@
                     <a class="nav-link active" href="#home" data-toggle="tab">Home</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#edit" data-toggle="tab">Edit</a>
+                    <a class="nav-link" href="#other" data-toggle="tab">Other</a>
                   </li>
                 </ul>
               </div>
@@ -83,53 +81,8 @@
                     <!-- /.post -->
                   </div>
                   <!-- /.tab-pane -->
-                  <div class="tab-pane" id="edit">
-                    <form class="form-horizontal">
-                      <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">Name</label>
-                        <div class="col-sm-10">
-                          <input
-                            v-model="form.name"
-                            name="name"
-                            type="text"
-                            class="form-control"
-                            id="inputName"
-                            placeholder="Name"
-                          />
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-                        <div class="col-sm-10">
-                          <input
-                            v-model="form.email"
-                            name="email"
-                            type="email"
-                            class="form-control"
-                            id="inputEmail"
-                            placeholder="Email"
-                          />
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputMobile" class="col-sm-2 col-form-label">Mobile</label>
-                        <div class="col-sm-10">
-                          <input
-                            type="phone"
-                            class="form-control"
-                            id="inputMobile"
-                            placeholder="Mobile"
-                          />
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <div class="offset-sm-2 col-sm-10">
-                          <button type="submit" class="btn btn-danger">
-                            <i class="fas fa-sync-alt"></i> Update
-                          </button>
-                        </div>
-                      </div>
-                    </form>
+                  <div class="tab-pane" id="other">
+                    <p>Other content here</p>
                   </div>
                   <!-- /.tab-pane -->
                 </div>
@@ -156,7 +109,8 @@ export default {
       form: new Form({
         name: "",
         email: ""
-      })
+      }),
+      loggedInUserPhoto:null
     };
   },
   methods: {
@@ -166,11 +120,19 @@ export default {
         .get("/user")
         .then(response => {
           this.loggedInAdminUser = response.data;
-          this.form.fill(response.data);
+          this.loggedInUserPhoto = response.data.user_photo;
         })
         .catch(error => {
         });
-    }
+    },
+    userPhotoFind(){
+      if(this.loggedInUserPhoto == null){
+        return uploadPath + "defaultImage/noimage.png";
+      }
+      else{
+        return uploadPath+"userPhoto/"+this.loggedInUserPhoto;
+      }
+    },
   },
   mounted() {
     this.getLoggedInAdminUser();

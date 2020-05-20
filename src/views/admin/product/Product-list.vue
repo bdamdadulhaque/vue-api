@@ -29,6 +29,10 @@
                     <th>Product Image</th>
                     <th>Product Category</th>
                     <th>Status</th>
+                    <th>Created By</th>
+                    <th>Updated By</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -42,6 +46,13 @@
                       <span v-if="product.product_status == 1" class="badge bg-success">Active</span>
                       <span v-if="product.product_status == 0" class="badge bg-warning">Inactive</span>
                     </td>
+                    <td>{{product.created_user.name}}</td>
+                    <td>
+                      <span v-if="product.updated_by != null">{{product.updated_user.name}}</span>
+                      <span v-else>Not Updated</span>
+                    </td>
+                    <td>{{moment(product.created_at).format('Do MMMM YYYY, h:mm:ss a')}}</td>
+                    <td>{{moment(product.updated_at).format('Do MMMM YYYY, h:mm:ss a')}}</td>
                     <td>
                       <div class="btn-group">
                         <router-link :to="{name:'product-edit', params:{product_id:product.id}}" class="btn btn-sm btn-outline-warning">Edit</router-link>
@@ -57,6 +68,10 @@
                     <th>Product Image</th>
                     <th>Product Category</th>
                     <th>Status</th>
+                    <th>Created By</th>
+                    <th>Updated By</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
                     <th>Action</th>
                   </tr>
                 </tfoot>
@@ -79,7 +94,8 @@
 export default {
   data(){
     return{
-      categories:[]
+      categories:[],
+      moment
     }
   },
   methods:{
@@ -110,7 +126,12 @@ export default {
       })
     },
     productImageFind(imageId){
-      return uploadPath+"productImage/"+imageId;
+      if(imageId == null){
+        return uploadPath + "defaultImage/noimage.png";
+      }
+      else{
+        return uploadPath+"productImage/"+imageId;
+      }
     },
     productDelete(product_id) {
     let localThis = this;
