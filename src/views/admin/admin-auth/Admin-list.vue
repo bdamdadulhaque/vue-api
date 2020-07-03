@@ -58,8 +58,9 @@
                     <td>{{moment(adminUser.updated_at).format('Do MMMM YYYY, h:mm:ss a')}}</td>
                     <td>
                       <div class="btn-group">
-                        <router-link :to="{name:'admin-edit', params:{admin_id:adminUser.id}}" class="btn btn-sm btn-outline-warning">Edit</router-link>
-                        <button @click.prevent="adminDelete(adminUser.id)" class="btn btn-sm btn-outline-danger">Delete</button>
+                        <router-link :to="{name:'admin-edit', params:{admin_id:adminUser.id}}" class="btn btn-xs btn-outline-warning">Edit</router-link>
+                        <router-link :to="{name:'admin-password-reset', params:{admin_id:adminUser.id}}" class="btn btn-xs btn-outline-primary">CP</router-link>
+                        <button @click.prevent="adminDelete(adminUser.id)" class="btn btn-xs btn-outline-danger">Delete</button>
                       </div>
                     </td>
                   </tr>

@@ -94,6 +94,11 @@ const routes = [
         name:'admin-edit',
         component:() => import('../views/admin/admin-auth/Admin-edit.vue')
       },
+      {
+        path:'admin-password-reset/:admin_id',
+        name:'admin-password-reset',
+        component:() => import('../views/admin/admin-auth/Admin-password-reset.vue')
+      },
       // settings
       {
         path:'setting-list',

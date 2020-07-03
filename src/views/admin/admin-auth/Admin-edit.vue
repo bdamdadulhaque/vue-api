@@ -30,17 +30,6 @@
                       <has-error :form="form" field="email"></has-error>
                     </div>
                     <div class="form-group col-md-4">
-                      <label for="password">Password</label>
-                      <input v-model="form.password" name="password" type="password" class="form-control" id="password" placeholder="Password" />
-                    </div>
-                  </div>
-                  <div class="form-row">
-                    <!-- <div class="form-group col-md-4">
-                      <label for="confirmPassword">Confirm Password</label>
-                      <input v-model="form.password_confirmation" name="password_confirmation" type="password" class="form-control" id="confirmPassword" placeholder="Retype password" />
-                      <p id="passwordConfirmed" v-if="passwordConfirmed">Password not matched!</p>
-                    </div> -->
-                    <div class="form-group col-md-4">
                       <label for="userRole" class="mr-4">Role</label><br>
                       <div class="custom-control custom-radio custom-control-inline">
                         <input v-model="form.user_role" value="1" type="radio" id="customRadioInline1" name="user_role" class="custom-control-input">
@@ -55,6 +44,18 @@
                         <label class="custom-control-label" for="customRadioInline3">Employee</label>
                       </div>
                     </div>
+                    <!-- <div class="form-group col-md-4">
+                      <label for="password">Password</label>
+                      <input v-model="form.password" name="password" type="password" class="form-control" id="password" placeholder="Password" />
+                    </div> -->
+                  </div>
+                  <div class="form-row">
+                    <!-- <div class="form-group col-md-4">
+                      <label for="confirmPassword">Confirm Password</label>
+                      <input v-model="form.password_confirmation" name="password_confirmation" type="password" class="form-control" id="confirmPassword" placeholder="Retype password" />
+                      <p id="passwordConfirmed" v-if="passwordConfirmed">Password not matched!</p>
+                    </div> -->
+
                     <div class="form-group col-md-4">
                       <label for="userStatus" class="mr-4">Status</label><br>
                       <div class="custom-control custom-radio custom-control-inline">
@@ -108,8 +109,8 @@ export default {
         user_photo:'',
         user_role:'',
         user_status:'',
-        updated_by: '',
-        password:''
+        updated_by: ''
+        // password:''
         //password_confirmation:''
       })
     }
@@ -133,13 +134,15 @@ export default {
         });
     },
     updateImage(){
-      let img = this.form.user_photo;
+      if(this.form.user_photo != null){
+        let img = this.form.user_photo;
         if(img.length > 100){
           return  this.form.user_photo
         }
         else{
           return uploadPath+"userPhoto/"+this.form.user_photo;
         }
+      }
     },
     changePhoto(event){
       let file = event.target.files[0];

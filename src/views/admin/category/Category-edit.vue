@@ -106,13 +106,15 @@ export default {
         });
     },
     updateImage(){
-      let img = this.form.category_image;
+      if(this.form.category_image != null){
+        let img = this.form.category_image;
         if(img.length > 100){
           return  this.form.category_image
         }
         else{
           return uploadPath+"categoryImage/"+this.form.category_image;
         }
+      }
     },
     changePhoto(event){
       let file = event.target.files[0];
