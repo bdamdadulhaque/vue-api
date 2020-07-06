@@ -8,9 +8,9 @@
             <div class="card card-primary">
               <div class="card-header">
                 <div class="d-flex justify-content-between">
-                  <h3 class="card-title">Admin List</h3>
+                  <h3 class="card-title">Chapter List</h3>
                   <div>
-                    <router-link :to="{name:'admin-add'}" class="btn btn-xs btn-success d-inline-block mr-2">
+                    <router-link :to="{name:'chapter-add'}" class="btn btn-xs btn-success d-inline-block mr-2">
                       <i class="fas fa-plus"></i> Add New
                     </router-link>
                     <button @click="$router.go(-1)" class="btn btn-xs btn-default d-inline-block mr-1">
@@ -24,57 +24,45 @@
               <table id="example1" class="table table-bordered table-striped text-center">
                 <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Photo</th>
-                    <th>Role</th>
+                    <th>ID</th>
+                    <th>Chapter Name</th>
+                    <th>Book</th>
+                    <th>Created By</th>
+                    <th>Updated By</th>
                     <th>Status</th>
-                    <th>Cre. By</th>
-                    <th>Upd. By </th>
-                    <th>Cre. At</th>
-                    <th>Upd. At</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(adminUser, index) in adminUsers" :key="index">
-                    <td>{{adminUser.name}}</td>
-                    <td>{{adminUser.email}}</td>
-                    <td><img :src="userPhotoFind(adminUser.user_photo)" width="60" height="50"></td>
+                  <tr v-for="(chapter, index) in chapters" :key="index">
+                    <td>{{chapter.id}}</td>
+                    <td>{{chapter.chapter_name}}</td>
+                    <td>{{chapter.book.book_name}}</td>
+                    <td>{{chapter.created_user.name}}</td>
                     <td>
-                      <span v-if="adminUser.user_role == 1" class="badge bg-primary">Super Admin</span>
-                      <span v-if="adminUser.user_role == 2" class="badge bg-primary">Admin</span>
-                      <span v-if="adminUser.user_role == 3" class="badge bg-primary">Employee</span>
+                      <span v-if="chapter.updated_by != null">{{chapter.updated_user.name}}</span>
+                      <span v-else>Not Updated</span>
                     </td>
                     <td>
-                      <span v-if="adminUser.user_status == 1" class="badge bg-success">Active</span>
-                      <span v-if="adminUser.user_status == 0" class="badge bg-warning">Inactive</span>
+                      <span v-if="chapter.chapter_status == 1" class="badge bg-success">Active</span>
+                      <span v-if="chapter.chapter_status == 0" class="badge bg-warning">Inactive</span>
                     </td>
-                    <td>{{adminUser.created_by}}</td>
-                    <td>{{adminUser.updated_by}}</td>
-                    <td>{{moment(adminUser.created_at).format('Do MMMM YYYY, h:mm:ss a')}}</td>
-                    <td>{{moment(adminUser.updated_at).format('Do MMMM YYYY, h:mm:ss a')}}</td>
-                    <td>Todo</td>
-                    <!-- <td>
+                    <td>
                       <div class="btn-group">
-                        <router-link :to="{name:'admin-edit', params:{admin_id:adminUser.id}}" class="btn btn-xs btn-outline-warning">Edit</router-link>
-                        <router-link :to="{name:'admin-password-reset', params:{admin_id:adminUser.id}}" class="btn btn-xs btn-outline-primary">CP</router-link>
-                        <button @click.prevent="adminDelete(adminUser.id)" class="btn btn-xs btn-outline-danger">Delete</button>
+                        <router-link :to="{name:'chapter-edit', params:{chapter_id:chapter.id}}" class="btn btn-sm btn-outline-warning">Edit</router-link>
+                        <button @click.prevent="chapterDelete(chapter.id)" class="btn btn-sm btn-outline-danger">Delete</button>
                       </div>
-                    </td> -->
+                    </td>
                   </tr>
                 </tbody>
                 <tfoot>
                   <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Photo</th>
-                    <th>Role</th>
-                    <th>Status</th>
+                    <th>ID</th>
+                    <th>Chapter Name</th>
+                    <th>Book</th>
                     <th>Created By</th>
                     <th>Updated By</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </tfoot>
@@ -97,15 +85,15 @@
 export default {
   data(){
     return{
-      adminUsers:[],
+      chapters:[],
       moment
-      }
-    },
+    }
+  },
   methods:{
-    adminList(){
-      axios.get('/adminlist')
+    chapterList(){
+      axios.get('/chapter')
         .then(response =>{
-          this.adminUsers = response.data.fetched_user;
+          this.chapters = response.data.fetched_chapter;
           // data table
           $(function() {
             if($.fn.dataTable.isDataTable('#example1')){
@@ -128,15 +116,7 @@ export default {
         });
       })
     },
-    userPhotoFind(photoId){
-      if(photoId == null){
-        return uploadPath + "defaultImage/noimage.png";
-      }
-      else{
-        return uploadPath+"userPhoto/"+photoId;
-      }
-    },
-    adminDelete(admin_id) {
+    chapterDelete(chapter_id) {
     let localThis = this;
       iziToast.question({
       timeout: 20000,
@@ -150,24 +130,24 @@ export default {
       position: 'center',
       buttons: [
         ['<button><b>YES</b></button>', function (instance, toast) {
-          axios.delete("/admindelete/" + admin_id)
+          axios.delete("/chapter/" + chapter_id)
             .then(response => {
-              localThis.adminList();
+              localThis.chapterList();
               iziToast.warning({
-              title: "Caution",
-              message: "Successfully deleted record!",
-              position: "topRight",
-              timeout: 2000
-              });
-             })
-            .catch(error => {
-              iziToast.warning({
-                title: "Warning",
-                message: "Something wrong, record not deleted!",
+                title: "Caution",
+                message: "Successfully deleted record!",
                 position: "topRight",
                 timeout: 2000
               });
+          })
+          .catch(error => {
+            iziToast.warning({
+              title: "Warning",
+              message: "Something wrong, record not deleted!",
+              position: "topRight",
+              timeout: 2000
             });
+          });
           instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
         }, true],
           ['<button>NO</button>', function (instance, toast) {
@@ -175,16 +155,16 @@ export default {
           }],
         ],
         onClosing: function(instance, toast, closedBy){
-          console.info('Closing | closedBy: ' + closedBy);
+          //console.info('Closing | closedBy: ' + closedBy);
         },
         onClosed: function(instance, toast, closedBy){
-          console.info('Closed | closedBy: ' + closedBy);
+          //console.info('Closed | closedBy: ' + closedBy);
         }
       });
     }
   },
   mounted(){
-    this.adminList();
+    this.chapterList();
   }
 }
 </script>

@@ -4,7 +4,7 @@
     <div class="login-box">
       <div class="login-logo">
         <router-link :to="{name:'admin-login'}">
-          <b>Vue</b> API Skeleton
+          <b>Hadith</b> Site
         </router-link>
       </div>
       <!-- /.login-logo -->

@@ -13,21 +13,7 @@
           <li class="nav-item d-none d-sm-inline-block">
             <router-link :to="{name:'dashboard'}" class="nav-link">Home</router-link>
           </li>
-          <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Contact</a>
-          </li>
         </ul>
-        <!-- SEARCH FORM -->
-        <form class="form-inline ml-3">
-          <div class="input-group input-group-sm">
-            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search"/>
-            <div class="input-group-append">
-              <button class="btn btn-navbar" type="submit">
-                <i class="fas fa-search"></i>
-              </button>
-            </div>
-          </div>
-        </form>
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
           <!-- Messages Dropdown Menu -->
@@ -36,11 +22,7 @@
               <img :src="userPhotoFind()" width="20" height="20" class="brand-image img-circle elevation-3"> {{loggedInUserName}}
             </a>
             <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-              <router-link :to="{name:'profile'}" class="dropdown-item">My Account</router-link>
-              <div class="dropdown-divider"></div>
                 <a href @click.prevent="logout()" class="dropdown-item">Logout</a>
-              <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
             </div>
           </li>
         </ul>
@@ -51,7 +33,7 @@
         <!-- Brand Logo -->
         <router-link :to="{name:'dashboard'}" class="brand-link">
           <img src="../../../node_modules/admin-lte/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"/>
-          <span class="brand-text font-weight-light">Vue API Skel</span>
+          <span class="brand-text font-weight-light">Hadith Site</span>
         </router-link>
         <!-- Sidebar -->
         <div class="sidebar">
@@ -70,11 +52,11 @@
       <!-- Main Footer -->
       <footer class="main-footer">
         <!-- To the right -->
-        <div class="float-right d-none d-sm-inline">Anything you want</div>
+        <div class="float-right d-none d-sm-inline">Developed By: ---</div>
         <!-- Default to the left -->
         <strong>
           Copyright &copy; 2020
-          <a href="#">Vue API Skel</a>.
+          <a href="#">Hadith Site</a>.
         </strong> All rights reserved.
       </footer>
     </div>

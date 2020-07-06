@@ -11,21 +11,27 @@
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link :to="{name:'category-list'}" class="nav-link">
-            <i class="nav-icon fas fa-th"></i>
-            <p>Categories</p>
+          <router-link :to="{name:'book-list'}" class="nav-link">
+            <i class="nav-icon fas fa-book"></i>
+            <p>Books</p>
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link :to="{name:'product-list'}" class="nav-link">
-            <i class="nav-icon fab fa-product-hunt"></i>
-            <p>Products</p>
+          <router-link :to="{name:'chapter-list'}" class="nav-link">
+            <i class="nav-icon fas fa-book-open"></i>
+            <p>Chapters</p>
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link :to="{name:'hadith-list'}" class="nav-link">
+            <i class="nav-icon fas fa-book"></i>
+            <p>Hadiths</p>
           </router-link>
         </li>
         <li class="nav-item">
           <router-link :to="{name:'admin-list'}" class="nav-link">
             <i class="nav-icon fas fa-user"></i>
-            <p>Admin list</p>
+            <p>Admin</p>
           </router-link>
         </li>
         <li class="nav-item">

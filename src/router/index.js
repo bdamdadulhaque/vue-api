@@ -46,37 +46,58 @@ const routes = [
         name:'profile',
         component:() => import('../views/admin/admin-auth/Admin-profile.vue')
       },
-      // category
+      // book
       {
-        path:'category-add',
-        name:'category-add',
-        component:() => import('../views/admin/category/Category-add.vue')
+        path:'book-add',
+        name:'book-add',
+        component:() => import('../views/admin/book/Book-add.vue')
       },
       {
-        path:'category-list',
-        name:'category-list',
-        component:() => import('../views/admin/category/Category-list.vue')
+        path:'book-list',
+        name:'book-list',
+        component:() => import('../views/admin/book/Book-list.vue')
       },
       {
-        path:'category-edit/:category_id',
-        name:'category-edit',
-        component:() => import('../views/admin/category/Category-edit.vue')
+        path:'book-edit/:book_id',
+        name:'book-edit',
+        component:() => import('../views/admin/book/Book-edit.vue')
       },
-      // product
+      // chapter
       {
-        path:'product-add',
-        name:'product-add',
-        component:() => import('../views/admin/product/Product-add.vue')
-      },
-      {
-        path:'product-list',
-        name:'product-list',
-        component:() => import('../views/admin/product/Product-list.vue')
+        path:'chapter-add',
+        name:'chapter-add',
+        component:() => import('../views/admin/chapter/Chapter-add.vue')
       },
       {
-        path:'product-edit/:product_id',
-        name:'product-edit',
-        component:() => import('../views/admin/product/Product-edit.vue')
+        path:'chapter-list',
+        name:'chapter-list',
+        component:() => import('../views/admin/chapter/Chapter-list.vue')
+      },
+      {
+        path:'chapter-edit/:chapter_id',
+        name:'chapter-edit',
+        component:() => import('../views/admin/chapter/Chapter-edit.vue')
+      },
+      // hadith
+      {
+        path:'hadith-add',
+        name:'hadith-add',
+        component:() => import('../views/admin/hadith/Hadith-add.vue')
+      },
+      {
+        path:'hadith-list',
+        name:'hadith-list',
+        component:() => import('../views/admin/hadith/Hadith-list.vue')
+      },
+      {
+        path:'hadith-edit/:hadith_id',
+        name:'hadith-edit',
+        component:() => import('../views/admin/hadith/Hadith-edit.vue')
+      },
+      {
+        path:'hadith-view/:hadith_id',
+        name:'hadith-view',
+        component:() => import('../views/admin/hadith/Hadith-view.vue')
       },
       // admin user
       {
