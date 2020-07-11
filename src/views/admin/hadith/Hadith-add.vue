@@ -51,10 +51,15 @@
                     </div>
                   </div>
                   <div class="form-row">
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-8">
                       <label for="hadithSubject">Hadith Subject <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
                       <input v-model="form.hadith_subject" name="hadith_subject" :class="{'is-invalid': form.errors.has('hadith_subject')}" type="text" class="form-control" id="hadithSubject" placeholder="Enter hadith subject"/>
                       <has-error :form="form" field="hadith_subject"></has-error>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="narratedBy">Narrated By <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
+                      <input v-model="form.narrated_by" name="narrated_by" :class="{'is-invalid': form.errors.has('narrated_by')}" type="text" class="form-control" id="narratedBy" placeholder="Enter narrated by name"/>
+                      <has-error :form="form" field="narrated_by"></has-error>
                     </div>
                   </div>
                   <div class="form-row">
@@ -89,6 +94,7 @@
                   </div>
                 </div>
                 <!-- /.card-body -->
+                
                 <div class="card-footer">
                   <button type="submit" class="btn btn-primary">
                     <i class="fas fa-check"></i> Save
@@ -119,6 +125,7 @@ export default {
         hadith_name_bn: '',
         hadith_name_ar: '',
         hadith_subject: '',
+        narrated_by: '',
         book_id:'',
         chapter_id:'',
         hadith_no:'',

@@ -89,6 +89,7 @@ export default {
               localStorage.setItem('AToken', response.data.accessToken);
               localStorage.setItem('loggedInUserId', response.data.user.id);
               localStorage.setItem('loggedInUserName', response.data.user.name);
+              localStorage.setItem('userRole', response.data.user.user_role);
               localStorage.setItem('loggedInUserPhoto', response.data.user.user_photo);
               //this.$router.push({name:'admin'});
               this.$router.push({name:'dashboard'});

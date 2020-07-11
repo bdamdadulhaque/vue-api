@@ -10,7 +10,7 @@
                 <div class="d-flex justify-content-between">
                   <h3 class="card-title">Book List</h3>
                   <div>
-                    <router-link :to="{name:'book-add'}" class="btn btn-xs btn-success d-inline-block mr-2">
+                    <router-link :to="{name:'book-add'}" v-if="userRole == 1" class="btn btn-xs btn-success d-inline-block mr-2">
                       <i class="fas fa-plus"></i> Add New
                     </router-link>
                     <button @click="$router.go(-1)" class="btn btn-xs btn-default d-inline-block mr-1">
@@ -45,11 +45,14 @@
                         <span v-if="book.book_status == 1" class="badge bg-success">Active</span>
                         <span v-if="book.book_status == 0" class="badge bg-warning">Inactive</span>
                       </td>
-                      <td>
+                      <td v-if="userRole == 1">
                         <div class="btn-group">
                           <router-link :to="{name:'book-edit', params:{book_id:book.id}}" class="btn btn-sm btn-outline-warning">Edit</router-link>
                           <button @click.prevent="bookDelete(book.id)" class="btn btn-sm btn-outline-danger">Delete</button>
                         </div>
+                      </td>
+                      <td v-else>
+                        <span>Not Allowed</span>
                       </td>
                     </tr>
                   </tbody>
@@ -83,7 +86,8 @@ export default {
   data() {
     return {
       categories: [],
-      moment
+      moment,
+      userRole:localStorage.getItem('userRole')
     };
   },
   methods: {
@@ -99,7 +103,7 @@ export default {
             } else {
               table = $("#example1").DataTable({
                 paging: true,
-                order: [[0, "desc"]]
+                order: [[0, "asc"]]
               });
             }
           }); // data table

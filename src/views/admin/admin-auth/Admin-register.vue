@@ -45,15 +45,15 @@
                       <label for="userRole" class="mr-4">Role</label><br>
                       <div class="custom-control custom-radio custom-control-inline">
                         <input v-model="form.user_role" value="1" type="radio" id="customRadioInline1" name="user_role" class="custom-control-input">
-                        <label class="custom-control-label" for="customRadioInline1">Super Admin</label>
+                        <label class="custom-control-label" for="customRadioInline1">Admin</label>
                       </div>
                       <div class="custom-control custom-radio custom-control-inline">
                         <input v-model="form.user_role" value="2" type="radio" id="customRadioInline2" name="user_role" class="custom-control-input">
-                        <label class="custom-control-label" for="customRadioInline2">Admin</label>
+                        <label class="custom-control-label" for="customRadioInline2">Write & Edit</label>
                       </div>
                       <div class="custom-control custom-radio custom-control-inline">
                         <input v-model="form.user_role" value="3" type="radio" id="customRadioInline3" name="user_role" class="custom-control-input">
-                        <label class="custom-control-label" for="customRadioInline3">Employee</label>
+                        <label class="custom-control-label" for="customRadioInline3">Read</label>
                       </div>
                     </div>
                     <div class="form-group col-md-4">
@@ -114,7 +114,7 @@ export default {
         user_photo:'',
         password:'',
         password_confirmation:'',
-        user_role:2,
+        user_role:3,
         user_status:0,
         created_by: ''
       })

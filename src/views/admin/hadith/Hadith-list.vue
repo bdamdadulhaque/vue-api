@@ -10,7 +10,7 @@
                 <div class="d-flex justify-content-between">
                   <h3 class="card-title">Hadith List</h3>
                   <div>
-                    <router-link :to="{name:'hadith-add'}" class="btn btn-xs btn-success d-inline-block mr-2">
+                    <router-link :to="{name:'hadith-add'}" v-if="userRole == 1 || userRole == 2" class="btn btn-xs btn-success d-inline-block mr-2">
                       <i class="fas fa-plus"></i> Add New
                     </router-link>
                     <button @click="$router.go(-1)" class="btn btn-xs btn-default d-inline-block mr-1">
@@ -21,7 +21,7 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-              <table id="example1" class="table table-bordered table-striped text-center">
+              <table id="example" class="table table-bordered table-striped text-center">
                 <thead>
                   <tr>
                     <th>Hadith No</th>
@@ -35,7 +35,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(hadith, index) in categories" :key="index">
+                  <tr v-for="(hadith, index) in hadiths" :key="index">
                     <td>{{hadith.hadith_no}}</td>
                     <td>{{hadith.book.book_name}}</td>
                     <td>{{hadith.chapter.chapter_name}}</td>
@@ -48,13 +48,18 @@
                     <td>
                       <span v-if="hadith.hadith_status == 1" class="badge bg-success">Active</span>
                       <span v-if="hadith.hadith_status == 0" class="badge bg-warning">Inactive</span>
+                      <span v-if="hadith.hotd_status == 1" class="badge bg-primary ml-2"><i class="fa fa-clock"></i></span>
                     </td>
-                    <td>
+                    <td v-if="userRole == 1 || userRole == 2">
                       <div class="btn-group">
                         <router-link :to="{name:'hadith-view', params:{hadith_id:hadith.id}}" class="btn btn-sm btn-outline-success">View</router-link>
                         <router-link :to="{name:'hadith-edit', params:{hadith_id:hadith.id}}" class="btn btn-sm btn-outline-warning">Edit</router-link>
+                        <!-- <router-link :to="{name:'hotd', params:{hadith_id:hadith.id}}" class="btn btn-sm btn-outline-primary">HOTD</router-link> -->
                         <button @click.prevent="hadithDelete(hadith.id)" class="btn btn-sm btn-outline-danger">Delete</button>
                       </div>
+                    </td>
+                    <td v-else>
+                      <span>Not Allowed</span>
                     </td>
                   </tr>
                 </tbody>
@@ -89,27 +94,62 @@
 export default {
   data(){
     return{
-      categories:[],
-      moment
+      hadiths:[],
+      moment,
+      userRole:localStorage.getItem('userRole')
     }
   },
   methods:{
     hadithList(){
       axios.get('/hadith')
         .then(response =>{
-          this.categories = response.data.fetched_hadith;
+          this.hadiths = response.data.fetched_hadith;
+          // data table
+          // $(function() {
+          //   if($.fn.dataTable.isDataTable('#example1')){
+          //     var table = $('#example1').DataTable();
+          //   }
+          //   else{
+          //     table = $('#example1').DataTable({
+          //       paging: true,
+          //       "order":[[0,"asc"]]
+          //     });
+          //   }
+          // }); 
+          // data table
           // data table
           $(function() {
-            if($.fn.dataTable.isDataTable('#example1')){
-              var table = $('#example1').DataTable();
-            }
-            else{
-              table = $('#example1').DataTable({
-                paging: true,
-                "order":[[0,"desc"]]
-              });
-            }
-          }); // data table
+            $('#example').DataTable( {
+                dom: 'Bfrtip',
+                buttons: [
+                  {
+                    extend: 'csvHtml5'
+                  }
+                ],
+                initComplete: function () {
+                    this.api().columns([0, 1, 2, 3, 4, 5]).every( function () {
+                        var column = this;
+                        var select = $('<select><option value="">All</option></select>')
+                             
+                           //.appendTo( '#table_filter' )
+                           //.appendTo( $(column.header()).empty() )
+                            .appendTo( $(column.header()).empty() )
+                            .on( 'change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+                                column
+                                    .search( val ? '^'+val+'$' : '', true, false )
+                                    .draw();
+                            } );  
+                        column.data().unique().sort().each( function ( d, j ) {
+                            select.append( '<option value="'+d+'">'+d+'</option>' )
+                        } );
+                    } );
+                }
+            } );
+          });
+        // data table
       })
       .catch(error => {
         iziToast.error({

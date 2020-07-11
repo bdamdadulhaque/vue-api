@@ -10,7 +10,7 @@
                 <div class="d-flex justify-content-between">
                   <h3 class="card-title">Admin List</h3>
                   <div>
-                    <router-link :to="{name:'admin-add'}" class="btn btn-xs btn-success d-inline-block mr-2">
+                    <router-link :to="{name:'admin-add'}" v-if="userRole == 1" class="btn btn-xs btn-success d-inline-block mr-2">
                       <i class="fas fa-plus"></i> Add New
                     </router-link>
                     <button @click="$router.go(-1)" class="btn btn-xs btn-default d-inline-block mr-1">
@@ -42,26 +42,31 @@
                     <td>{{adminUser.email}}</td>
                     <td><img :src="userPhotoFind(adminUser.user_photo)" width="60" height="50"></td>
                     <td>
-                      <span v-if="adminUser.user_role == 1" class="badge bg-primary">Super Admin</span>
-                      <span v-if="adminUser.user_role == 2" class="badge bg-primary">Admin</span>
-                      <span v-if="adminUser.user_role == 3" class="badge bg-primary">Employee</span>
+                      <span v-if="adminUser.user_role == 1" class="badge bg-primary">Admin</span>
+                      <span v-if="adminUser.user_role == 2" class="badge bg-primary">Write & Edit</span>
+                      <span v-if="adminUser.user_role == 3" class="badge bg-primary">Read</span>
                     </td>
                     <td>
                       <span v-if="adminUser.user_status == 1" class="badge bg-success">Active</span>
-                      <span v-if="adminUser.user_status == 0" class="badge bg-warning">Inactive</span>
+                      <span v-if="adminUser.user_status == 0" class="badge bg-warning">Deactive</span>
                     </td>
                     <td>{{adminUser.created_by}}</td>
-                    <td>{{adminUser.updated_by}}</td>
+                    <td>
+                        <span v-if="adminUser.updated_by != null">{{adminUser.updated_by}}</span>
+                        <span v-else>Not Updated</span>
+                      </td>
                     <td>{{moment(adminUser.created_at).format('Do MMMM YYYY, h:mm:ss a')}}</td>
                     <td>{{moment(adminUser.updated_at).format('Do MMMM YYYY, h:mm:ss a')}}</td>
-                    <td>Todo</td>
-                    <!-- <td>
+                    <td v-if="userRole == 1">
                       <div class="btn-group">
                         <router-link :to="{name:'admin-edit', params:{admin_id:adminUser.id}}" class="btn btn-xs btn-outline-warning">Edit</router-link>
                         <router-link :to="{name:'admin-password-reset', params:{admin_id:adminUser.id}}" class="btn btn-xs btn-outline-primary">CP</router-link>
-                        <button @click.prevent="adminDelete(adminUser.id)" class="btn btn-xs btn-outline-danger">Delete</button>
+                        <!-- <button @click.prevent="adminDelete(adminUser.id)" class="btn btn-xs btn-outline-danger">Delete</button> -->
                       </div>
-                    </td> -->
+                    </td>
+                    <td v-else>
+                      <span>Not Allowed</span>
+                    </td>
                   </tr>
                 </tbody>
                 <tfoot>
@@ -98,7 +103,8 @@ export default {
   data(){
     return{
       adminUsers:[],
-      moment
+      moment,
+      userRole:localStorage.getItem('userRole')
       }
     },
   methods:{

@@ -29,6 +29,12 @@
           </router-link>
         </li>
         <li class="nav-item">
+          <router-link :to="{name:'hotd-list'}" class="nav-link">
+            <i class="nav-icon fa fa-clock"></i>
+            <p>Hadith OTD</p>
+          </router-link>
+        </li>
+        <li class="nav-item">
           <router-link :to="{name:'admin-list'}" class="nav-link">
             <i class="nav-icon fas fa-user"></i>
             <p>Admin</p>
@@ -44,3 +50,12 @@
     </nav>
   </div>
 </template>
+<script>
+export default {
+  data(){
+    return{
+      userRole:localStorage.getItem('userRole')
+    }
+  }
+}
+</script>
