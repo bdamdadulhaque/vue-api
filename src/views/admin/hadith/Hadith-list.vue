@@ -36,7 +36,10 @@
                 </thead>
                 <tbody>
                   <tr v-for="(hadith, index) in hadiths" :key="index">
-                    <td>{{hadith.hadith_no}}</td>
+                    <td>
+                      <span v-if="hadith.hadith_no != null">{{hadith.hadith_no}}</span>
+                      <span v-else>N/A</span>
+                    </td>
                     <td>{{hadith.book.book_name}}</td>
                     <td>{{hadith.chapter.chapter_name}}</td>
                     <td>{{hadith.hadith_subject}}</td>
@@ -127,7 +130,7 @@ export default {
                   }
                 ],
                 initComplete: function () {
-                    this.api().columns([0, 1, 2, 3, 4, 5]).every( function () {
+                    this.api().columns([0, 1, 2, 4, 5]).every( function () {
                         var column = this;
                         var select = $('<select><option value="">All</option></select>')
                              

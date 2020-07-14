@@ -20,58 +20,60 @@
                 <div class="card-body">
                   <div class="form-row">
                     <div class="form-group col-md-3">
-                      <label for="hadithBook">Book</label>
+                      <label for="hadithBook">Book <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
                       <select v-model="form.book_id" name="book_id" class="form-control" id="hadithBook">
                         <option disabled value="">Select Book</option>
                         <option v-for="(book,index) in books" :key="index" :value="book.id">{{book.book_name}}</option>
                       </select>
                     </div>
                     <div class="form-group col-md-3">
-                      <label for="hadithChapter">Chapter</label>
+                      <label for="hadithChapter">Chapter <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
                       <select v-model="form.chapter_id" name="chapter_id" class="form-control" id="hadithChapter">
                         <option disabled value="">Select Chapter</option>
                         <option v-for="(chapter,index) in chapters" :key="index" :value="chapter.id">{{chapter.chapter_name}}</option>
                       </select>
                     </div>
-                    <div class="form-group col-md-3">
-                      <label for="hadithNo">Hadith No <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
-                      <input v-model="form.hadith_no" name="hadith_no" type="number" :class="{'is-invalid': form.errors.has('hadith_no')}" class="form-control" id="hadithNo"/>
-                      <has-error :form="form" field="hadith_no"></has-error>
-                    </div>
-                    <div class="form-group col-md-3">
-                      <label for="hadithValue">Hadith Value <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
-                      <select v-model="form.hadith_value" name="hadith_value" :class="{'is-invalid': form.errors.has('hadith_value')}" class="form-control" id="hadithValue">
-                        <option disabled value="">Select Value</option>
-                        <option value="1">সহীহ হাদিস</option>
-                        <option value="2">অন্যান্য</option>
-                      </select>
-                      <has-error :form="form" field="hadith_value"></has-error>
-                    </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group col-md-8">
+                    <div class="form-group col-md-6">
                       <label for="hadithSubject">Hadith Subject <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
                       <input v-model="form.hadith_subject" name="hadith_subject" :class="{'is-invalid': form.errors.has('hadith_subject')}" type="text" class="form-control" id="hadithSubject" placeholder="Enter hadith subject"/>
                       <has-error :form="form" field="hadith_subject"></has-error>
                     </div>
-                    <div class="form-group col-md-4">
-                      <label for="narratedBy">Narrated By <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
-                      <input v-model="form.narrated_by" name="narrated_by" :class="{'is-invalid': form.errors.has('narrated_by')}" type="text" class="form-control" id="narratedBy" placeholder="Enter narrated by name"/>
-                      <has-error :form="form" field="narrated_by"></has-error>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-12">
+                      <label for="hadithSubjectDeatils">Hadith Subject Details <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
+                      <textarea v-model="form.hadith_subject_details" name="hadith_subject_details" :class="{'is-invalid': form.errors.has('hadith_subject_details')}" class="form-control" id="hadithSubjectDeatils" placeholder="Enter Hadith Subject Details"></textarea>
+                      <has-error :form="form" field="hadith_subject_details"></has-error>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-3">
+                      <label for="hadithNo">Hadith No</label>
+                      <input v-model="form.hadith_no" name="hadith_no" type="number" class="form-control" id="hadithNo"/>
+                    </div>
+                    <div class="form-group col-md-3">
+                      <label for="hadithValue">Hadith Value</label>
+                      <select v-model="form.hadith_value" name="hadith_value" class="form-control" id="hadithValue">
+                        <option disabled value="">Select Value</option>
+                        <option value="1">সহীহ হাদিস</option>
+                        <option value="2">অন্যান্য</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="narratedBy">Narrated By</label>
+                      <input v-model="form.narrated_by" name="narrated_by" type="text" class="form-control" id="narratedBy" placeholder="Enter narrated by name"/>
                     </div>
                   </div>
                   <div class="form-row">
                     <div class="form-group col-md-12">
-                      <label for="hadithNameBn">Hadith Bn <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
-                      <textarea v-model="form.hadith_name_bn" name="hadith_name_bn" :class="{'is-invalid': form.errors.has('hadith_name_bn')}" class="form-control" id="hadithNameBn"></textarea>
-                      <has-error :form="form" field="hadith_name_bn"></has-error>
+                      <label for="hadithNameBn">Hadith Bn</label>
+                      <textarea v-model="form.hadith_name_bn" name="hadith_name_bn" class="form-control" id="hadithNameBn"></textarea>
                     </div>
                   </div>
                   <div class="form-row">
                     <div class="form-group col-md-12">
-                      <label for="hadithNameAr">Hadith Ar <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
-                      <textarea v-model="form.hadith_name_ar" name="hadith_name_ar" :class="{'is-invalid': form.errors.has('hadith_name_ar')}" class="form-control" id="hadithNameAr"></textarea>
-                      <has-error :form="form" field="hadith_name_ar"></has-error>
+                      <label for="hadithNameAr">Hadith Ar</label>
+                      <textarea v-model="form.hadith_name_ar" name="hadith_name_ar" class="form-control" id="hadithNameAr"></textarea>
                     </div>
                   </div>
                   <div class="form-row">
@@ -115,6 +117,7 @@ export default {
     return {
       form: new Form({
         hadith_subject: '',
+        hadith_subject_details: '',
         narrated_by: '',
         hadith_name_bn: '',
         hadith_name_ar: '',

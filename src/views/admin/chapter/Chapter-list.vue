@@ -24,7 +24,7 @@
               <table id="example" class="table table-bordered table-striped text-center">
                 <thead>
                   <tr>
-                    <th>ID</th>
+                    <th>Chapter No</th>
                     <th>Chapter Name</th>
                     <th>Book</th>
                     <th>Created By</th>
@@ -35,7 +35,7 @@
                 </thead>
                 <tbody>
                   <tr v-for="(chapter, index) in chapters" :key="index">
-                    <td>{{chapter.id}}</td>
+                    <td>{{chapter.chapter_no}}</td>
                     <td>{{chapter.chapter_name}}</td>
                     <td>{{chapter.book.book_name}}</td>
                     <td>{{chapter.created_user.name}}</td>
@@ -60,7 +60,7 @@
                 </tbody>
                 <tfoot>
                   <tr>
-                    <th>ID</th>
+                    <th>Chapter No</th>
                     <th>Chapter Name</th>
                     <th>Book</th>
                     <th>Created By</th>

@@ -19,12 +19,17 @@
               <form @submit.prevent="chapterSave()">
                 <div class="card-body">
                   <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                       <label for="chapterName">Chapter Name <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
                       <input v-model="form.chapter_name" name="chapter_name" :class="{'is-invalid': form.errors.has('chapter_name')}" type="text" class="form-control" id="chapterName" placeholder="Enter chapter"/>
                       <has-error :form="form" field="chapter_name"></has-error>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
+                      <label for="chapterNo">Chapter No <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
+                      <input v-model="form.chapter_no" name="chapter_no" :class="{'is-invalid': form.errors.has('chapter_no')}" type="text" class="form-control" id="chapterNo" placeholder="Enter chapter no"/>
+                      <has-error :form="form" field="chapter_name"></has-error>
+                    </div>
+                    <div class="form-group col-md-4">
                       <label for="chapterBook">Book <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
                       <select v-model="form.book_id" name="book_id" :class="{'is-invalid': form.errors.has('book_id')}" class="form-control" id="chapterBook">
                         <option disabled value="">Select Book</option>
@@ -79,6 +84,7 @@ export default {
     return {
       form: new Form({
         chapter_name: '',
+        chapter_no: '',
         book_id:'',
         chapter_status:1,
         created_by:''

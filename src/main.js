@@ -31,7 +31,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 let uploadPath = 'http://localhost/hadithsite/public/';
 
-//uploadPath = 'http://hadith.techsometimes.com/backend/hadithsite/public/';
+//let uploadPath = 'http://hadith.techsometimes.com/backend/hadithsite/public/';
 
 window.uploadPath = uploadPath;
 

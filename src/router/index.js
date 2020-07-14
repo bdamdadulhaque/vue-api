@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+//import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
+
 
 function guardAdmin(to, from, next)
 {
@@ -34,8 +35,44 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component:() => import('../views/layout/Layout-master.vue'),
+    redirect:'home',
+    children:[
+      {
+        path:'home',
+        name:'home',
+        component:() => import('../views/layout/Home.vue')
+      },
+      {
+        path:'books/:book_id',
+        name:'books',
+        component:() => import('../views/layout/Books.vue')
+      },
+      {
+        path:'chapters/:chapter_id',
+        name:'chapters',
+        component:() => import('../views/layout/Chapters.vue')
+      },
+      {
+        path:'search',
+        name:'search',
+        component:() => import('../views/layout/Search.vue')
+      },
+      {
+        path:'search-single',
+        name:'search-single',
+        component:() => import('../views/layout/Search-single.vue')
+      },
+      {
+        path:'single-hadith/:hadith_id',
+        name:'single-hadith',
+        component:() => import('../views/layout/Single-hadith.vue')
+      }
+    ]
   },
+
+
+
   {
     path: '/about',
     name: 'About',
@@ -44,6 +81,15 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
+
+
+
+
+
+
+  /// admin panel
+
+  
   // admin auth
   {
     path:'/admin-login',

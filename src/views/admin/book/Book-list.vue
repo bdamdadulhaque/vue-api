@@ -33,7 +33,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(book, index) in categories" :key="index">
+                    <tr v-for="(book, index) in books" :key="index">
                       <td>{{book.id}}</td>
                       <td>{{book.book_name}}</td>
                       <td>{{book.created_user.name}}</td>
@@ -85,7 +85,7 @@
 export default {
   data() {
     return {
-      categories: [],
+      books: [],
       moment,
       userRole:localStorage.getItem('userRole')
     };
@@ -95,7 +95,7 @@ export default {
       axios
         .get("/book")
         .then(response => {
-          this.categories = response.data.fetched_book;
+          this.books = response.data.fetched_book;
           // data table
           $(function() {
             if ($.fn.dataTable.isDataTable("#example1")) {
@@ -116,14 +116,6 @@ export default {
             timeout: 2000
           });
         });
-    },
-    bookImageFind(imageId) {
-      if(imageId == null){
-        return uploadPath + "defaultImage/noimage.png";
-      }
-      else{
-        return uploadPath + "bookImage/" + imageId;
-      }
     },
     bookDelete(book_id) {
     let localThis = this;
