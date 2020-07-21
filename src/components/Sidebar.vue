@@ -30,9 +30,9 @@
         </div>
         <!--Begin daily hadith -->
         <div class="sidebar-daily-hadith">
-            <h6><span>Daily Hadith:</span> {{dailyHadithData.hotd_date}}</h6>
-            <p><b>Narrted:</b> {{dailyHadithData.narrated_by}}</p>
-            <p>{{dailyHadithData.hadith_name_bn}}.. <router-link :to="{name:'single-hadith', params:{hadith_id:dailyHadithData.id}}">বিস্তারিত</router-link></p>
+            <h6><span>Daily Hadith:</span> {{dailyHadithData.daily_hadith_date}}</h6>
+            <!-- <p><b>Narrted:</b> {{dailyHadithData.narrated_by}}</p> -->
+            <p>{{dailyHadithData.daily_hadith}}.. <a v-if="dailyHadithData.daily_hadith_link != null" :href="dailyHadithData.daily_hadith_link">Details</a></p>
         </div> 
         <!--End daily hadith --> 
     </div><!-- End left sidebar -->
@@ -66,19 +66,30 @@ export default {
         dailyHadith(){
             axios.get('/homepagedailyhadith')
                 .then(response =>{
-                    if(response.data.fetched_daily_hadith.hotd_date != null){
-                        this.dailyHadithData = response.data.fetched_daily_hadith;
+                    if(response.data.fetched_daily_hadith_row.daily_hadith != null){
+                        this.dailyHadithData = response.data.fetched_daily_hadith_row;
                     }
             })
         },
         searchByHadithNo(){
-            this.$router.push({ 
-                name: 'search-single', 
+            if(this.$route.name == 'search-single-sidebar'){
+                this.$router.push({ 
+                name: 'search-single-home', 
+                    params: { 
+                        book_id: this.book_id,
+                        hadith_no: this.hadith_no 
+                    } 
+                })
+            }
+            else{
+                this.$router.push({ 
+                name: 'search-single-sidebar', 
                 params: { 
                     book_id: this.book_id,
                     hadith_no: this.hadith_no 
                 } 
             })
+            }
         }
     },
     mounted() {

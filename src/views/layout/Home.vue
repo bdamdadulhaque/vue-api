@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
         <div class="col-md-12">
-            <h4 class="mt-5 text-center hadith-slogan">হযরত মোহাম্মদ (স) এর সকল হাদীস সমূহ এখন আপনার হাতের মুঠোয়</h4>
+            <h4 class="text-center hadith-slogan">হযরত মোহাম্মদ (স) এর সকল হাদীস সমূহ এখন আপনার হাতের মুঠোয়</h4>
         </div>
         </div>
         <!-- Begin home big search -->
@@ -14,7 +14,6 @@
           </form>
         </div>
         </div><!-- End home big search -->
-    
         <!-- Begin bello home big search -->
         <div class="row">
         <div class="col-md-8 offset-md-2 home-search">
@@ -33,7 +32,7 @@
             <!-- Tab panes -->
             <div class="tab-content">
             <div id="home" class="container tab-pane active home-daily-hadith">
-                <p>{{dailyHadithData.hadith_name_bn}}</p>
+                <p>{{dailyHadithRow.daily_hadith}}</p>
             </div>
             <div id="menu1" class="container tab-pane fade">
               <form @submit.prevent="advanceSearch()" class="form-inline">
@@ -49,7 +48,6 @@
                 </select>
                 <button type="submit" class="btn btn-primary mb-2">Go</button>
               </form>
-
             </div>
             <div id="menu2" class="container tab-pane fade">
               <form @submit.prevent="searchByHadithNo()" class="form-inline">
@@ -73,6 +71,7 @@
             <router-link :to="{name:'books', params:{book_id:book.id}}"><i class="fa fa-square"></i> {{book.book_name}}</router-link>
         </div>
         </div>
+        
     </div>
 </template>
 <script>
@@ -85,7 +84,7 @@ export default {
       hadith_no:'',
       chapters:[],
       search_keyword:'',
-      dailyHadithData:''
+      dailyHadithRow:''
     };
   },
   methods: {
@@ -119,29 +118,29 @@ export default {
         });
     },
     searchHadith(){
-      this.$router.push({ name: 'search', params: { search_keyword: this.search_keyword } })
+      this.$router.push({ name: 'search-home', params: { search_keyword: this.search_keyword } })
     },
     dailyHadith(){
       axios.get('/homepagedailyhadith')
         .then(response =>{
-          if(response.data.fetched_daily_hadith.hadith_name_bn != null){
-            this.dailyHadithData = response.data.fetched_daily_hadith;
+          console.log("amdad "+response.data.fetched_daily_hadith_row.daily_hadith)
+          if(response.data.fetched_daily_hadith_row.daily_hadith != null){
+            this.dailyHadithRow = response.data.fetched_daily_hadith_row;
           }
         })
     },
     advanceSearch(){
-      this.$router.push({ name: 'search', params: { chapter_id: this.chapter_id } })
+      this.$router.push({ name: 'advance-search', params: { chapter_id: this.chapter_id } })
     },
     searchByHadithNo(){
       this.$router.push({ 
-        name: 'search-single', 
+        name: 'search-single-home', 
         params: { 
           book_id: this.book_id,
           hadith_no: this.hadith_no 
         } 
       })
     }
-      
       //this.$router.push({ path: 'search', query: { search_result: response.data.searched_hadith } })
       // this.$router.push({ 
       //   name: 'search', 
@@ -150,12 +149,10 @@ export default {
       //     hadith_no: this.hadith_no 
       //   } 
       // });
-  
   },
   mounted() {
     this.bookList();
     this.dailyHadith();
   }
-  
 }
 </script>

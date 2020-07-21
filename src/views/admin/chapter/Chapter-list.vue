@@ -10,7 +10,7 @@
                 <div class="d-flex justify-content-between">
                   <h3 class="card-title">Chapter List</h3>
                   <div>
-                    <router-link :to="{name:'chapter-add'}" v-if="userRole == 1 || userRole == 2" class="btn btn-xs btn-success d-inline-block mr-2">
+                    <router-link :to="{name:'chapter-add'}" v-if="userRole == 1" class="btn btn-xs btn-success d-inline-block mr-2">
                       <i class="fas fa-plus"></i> Add New
                     </router-link>
                     <button @click="$router.go(-1)" class="btn btn-xs btn-default d-inline-block mr-1">
@@ -24,6 +24,7 @@
               <table id="example" class="table table-bordered table-striped text-center">
                 <thead>
                   <tr>
+                    <th>Chapter Id</th>
                     <th>Chapter No</th>
                     <th>Chapter Name</th>
                     <th>Book</th>
@@ -35,6 +36,7 @@
                 </thead>
                 <tbody>
                   <tr v-for="(chapter, index) in chapters" :key="index">
+                    <td>{{chapter.id}}</td>
                     <td>{{chapter.chapter_no}}</td>
                     <td>{{chapter.chapter_name}}</td>
                     <td>{{chapter.book.book_name}}</td>
@@ -60,6 +62,7 @@
                 </tbody>
                 <tfoot>
                   <tr>
+                    <th>Chapter Id</th>
                     <th>Chapter No</th>
                     <th>Chapter Name</th>
                     <th>Book</th>
@@ -111,22 +114,20 @@ export default {
           //   }
           // }); 
           // data table
-                    // data table
+          // data table
           $(function() {
-            $('#example').DataTable( {
+            if($.fn.dataTable.isDataTable('#example')){
+              var table = $('#example').DataTable();
+            }
+            else{
+              table = $('#example').DataTable({
+                paging: true,
+                "order":[[0,"asc"]],
                 dom: 'Bfrtip',
-                buttons: [
-                  {
-                    extend: 'csvHtml5'
-                  }
-                ],
                 initComplete: function () {
                     this.api().columns([0, 1, 2, 3, 4]).every( function () {
                         var column = this;
                         var select = $('<select><option value="">All</option></select>')
-                             
-                           //.appendTo( '#table_filter' )
-                           //.appendTo( $(column.header()).empty() )
                             .appendTo( $(column.header()).empty() )
                             .on( 'change', function () {
                                 var val = $.fn.dataTable.util.escapeRegex(
@@ -141,7 +142,10 @@ export default {
                         } );
                     } );
                 }
-            } );
+
+               });
+            }
+
           });
         // data table
       })
@@ -169,14 +173,24 @@ export default {
       buttons: [
         ['<button><b>YES</b></button>', function (instance, toast) {
           axios.delete("/chapter/" + chapter_id)
-            .then(response => {
-              localThis.chapterList();
-              iziToast.warning({
-                title: "Caution",
-                message: "Successfully deleted record!",
-                position: "topRight",
-                timeout: 2000
-              });
+              .then(response => {
+                if(response.data.hadith_exists_check == true){
+                  iziToast.warning({
+                    title: "Warning",
+                    message: "You can't delete, related data exists!",
+                    position: "topRight",
+                    timeout: 2000
+                  });
+                }
+                else{
+                  localThis.chapterList();
+                  iziToast.warning({
+                  title: "Caution",
+                  message: "Successfully deleted record!",
+                  position: "topRight",
+                  timeout: 2000
+                  });
+                }
           })
           .catch(error => {
             iziToast.warning({

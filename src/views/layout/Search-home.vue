@@ -8,85 +8,72 @@
       <div class="col-md-9">
         <div class="hadith-name-headline d-flex mb-3">
           <i class="fa fa-book fa-2x"></i>
-          <h4>{{singleBook.book_name}}</h4>
-          <p>( {{hadithCount | engToBen(hadithCount)}} টি  হাদিস )</p>
+          <h4>সার্চের ফলাফল</h4>
+          <p>( {{searchResult.length}} টি  হাদিস )</p>
         </div>
-        <div class="box-two mb-3">
+        <!-- <div class="box-two mb-3 mb-3">
           <div class="card">
             <div class="card-body">
               <div class="chapter-no">
-                {{singleChapter.chapter_no}}
+               988
               </div>
               <div class="chapter-name">
-                <span><b>{{singleChapter.chapter_name}}</b></span>
+                <a> chaoter name </a>
               </div>
               <div class="hadis-from-to">
-                {{singleChapter.hadith_no_begin}} - {{singleChapter.hadith_no_end}}
+                ১০৩২ - ১১৫৩
               </div>
             </div>
           </div>
-        </div>
-        <div v-for="(hadith, index) in hadiths" :key="index" class="single-hadith-box mb-3">
+        </div> -->
+        <!-- <div v-for="(hadith, index) in this.$route.query.search_result" :key="index" class="single-hadith-box mb-3"> -->
+        <div v-for="(hadith, index) in searchResult" :key="index" class="single-hadith-box mb-3">
             <div class="card mb-3">
                 <div class="card-body">
                     <div class="box-three d-flex">
                         <i class="fa fa-book-open fa-2x"></i>
-                        <h6>{{singleChapter.id}}/{{index+1}} অধ্যায়ঃ</h6>
+                        <!-- <h6>{{singleBook.book_name}}/ অধ্যায়ঃ {{singleChapter.chapter_no}}</h6> -->
                     </div>
                     <p class="chapter-subject">{{hadith.hadith_subject}}</p>
-                    <p class="chapter-subject-details">{{hadith.hadith_subject_details}}</p>
                 </div>
             </div>
-            <!-- <div v-if="hadith.hadith_no != null && hadith.hadith_name_ar != null && hadith.narrated_by != null && hadith.hadith_name_bn != null && hadith_value != null" class="card"> -->
-            <div v-if="hadith.hadith_no != null && hadith.hadith_name_ar != null && hadith.narrated_by != null && hadith.hadith_name_bn != null" class="card">
+            <div class="card mb-3">
                 <div class="card-body">
                     <div class="box-four">
                         <div class="single-hadith d-flex">
                             <i class="far fa-sun"></i>
                             <h6>{{hadith.hadith_no}}</h6>
-
-                            <!-- <div class="hello"> -->
-                            <!-- <facebook :url="url" scale="3"></facebook> -->
-                            <!-- <twitter :url="url" title="Check me on Github" scale="3"></twitter>
-                            <linkedin :url="url" scale="3"></linkedin>
-                            <whats-app :url="url" title="Hello" scale="3"></whats-app>
-                            <pinterest :url="url" scale="3"></pinterest>
-                            <email :url="url" subject="Hello" scale="3"></email> -->
-                          <!-- </div> -->
-
-
-
                         </div>
                         <p class="hadith-in-arabic">{{hadith.hadith_name_ar}}</p>
                         <p class="hadith-narrated">{{hadith.narrated_by}}</p>
-                        <p class="hadith-in-bengali">{{hadith.hadith_name_bn}}</p>
+                        <p class="hadith-in-bengali" v-html="highlight(hadith.hadith_name_bn)">{{hadith.hadith_name_bn}}</p>
                         <p class="hadith-reference">{{hadith.hadith_reference}}</p>
                         <div class="hadith-footer">
-                          <div class="hadith-value-text">
-                              <p>হাদিসের মানঃ</p>
-                          </div>
-                          <div v-if="hadith.hadith_value == 1" class="hadith-value-sahi">
-                              সহীহ হাদিস
-                          </div>
-                          <div v-if="hadith.hadith_value == 2" class="hadith-value-other">
-                              অন্যান্য
-                          </div>
-                          <div class="direct-hadith-link">
-                              <!-- <a href="#"><i class="fa fa-external-link-alt"></i> সরাসরি</a> -->
-                              <router-link :to="{name:'single-hadith', params:{hadith_id:hadith.id}}"><i class="fa fa-external-link-alt"></i> সরাসরি</router-link>
-                          </div>
-                          <div class="report">
-                            <!-- <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                              <i class="fas fa-exclamation-circle"></i> Report
-                            </a> -->
-                            <a @click="toggleCollapsation(hadith.id)" role="button">
-                              <i class="fas fa-exclamation-circle"></i> Report
-                            </a>
-                          </div>
+                            <div class="hadith-value-text">
+                                <p>হাদিসের মানঃ</p>
+                            </div>
+                            <div v-if="hadith.hadith_value == 1" class="hadith-value-sahi">
+                                সহীহ হাদিস
+                            </div>
+                            <div v-if="hadith.hadith_value == 2" class="hadith-value-other">
+                                অন্যান্য
+                            </div>
+                            <div class="direct-hadith-link">
+                                <router-link :to="{name:'single-hadith', params:{hadith_id:hadith.id}}"><i class="fa fa-external-link-alt"></i> সরাসরি</router-link>
+                            </div>
+                            <div class="report">
+                              <!-- <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                <i class="fas fa-exclamation-circle"></i> Report
+                              </a> -->
+                              <a @click="toggleCollapsation(hadith.id)" role="button">
+                                <i class="fas fa-exclamation-circle"></i> Report
+                              </a>
+                            </div>
+
                         </div>
-                      </div>
                     </div>
-                    <!-- <div class="collapse" id="collapseExample"> -->
+                </div>
+                <!-- <div class="collapse" id="collapseExample"> -->
                     <div v-show="isCollapsed">
                       <div v-if="hadith.id == clickedHadithId" class="card card-body">
                         <form @submit.prevent="reportSend(hadith.id)">
@@ -121,87 +108,41 @@
                         </form>
                       </div>
                     </div>
-          </div>
+            </div>
         </div>
       </div><!-- End book heading and chpater -->
     </div>
-    
   </div>
 </template>
 <script>
-//import bnNum from 'bnnum'
-import {
-  Facebook,
-  Twitter,
-  Linkedin,
-  Pinterest,
-  WhatsApp,
-  Email
-} from "vue-socialmedia-share";
 import Sidebar from '@/components/Sidebar.vue'
 export default {
-  filters: {
-  engToBen: function (value) {
-    return value;
-  }
-},
-    components:{
-        Sidebar,
-        Facebook,
-        //Twitter,
-        //Linkedin,
-        //Pinterest,
-        //WhatsApp,
-        //Email
+  components:{
+    Sidebar
     },
-    data(){
-        return {
-          singleBook:'',
-          hadithCount:'',
-          singleChapter:'',
-          hadiths:[],
-          isCollapsed: false,
-          clickedHadithId:'',
-          form: new Form({
+  data(){
+    return {
+      searchResult:[],
+      // singleBook:'',
+      // singleChapter:''
+      isCollapsed: false,
+      clickedHadithId:'',
+      form: new Form({
             report_type: '',
             report_email: '',
             reporter_name: '',
             report_details: '',
-            //hadith_no:'',
+           // hadith_no:'',
             //chapter_no:'',
-            //book_name:''
+            //book_name:'',
             hadith_id:''
-          }),
-          url: 'http://alhadithbd.com/single-hadith/21'
-        }
-    },
-    methods:{
-      toggleCollapsation(hadithId) {
+          })
+    }
+  },
+  methods: {
+    toggleCollapsation(hadithId) {
         this.clickedHadithId = hadithId
         this.isCollapsed = !this.isCollapsed;
-      },
-        hadithList() {
-            axios
-                .get("/chapterpagedata/"+this.$route.params.chapter_id)
-                .then(response => {
-                  this.singleBook = response.data.fetched_single_book;
-                  //this.form.book_name = response.data.fetched_single_book.book_name;
-                  this.hadithCount = response.data.fetched_hadith_count;
-                  this.singleChapter = response.data.fetched_single_chapter;
-                  //this.form.chapter_no = response.data.fetched_single_chapter.chapter_no;
-                  this.hadiths = response.data.fetched_hadith;
-                  //this.hadithNoBegin = response.data.fetched_begin_hadith_no;
-                  //this.hadithNoEnd = response.data.fetched_end_hadith_no;
-                  // console.log("bnnn"+bnNum(4587))
-                })
-                .catch(error => {
-                iziToast.error({
-                title: "Error",
-                message: "Something wrong, record not fetched!",
-                position: "topRight",
-                timeout: 2000
-                });
-        });
     },
     reportSend(hadithId) {
       this.form.hadith_id = hadithId;
@@ -223,31 +164,35 @@ export default {
             timeout: 3000
           });
         });
+    },
+    searchHadith(){
+      axios.get('/homepagesearch/'+this.$route.params.search_keyword)
+        .then(response =>{
+         this.searchResult = response.data.searched_hadith;
+         //this.getSingleBooknChapter(response.data.searched_hadith.id)
+        })
+    },
+    highlight(text) {
+      return text.replace(new RegExp(this.$route.params.search_keyword, 'gi'), '<span class="highlighted">$&</span>');
     }
-  
+    // getSingleBooknChapter(hadithId){
+    //   axios.get('/single-book-chapter/1')
+    //     .then(response =>{
+    //      this.singleBook = response.data.fetched_single_book;
+    //      console.log("ddd"+response.data.fetched_single_book.book_name)
+    //      this.singleChapter = response.data.fetched_single_chapter;
+    //     })
+    // }
   },
-  mounted() {
-    this.hadithList();
+  mounted(){
+    this.searchHadith();
   }
 }
 </script>
-<style scoped>
-h1,
-h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-.hello > span {
-  padding: 1em;
+<style>
+.highlighted{
+  background-color: gray;
+  color: white;
+  padding: 3px;
 }
 </style>

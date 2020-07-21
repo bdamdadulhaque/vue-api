@@ -58,7 +58,7 @@
                         <router-link :to="{name:'hadith-view', params:{hadith_id:hadith.id}}" class="btn btn-sm btn-outline-success">View</router-link>
                         <router-link :to="{name:'hadith-edit', params:{hadith_id:hadith.id}}" class="btn btn-sm btn-outline-warning">Edit</router-link>
                         <!-- <router-link :to="{name:'hotd', params:{hadith_id:hadith.id}}" class="btn btn-sm btn-outline-primary">HOTD</router-link> -->
-                        <button @click.prevent="hadithDelete(hadith.id)" class="btn btn-sm btn-outline-danger">Delete</button>
+                        <button v-if="userRole == 1" @click.prevent="hadithDelete(hadith.id)" class="btn btn-sm btn-outline-danger">Delete</button>
                       </div>
                     </td>
                     <td v-else>
@@ -122,20 +122,18 @@ export default {
           // data table
           // data table
           $(function() {
-            $('#example').DataTable( {
+            if($.fn.dataTable.isDataTable('#example')){
+              var table = $('#example').DataTable();
+            }
+            else{
+              table = $('#example').DataTable({
+                paging: true,
+                "order":[[0,"asc"]],
                 dom: 'Bfrtip',
-                buttons: [
-                  {
-                    extend: 'csvHtml5'
-                  }
-                ],
                 initComplete: function () {
                     this.api().columns([0, 1, 2, 4, 5]).every( function () {
                         var column = this;
                         var select = $('<select><option value="">All</option></select>')
-                             
-                           //.appendTo( '#table_filter' )
-                           //.appendTo( $(column.header()).empty() )
                             .appendTo( $(column.header()).empty() )
                             .on( 'change', function () {
                                 var val = $.fn.dataTable.util.escapeRegex(
@@ -150,7 +148,8 @@ export default {
                         } );
                     } );
                 }
-            } );
+              });
+            }
           });
         // data table
       })

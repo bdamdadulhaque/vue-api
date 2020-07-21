@@ -29,18 +29,30 @@
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link :to="{name:'hotd-list'}" class="nav-link">
-            <i class="nav-icon fa fa-clock"></i>
-            <p>Hadith OTD</p>
+          <router-link :to="{name:'hadith-import'}" class="nav-link">
+            <i class="nav-icon fas fa-book"></i>
+            <p>Hadiths Import</p>
           </router-link>
         </li>
-        <li class="nav-item">
+        <li v-if="userRole == 1" class="nav-item">
+          <router-link :to="{name:'daily-hadith-list'}" class="nav-link">
+            <i class="nav-icon fa fa-clock"></i>
+            <p>Daily Hadith</p>
+          </router-link>
+        </li>
+        <li v-if="userRole == 1" class="nav-item">
+          <router-link :to="{name:'report-list'}" class="nav-link">
+            <i class="nav-icon fas fa-exclamation-circle"></i>
+            <p>Report</p>
+          </router-link>
+        </li>
+        <li v-if="userRole == 1" class="nav-item">
           <router-link :to="{name:'admin-list'}" class="nav-link">
             <i class="nav-icon fas fa-user"></i>
             <p>Admin</p>
           </router-link>
         </li>
-        <li class="nav-item">
+        <li v-if="userRole == 1" class="nav-item">
           <router-link :to="{name:'setting-list'}" class="nav-link">
             <i class="nav-icon fas fa-tools"></i>
             <p>Settings</p>

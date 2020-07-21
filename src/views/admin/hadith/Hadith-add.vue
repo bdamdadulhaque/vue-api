@@ -36,22 +36,21 @@
                       <has-error :form="form" field="chapter_id"></has-error>
                     </div>
                     <div class="form-group col-md-6">
-                      <label for="hadithSubject">Hadith Subject <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
-                      <input v-model="form.hadith_subject" name="hadith_subject" :class="{'is-invalid': form.errors.has('hadith_subject')}" type="text" class="form-control" id="hadithSubject" placeholder="Enter hadith subject"/>
-                      <has-error :form="form" field="hadith_subject"></has-error>
+                      <label for="hadithSubject">Hadith Subject</label>
+                      <input v-model="form.hadith_subject" name="hadith_subject" type="text" class="form-control" id="hadithSubject" placeholder="Enter hadith subject"/>
                     </div>
                   </div>
                   <div class="form-row">
                     <div class="form-group col-md-12">
-                      <label for="hadithSubjectDeatils">Hadith Subject Details <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
-                      <textarea v-model="form.hadith_subject_details" name="hadith_subject_details" :class="{'is-invalid': form.errors.has('hadith_subject_details')}" class="form-control" id="hadithSubjectDeatils" placeholder="Enter Hadith Subject Details"></textarea>
-                      <has-error :form="form" field="hadith_subject_details"></has-error>
+                      <label for="hadithSubjectDeatils">Hadith Subject Details</label>
+                      <textarea v-model="form.hadith_subject_details" name="hadith_subject_details" class="form-control" id="hadithSubjectDeatils" placeholder="Enter Hadith Subject Details"></textarea>
                     </div>
                   </div>
                   <div class="form-row">
                     <div class="form-group col-md-3">
-                      <label for="hadithNo">Hadith No</label>
-                      <input v-model="form.hadith_no" name="hadith_no" type="number" class="form-control" id="hadithNo" placeholder="Enter hadith no"/>
+                      <label for="hadithNo">Hadith No <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
+                      <input v-model="form.hadith_no" name="hadith_no" type="number" :class="{'is-invalid': form.errors.has('hadith_no')}" class="form-control" id="hadithNo" placeholder="Enter hadith no"/>
+                      <has-error :form="form" field="hadith_no"></has-error>
                     </div>
                     <div class="form-group col-md-3">
                       <label for="hadithValue">Hadith Value</label>
@@ -80,6 +79,10 @@
                   </div>
                   <div class="form-row">
                     <div class="form-group col-md-6">
+                      <label for="hadithReference">Hadith Reference</label>
+                      <input v-model="form.hadith_reference" name="hadith_reference" type="text" class="form-control" id="hadithReference" placeholder="Enter hadith reference"/>
+                    </div>
+                    <div class="form-group col-md-6">
                       <label for="hadithStatus" class="mr-4">Status</label><br>
                       <div class="custom-control custom-radio custom-control-inline">
                         <input v-model="form.hadith_status" value="1" type="radio" id="customRadioInline1" name="category_status" class="custom-control-input">
@@ -96,7 +99,6 @@
                   </div>
                 </div>
                 <!-- /.card-body -->
-                
                 <div class="card-footer">
                   <button type="submit" class="btn btn-primary">
                     <i class="fas fa-check"></i> Save
@@ -125,6 +127,7 @@ export default {
     return {
       form: new Form({
         hadith_name_bn: '',
+        hadith_reference: '',
         hadith_name_ar: '',
         hadith_subject: '',
         hadith_subject_details: '',

@@ -8,11 +8,8 @@
             <div class="card card-primary">
               <div class="card-header">
                 <div class="d-flex justify-content-between">
-                  <h3 class="card-title">Book List</h3>
+                  <h3 class="card-title">Report List</h3>
                   <div>
-                    <router-link :to="{name:'book-add'}" v-if="userRole == 1" class="btn btn-xs btn-success d-inline-block mr-2">
-                      <i class="fas fa-plus"></i> Add New
-                    </router-link>
                     <button @click="$router.go(-1)" class="btn btn-xs btn-default d-inline-block mr-1">
                       <i class="fas fa-arrow-left"></i> Back
                     </button>
@@ -24,31 +21,38 @@
                 <table id="example1" class="table table-bordered table-striped text-center">
                   <thead>
                     <tr>
-                      <th>ID</th>
-                      <th>Book Name</th>
-                      <th>Created By</th>
-                      <th>Updated By</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Type</th>
+                      <th>Message</th>
+                      <th>Book</th>
+                      <th>Ch. No.</th>
+                      <th>Ha. No.</th>
                       <th>Status</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(book, index) in books" :key="index">
-                      <td>{{book.id}}</td>
-                      <td>{{book.book_name}}</td>
-                      <td>{{book.created_user.name}}</td>
+                    <tr v-for="(report, index) in reports" :key="index">
+                      <td>{{report.reporter_name}}</td>
+                      <td>{{report.report_email}}</td>
                       <td>
-                        <span v-if="book.updated_by != null">{{book.updated_user.name}}</span>
-                        <span v-else>Not Updated</span>
+                        <span v-if="report.report_type == 1">Mismatch Translation</span>
+                        <span v-if="report.report_type == 2">Spelling Mistake</span>
+                        <span v-if="report.report_type == 3">Other</span>
                       </td>
+                      <td>{{report.report_details}}</td>
+                      <td>{{report.book_name}}</td>
+                      <td>{{report.chapter_no}}</td>
+                      <td>{{report.hadith_no}}</td>
                       <td>
-                        <span v-if="book.book_status == 1" class="badge bg-success">Active</span>
-                        <span v-if="book.book_status == 0" class="badge bg-warning">Inactive</span>
+                        <span v-if="report.report_status == 1" class="badge bg-success">Fixed</span>
+                        <span v-if="report.report_status == 0" class="badge bg-warning">Not Fixed</span>
                       </td>
                       <td v-if="userRole == 1">
                         <div class="btn-group">
-                          <router-link :to="{name:'book-edit', params:{book_id:book.id}}" class="btn btn-sm btn-outline-warning">Edit</router-link>
-                          <button @click.prevent="bookDelete(book.id)" class="btn btn-sm btn-outline-danger">Delete</button>
+                          <router-link :to="{name:'report-edit', params:{report_id:report.id}}" class="btn btn-sm btn-outline-warning">Edit</router-link>
+                          <button @click.prevent="reportDelete(report.id)" class="btn btn-sm btn-outline-danger">Delete</button>
                         </div>
                       </td>
                       <td v-else>
@@ -58,10 +62,13 @@
                   </tbody>
                   <tfoot>
                     <tr>
-                      <th>ID</th>
-                      <th>Book Name</th>
-                      <th>Created By</th>
-                      <th>Updated By</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Type</th>
+                      <th>Message</th>
+                      <th>Book</th>
+                      <th>Ch. No.</th>
+                      <th>Ha. No.</th>
                       <th>Status</th>
                       <th>Action</th>
                     </tr>
@@ -85,25 +92,26 @@
 export default {
   data() {
     return {
-      books: [],
+      reports: [],
       moment,
       userRole:localStorage.getItem('userRole')
     };
   },
   methods: {
-    bookList() {
+    reportList() {
       axios
-        .get("/book")
+        .get("/report")
         .then(response => {
-          this.books = response.data.fetched_book;
+          console.log(response.data.fetched_report)
+          this.reports = response.data.fetched_report;
           // data table
           $(function() {
             if ($.fn.dataTable.isDataTable("#example1")) {
               var table = $("#example1").DataTable();
             } else {
               table = $("#example1").DataTable({
-                paging: true,
-                order: [[0, "asc"]]
+                paging: true
+               // order: [[0, "desc"]]
               });
             }
           }); // data table
@@ -117,7 +125,7 @@ export default {
           });
         });
     },
-    bookDelete(book_id) {
+    reportDelete(report_id) {
     let localThis = this;
       iziToast.question({
       timeout: 20000,
@@ -131,34 +139,24 @@ export default {
       position: 'center',
       buttons: [
         ['<button><b>YES</b></button>', function (instance, toast) {
-          axios.delete("/book/" + book_id)
+          axios.delete("/report/" + report_id)
               .then(response => {
-                if(response.data.chapter_exists_check == true){
-                  iziToast.warning({
-                    title: "Warning",
-                    message: "You can't delete, related data exists!",
-                    position: "topRight",
-                    timeout: 2000
-                  });
-                }
-                else{
-                  localThis.bookList();
+                  localThis.reportList();
                   iziToast.warning({
                   title: "Caution",
                   message: "Successfully deleted record!",
                   position: "topRight",
                   timeout: 2000
                   });
-                }
-          })
-          .catch(error => {
-            iziToast.warning({
-              title: "Warning",
-              message: "Something wrong, record not deleted!",
-              position: "topRight",
-              timeout: 2000
-            });
-          });
+                })
+              .catch(error => {
+                iziToast.warning({
+                  title: "Warning",
+                  message: "Something wrong, record not deleted!",
+                  position: "topRight",
+                  timeout: 2000
+                });
+              });
           instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
         }, true],
           ['<button>NO</button>', function (instance, toast) {
@@ -175,7 +173,7 @@ export default {
     }
   },
   mounted() {
-    this.bookList();
+    this.reportList();
   }
 };
 </script>

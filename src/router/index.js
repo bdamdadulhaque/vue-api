@@ -4,7 +4,6 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-
 function guardAdmin(to, from, next)
 {
  let userRole= localStorage.getItem('userRole');
@@ -54,14 +53,29 @@ const routes = [
         component:() => import('../views/layout/Chapters.vue')
       },
       {
-        path:'search',
-        name:'search',
-        component:() => import('../views/layout/Search.vue')
+        path:'search-home',
+        name:'search-home',
+        component:() => import('../views/layout/Search-home.vue')
       },
       {
-        path:'search-single',
-        name:'search-single',
-        component:() => import('../views/layout/Search-single.vue')
+        path:'search-main',
+        name:'search-main',
+        component:() => import('../views/layout/Search-main.vue')
+      },
+      {
+        path:'advance-search',
+        name:'advance-search',
+        component:() => import('../views/layout/Advance-search.vue')
+      },
+      {
+        path:'search-single-home',
+        name:'search-single-home',
+        component:() => import('../views/layout/Search-single-home.vue')
+      },
+      {
+        path:'search-single-sidebar',
+        name:'search-single-sidebar',
+        component:() => import('../views/layout/Search-single-sidebar.vue')
       },
       {
         path:'single-hadith/:hadith_id',
@@ -70,7 +84,6 @@ const routes = [
       }
     ]
   },
-
 
 
   {
@@ -83,13 +96,7 @@ const routes = [
   },
 
 
-
-
-
-
   /// admin panel
-
-  
   // admin auth
   {
     path:'/admin-login',
@@ -141,7 +148,7 @@ const routes = [
         path:'chapter-add',
         name:'chapter-add',
         component:() => import('../views/admin/chapter/Chapter-add.vue'),
-        beforeEnter: guardAdminWandE
+        beforeEnter: guardAdmin
       },
       {
         path:'chapter-list',
@@ -162,6 +169,13 @@ const routes = [
         beforeEnter: guardAdminWandE
       },
       {
+        path:'hadith-import',
+        name:'hadith-import',
+        component:() => import('../views/admin/hadith/Hadith-import.vue'),
+        //beforeEnter: guardAdminWandE
+      },
+
+      {
         path:'hadith-list',
         name:'hadith-list',
         component:() => import('../views/admin/hadith/Hadith-list.vue')
@@ -178,24 +192,32 @@ const routes = [
         component:() => import('../views/admin/hadith/Hadith-view.vue'),
         beforeEnter: guardAdminWandE
       },
+      // daily hadith
       {
-        path:'hotd/:hadith_id',
-        name:'hotd',
-        component:() => import('../views/admin/hadith/Hotd.vue'),
-        beforeEnter: guardAdminWandE
+        path:'daily-hadith-add',
+        name:'daily-hadith-add',
+        component:() => import('../views/admin/hadith/Daily-hadith-add.vue'),
+        beforeEnter: guardAdmin
       },
       {
-        path:'hotd-list',
-        name:'hotd-list',
-        component:() => import('../views/admin/hadith/Hotd-list.vue'),
-        beforeEnter: guardAdminWandE
+        path:'daily-hadith-list',
+        name:'daily-hadith-list',
+        component:() => import('../views/admin/hadith/Daily-hadith-list.vue'),
+        beforeEnter: guardAdmin
       },
+      {
+        path:'daily-hadit-edit/:daily_hadith_id',
+        name:'daily-hadith-edit',
+        component:() => import('../views/admin/hadith/Daily-hadith-edit.vue'),
+        beforeEnter: guardAdmin
+      },
+      
       // admin user
       {
         path:'admin-list',
         name:'admin-list',
-        component:() => import('../views/admin/admin-auth/Admin-list.vue')
-       // beforeEnter: guardAdmin
+        component:() => import('../views/admin/admin-auth/Admin-list.vue'),
+        beforeEnter: guardAdmin
       },
       {
         path:'admin-add',
@@ -220,8 +242,20 @@ const routes = [
         path:'setting-list',
         name:'setting-list',
         component:() => import('../views/admin/Setting-list.vue'),
-       // beforeEnter: guardAdmin
-      }
+        beforeEnter: guardAdmin
+      },
+      {
+        path:'report-list',
+        name:'report-list',
+        component:() => import('../views/admin/report/Report-list.vue'),
+        beforeEnter: guardAdmin
+      },
+      {
+        path:'report-edit/:report_id',
+        name:'report-edit',
+        component:() => import('../views/admin/report/Report-edit.vue'),
+        beforeEnter: guardAdmin
+      },
     ]
   }
 ]

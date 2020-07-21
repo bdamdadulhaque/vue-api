@@ -55,7 +55,6 @@
                       <input v-model="form.password_confirmation" name="password_confirmation" type="password" class="form-control" id="confirmPassword" placeholder="Retype password" />
                       <p id="passwordConfirmed" v-if="passwordConfirmed">Password not matched!</p>
                     </div> -->
-
                     <div class="form-group col-md-4">
                       <label for="userStatus" class="mr-4">Status</label><br>
                       <div class="custom-control custom-radio custom-control-inline">

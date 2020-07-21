@@ -3,7 +3,6 @@
         <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-          
         <!-- Info boxes -->
         <div class="row mt-3">
           <div v-for="(book, index) in books" :key="index" class="col-12 col-sm-6 col-md-3">
@@ -20,14 +19,12 @@
             </div>
             <!-- /.info-box -->
           </div>
-
           <!-- /.col -->
           <!-- fix for small devices only -->
           <div class="clearfix hidden-md-up"></div>
           <!-- /.col -->
         </div>
         <!-- /.row -->
-          
       </div>
     </section>
     </div>

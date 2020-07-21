@@ -22,32 +22,29 @@ import axios from 'axios';
 window.axios = axios;
 let token = localStorage.getItem('AToken');
 window.token = token; 
-axios.defaults.baseURL = 'http://localhost/hadithsite/public/api';
-
+//axios.defaults.baseURL = 'http://localhost/hadithsite/public/api';
 //axios.defaults.baseURL = 'http://hadith.techsometimes.com/backend/hadithsite/public/api';
-
+axios.defaults.baseURL = 'http://alhadithbd.com/backend/hadithsite/public/api';
 axios.defaults.headers.common['Authorization'] = 'Bearer '+ token;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-
-let uploadPath = 'http://localhost/hadithsite/public/';
-
+//let uploadPath = 'http://localhost/hadithsite/public/';
 //let uploadPath = 'http://hadith.techsometimes.com/backend/hadithsite/public/';
-
+let uploadPath = 'http://alhadithbd.com/backend/hadithsite/public/';
 window.uploadPath = uploadPath;
-
 //let loggedInUserId = localStorage.getItem("loggedInUserId");
 //window.loggedInUserId = loggedInUserId;
 //let loggedInUserName = localStorage.getItem("loggedInUserName");
 //window.loggedInUserName = loggedInUserName;
-
 import { Form, HasError, AlertError } from 'vform'
-
 window.Form = Form;
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
-Vue.config.productionTip = false
+import VueSocialSharing from 'vue-social-sharing'
 
+Vue.use(VueSocialSharing);
+
+Vue.config.productionTip = false
 new Vue({
   router,
   render: h => h(App)
