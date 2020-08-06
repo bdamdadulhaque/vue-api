@@ -53,35 +53,41 @@
                       <has-error :form="form" field="hadith_no"></has-error>
                     </div>
                     <div class="form-group col-md-3">
-                      <label for="hadithValue">Hadith Value</label>
-                      <select v-model="form.hadith_value" name="hadith_value" class="form-control" id="hadithValue">
+                      <label for="hadithValue">Hadith Value <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
+                      <select v-model="form.hadith_value" name="hadith_value" :class="{'is-invalid': form.errors.has('hadith_value')}" class="form-control" id="hadithValue">
                         <option disabled value="">Select Value</option>
                         <option value="1">সহীহ হাদিস</option>
-                        <option value="2">অন্যান্য</option>
+                        <option value="2">হাসান</option>
+                        <option value="3">যঈফ</option>
                       </select>
+                      <has-error :form="form" field="hadith_value"></has-error>
                     </div>
                     <div class="form-group col-md-6">
-                      <label for="narratedBy">Narrated By</label>
-                      <input v-model="form.narrated_by" name="narrated_by" type="text" class="form-control" id="narratedBy" placeholder="Enter narrated by name"/>
+                      <label for="narratedBy">Narrated By <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
+                      <input v-model="form.narrated_by" name="narrated_by" type="text" :class="{'is-invalid': form.errors.has('narrated_by')}" class="form-control" id="narratedBy" placeholder="Enter narrated by name"/>
+                      <has-error :form="form" field="narrated_by"></has-error>
                     </div>
                   </div>
                   <div class="form-row">
                     <div class="form-group col-md-12">
-                      <label for="hadithNameBn">Hadith Bn</label>
-                      <textarea v-model="form.hadith_name_bn" name="hadith_name_bn" class="form-control" id="hadithNameBn" placeholder="Enter Hadith Bengali"></textarea>
+                      <label for="hadithNameBn">Hadith Bn <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
+                      <!-- <textarea v-model="form.hadith_name_bn" name="hadith_name_bn" class="form-control" id="hadithNameBn" placeholder="Enter Hadith Bengali"></textarea> -->
+                      <vue-editor v-model="form.hadith_name_bn"></vue-editor>
+                      <p v-if="hadithBnCheck == true" class="error-show"> Hadith Name Bn is required!</p>
                     </div>
                   </div>
                   <div class="form-row">
                     <div class="form-group col-md-12">
-                      <label for="hadithNameAr">Hadith Ar</label>
-                      <textarea v-model="form.hadith_name_ar" name="hadith_name_ar" class="form-control" id="hadithNameAr" placeholder="Enter Hadith Arabic"></textarea>
+                      <label for="hadithNameAr">Hadith Ar <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
+                      <textarea v-model="form.hadith_name_ar" name="hadith_name_ar" :class="{'is-invalid': form.errors.has('hadith_name_ar')}" class="form-control" id="hadithNameAr" placeholder="Enter Hadith Arabic"></textarea>
+                      <has-error :form="form" field="hadith_name_ar"></has-error>
                     </div>
                   </div>
                   <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <!-- <div class="form-group col-md-6">
                       <label for="hadithReference">Hadith Reference</label>
                       <input v-model="form.hadith_reference" name="hadith_reference" type="text" class="form-control" id="hadithReference" placeholder="Enter hadith reference"/>
-                    </div>
+                    </div> -->
                     <div class="form-group col-md-6">
                       <label for="hadithStatus" class="mr-4">Status</label><br>
                       <div class="custom-control custom-radio custom-control-inline">
@@ -122,12 +128,17 @@
   </div>
 </template>
 <script>
+// Import the editor
+import { VueEditor } from "vue2-editor";
 export default {
+  components: {
+        VueEditor
+  },
   data() {
     return {
       form: new Form({
         hadith_name_bn: '',
-        hadith_reference: '',
+        // hadith_reference: '',
         hadith_name_ar: '',
         hadith_subject: '',
         hadith_subject_details: '',
@@ -140,8 +151,12 @@ export default {
         created_by:''
       }),
       books:[],
-      chapters:[]
+      chapters:[],
+      hadithBnCheck:false
     };
+  },
+   mounted() {
+    this.form.created_by = localStorage.getItem("loggedInUserId");
   },
   methods: {
     getBooks(){
@@ -173,7 +188,9 @@ export default {
         });
     },
     hadithSave() {
-      this.form.post('/hadith')
+      if(this.form.hadith_name_bn != ''){
+       
+        this.form.post('/hadith')
         .then(response => {
           iziToast.success({
             title: "OK",
@@ -191,11 +208,16 @@ export default {
             timeout: 2000
           });
         });
+      }
+       else{
+          this.hadithBnCheck = true;
+       }
+      
     }
   },
-  mounted(){
-    this.form.created_by = localStorage.getItem("loggedInUserId");
-  },
+  // mounted(){
+  //   this.form.created_by = localStorage.getItem("loggedInUserId");
+  // },
   created(){
     this.getBooks();
   }
@@ -204,5 +226,8 @@ export default {
 <style scoped>
 .custom-control-label{
   color:rgba(0, 0, 0, 0.5);
+}
+.error-show {
+  color: red;
 }
 </style>

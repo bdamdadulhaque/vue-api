@@ -11,56 +11,59 @@
           <h4>সার্চের ফলাফল</h4>
           <!-- <p>( {{searchRow.length}} টি  হাদিস )</p> -->
         </div>
-        <!-- <div class="box-two mb-3 mb-3">
+        <div v-if="searchRow != null" class="box-two mb-3 mb-3">
           <div class="card">
             <div class="card-body">
-              <div class="chapter-no">
-               988
+              <div v-if="singleChapter.chapter_no != null" class="chapter-no">
+               {{singleChapter.chapter_no | engToBen(singleChapter.chapter_no)}}
               </div>
               <div class="chapter-name">
-                <a> chaoter name </a>
+                <a> {{singleChapter.chapter_name}} </a>
               </div>
-              <div class="hadis-from-to">
+              <!-- <div class="hadis-from-to">
                 ১০৩২ - ১১৫৩
-              </div>
+              </div> -->
             </div>
           </div>
-        </div> -->
+        </div>
 
       
         <!-- <div v-for="(hadith, index) in this.$route.query.search_result" :key="index" class="single-hadith-box mb-3"> -->
         <div v-if="searchRow != null" class="single-hadith-box mb-3">
             <div class="card mb-3">
                 <div class="card-body">
-                    <div class="box-three d-flex">
+                    <!-- <div class="box-three d-flex">
                         <i class="fa fa-book-open fa-2x"></i>
-                        <!-- <h6>/{{index+1}} অধ্যায়ঃ</h6> -->
-                        <!-- <h6>/ অধ্যায়ঃ</h6> -->
-                    </div>
+                        !-- <h6>/{{index+1}} অধ্যায়ঃ</h6> --
+                        !-- <h6>/ অধ্যায়ঃ</h6> --
+                    </div> -->
                     <p class="chapter-subject">{{searchRow.hadith_subject}}</p>
                 </div>
             </div>
             <div class="card mb-3">
                 <div class="card-body">
                     <div class="box-four">
-                        <div class="single-hadith d-flex">
+                        <div v-if="searchRow.hadith_no != null" class="single-hadith d-flex">
                             <i class="far fa-sun"></i>
-                            <h6>{{searchRow.hadith_no}}</h6>
+                            <h6>{{searchRow.hadith_no | engToBen(searchRow.hadith_no)}}</h6>
                         </div>
                         <p class="hadith-in-arabic">{{searchRow.hadith_name_ar}}</p>
                         <p class="hadith-narrated">{{searchRow.narrated_by}}</p>
-                        <p class="hadith-in-bengali">{{searchRow.hadith_name_bn}}</p>
-                        <p class="hadith-reference">{{searchRow.hadith_reference}}</p>
+                        <p class="hadith-in-bengali" v-html="searchRow.hadith_name_bn">{{searchRow.hadith_name_bn}}</p>
+                        <!-- <p class="hadith-reference">{{searchRow.hadith_reference}}</p> -->
                         <div class="hadith-footer">
                             <div class="hadith-value-text">
                                 <p>হাদিসের মানঃ</p>
                             </div>
                             <div v-if="searchRow.hadith_value == 1" class="hadith-value-sahi">
                                 সহীহ হাদিস
-                            </div>
-                            <div v-if="searchRow.hadith_value == 2" class="hadith-value-other">
-                                অন্যান্য
-                            </div>
+                          </div>
+                          <div v-if="searchRow.hadith_value == 2" class="hadith-value-hasan">
+                                হাসান
+                          </div>
+                          <div v-if="searchRow.hadith_value == 3" class="hadith-value-daif">
+                                যঈফ
+                          </div>
                             <div class="direct-hadith-link">
                                 <router-link :to="{name:'single-hadith', params:{hadith_id:searchRow.id}}"><i class="fa fa-external-link-alt"></i> সরাসরি</router-link>
                             </div>
@@ -128,6 +131,7 @@ export default {
         hadith_no:this.$route.params.hadith_no,
       }),
       searchRow:[],
+      singleChapter:'',
       form2: new Form({
         report_type: '',
         report_email: '',
@@ -146,6 +150,7 @@ export default {
       this.form.post('/homepage-search-by-hadith-no')
         .then(response =>{
           this.searchRow = response.data.fetched_hadith_no;
+          this.singleChapter = response.data.fetched_chapter_row;
           //this.form2.book_name = response.data.fetched_query_hadith_book.book_name;
           //this.form2.hadith_no = response.data.fetched_hadith_no.hadith_no;
         })

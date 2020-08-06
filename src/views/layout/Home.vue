@@ -58,7 +58,7 @@
                     <option v-for="(book, index3) in books" :key="index3" :value="book.id">{{book.book_name}}</option>
                 </select>
                 <label for="hadithNo" class="mb-2 mr-sm-2">Hadith No:</label>
-                <input v-model="hadith_no" name="hadith_no" type="text" class="form-control mb-2 mr-sm-2" id="hadithNo" placeholder="Hadith no.">
+                <input v-model="hadith_no" name="hadith_no" type="text" class="form-control mb-2 mr-sm-1" id="hadithNo" placeholder="Hadith no.">
                 <button type="submit" class="btn btn-primary mb-2">Go</button>
               </form>
             </div>
@@ -66,10 +66,34 @@
         </div>
         </div><!-- Begin bello home big search -->
         <!-- Begin book list -->
-        <div class="row text-center home-book mt-5">
-        <div v-for="(book, index) in books" :key="index" class="col-md-3 home-book-item">
-            <router-link :to="{name:'books', params:{book_id:book.id}}"><i class="fa fa-square"></i> {{book.book_name}}</router-link>
+        <div class="row home-book">
+          <div class="col-md-6 book-left">
+            <div v-for="(book, index) in booksLeft" :key="index" class="home-book-item-left">
+              <router-link :to="{name:'books', params:{book_id:book.id}}" class="home-book-align"> {{book.book_name}}</router-link>
+            </div>
+          </div>
+          <div class="col-md-6 book-right">
+            <div v-for="(book, index) in booksRight" :key="index" class="home-book-item-right">
+              <router-link :to="{name:'books', params:{book_id:book.id}}" class="home-book-align"> {{book.book_name}}</router-link>
+            </div>
+          </div>
         </div>
+        <div class="row text-center mb-5">
+          <div class="col-md-6 offset-md-3">
+            <div class="connetc-us">
+              <p>Connect us on
+                <a href="#" target="blank">
+                  <i class="fab fa-facebook"></i>
+                </a>
+                <a href="#" target="blank">
+                  <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" target="blank">
+                  <i class="fab fa-instagram"></i>
+                </a>
+              </p>
+            </div>
+          </div>
         </div>
         
     </div>
@@ -79,6 +103,8 @@ export default {
     data() {
     return {
       books:[],
+      booksLeft:[],
+      booksRight:[],
       book_id:'0',
       chapter_id:'0',
       hadith_no:'',
@@ -93,6 +119,8 @@ export default {
         .get("/homepagebook")
         .then(response => {
           this.books = response.data.fetched_book;
+          this.booksLeft = response.data.fetched_book_left;
+          this.booksRight = response.data.fetched_book_right;
         })
         .catch(error => {
           iziToast.error({
@@ -156,3 +184,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+a.nav-link{
+  color:#009688;
+}
+</style>

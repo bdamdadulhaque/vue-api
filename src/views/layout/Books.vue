@@ -11,15 +11,16 @@
             <div class="hadith-name-headline d-flex mb-3">
             <i class="fa fa-book fa-2x"></i>
             <h4>{{singleBook.book_name}}</h4>
-            <p>( {{hadithCount}} টি  হাদিস )</p>
+            <p>( {{hadithCount | engToBen(hadithCount)}} টি  হাদিস )</p>
             </div>
             <table class="table book-list-table">
             <tbody>
                 <tr v-for="(chapter, index) in chapters" :key="index">
-                    <th class="text-center book-subject-no" scope="row" width="6%">{{chapter.chapter_no}}</th>
+                    <th class="text-center book-subject-no" scope="row" width="6%">{{chapter.chapter_no | engToBen(chapter.chapter_no)}}</th>
                     <td><router-link :to="{name:'chapters', params:{chapter_id:chapter.id}}">{{chapter.chapter_name}}</router-link></td>
                     <!-- <td class="text-right" width="20%">৪২২ - ৫৬৫</td> -->
-                    <td class="text-right" width="20%">{{chapter.hadith_no_begin}} - {{chapter.hadith_no_end}}</td>
+                    <td v-if="chapter.hadith_no_begin != null || chapter.hadith_no_begin != null" class="text-right" width="30%">{{chapter.hadith_no_begin | engToBen(chapter.hadith_no_begin)}} - {{chapter.hadith_no_end | engToBen(chapter.hadith_no_end)}}</td>
+                    <td v-else class="text-right" width="20%"> - </td>
                 </tr>
             </tbody>
             </table>
@@ -36,7 +37,7 @@ export default {
     data(){
         return {
             singleBook:'',
-            hadithCount:null,
+            hadithCount:'',
             chapters:[]
         }
     },

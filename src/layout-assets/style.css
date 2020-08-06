@@ -2,12 +2,27 @@
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
 body {
-  background-color: #fafaf8 !important; 
+  background-color: #fafaf8 !important;
+  /* background-color: #009688 !important;  */
 } 
 main > .container {
   padding: 60px 15px 0;
 }
-
+.btn-primary {
+  background-color: #009688;
+  border-color: #009688;
+}
+.btn-primary:hover {
+  background-color: #009670;
+  border-color: #009670;
+}
+a {
+  color: #009688;
+}
+a:hover {
+  color: #009670;
+  text-decoration: none;
+}
 
 .navbar {
   padding: 5px;
@@ -29,7 +44,7 @@ form.header-search button {
   width: 15%;
   padding: 4px;
   background: white;
-  color: blue;
+  color: #009688;
   font-size: 15px;
   border: 1px solid white;
   border-left: none;
@@ -52,7 +67,8 @@ form.header-search button:hover {
 /* footer begin */
 .footer {
   /* background-color: #f5f5f5; */
-  background-color:#343840;
+  /* background-color:#343840; */
+  background-color:#009688;
   color: white; 
   position: fixed;
   left: 0;
@@ -75,12 +91,12 @@ form.header-search button:hover {
 ===================*/
 /* home big search begin */
 h4.hadith-slogan {
-  color: grey;
+  color:#4CAF50;
 }
 form.home-big-search input[type=text] {
   padding: 8px;
   font-size: 17px;
-  border: 2px solid blue;
+  border: 2px solid #009688;
   float: left;
   width: 90%;
   background: white;
@@ -90,16 +106,18 @@ form.home-big-search button {
   float: left;
   width: 10%;
   padding: 8px;
-  background: blue;
+  background: #009688;
   color: white;
   font-size: 17px;
-  border: 2px solid blue;
+  border: 2px solid #009688;
   border-left: none;
   outline: none;
 }
 /* home big search end */
 
 /* bello home big search begin */
+
+
 .home-daily-hadith p {
   margin: 10px;
 }
@@ -115,49 +133,93 @@ form.home-big-search button {
   margin: 0px 0px 0px 10px;
 }
 .tab-content #home {
-  border: 1px solid #e9ecef;
-  background-color:#F8F9FA;
+  border: 1px solid #009688;
+  background-color:#00968829;
 }
 /* bello home big search end */
 
 /* home book list begin */
-.home-book-item{
-  border: 1px solid #e9ecef;
+.book-left {
+  padding: 0px 40px;
+  margin: 15px 0px;
+}
+.book-right {
+  padding: 0px 40px;
+  margin: 15px 0px;
+
+}
+.home-book-item-left{
+  border: 2px solid #00968838;
   padding: 5px;
-  border-radius: 5px;
+  border-radius: 3px;
   background-color: white;
+  text-align: center;
+}
+/* .home-book-align {
+  margin-right: 200px;
+} */
+.home-book-item-right{
+  border: 2px solid #00968838;
+  padding: 5px;
+  border-radius: 3px;
+  background-color: white;
+  text-align: center;
 }
 
-.home-book-item a{
-  color: black;
+.home-book-item-left a{
+  color:#009688;
   text-decoration: none;
+  font-size: 17px;
 }
-.home-book-item a:hover {
-  color: blue !important;
+.home-book-item-left a:hover {
+  color:orange !important;
 }
-.home-book-item i{
-  font-size: 12px;
-  color: blue;
-  margin-right: 5px;
+.home-book-item-right a{
+  color:#009688;
+  text-decoration: none;
+  font-size: 17px;
+}
+.home-book-item-right a:hover {
+  color:orange !important;
 }
 /* home book list end */
+.connetc-us a {
+  margin: 0px 5px;
+}
 /* home page end 
 ===================*/
 
 /* book page begin 
 ===================*/
 
+
+
+
+
+
 /* left sidebar start */
-/* .left-sidebar { */
-  /* background-color: #F8F9FA;
-  position: fixed; */
-  /* top: 0; */
-  /* right: 0; */
-  /* left: 0; */
-  /* z-index: 1030; */
-/* } */
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .left-sidebar { 
+    background-color: #F8F9FA;
+    position: fixed;
+    width: 18%;
+    /* top:1; */
+    /* right:0; */
+    /* left:0; */
+    /* z-index: 1030; */
+  }
+  #hadith-book-mobile {
+    display: none;
+  }
+  
+}
+
+
 #hadith-book {
-  max-height: 355px;
+  /* max-height: 355px; */
+  max-height: 200px;
   overflow: scroll;
 }
 div.col-md-3.left-sidebar {
@@ -171,35 +233,59 @@ div.col-md-3.left-sidebar {
   border-radius: 0;
 } 
 .left-sidebar .nav-pills a.nav-link {
-  padding-right: 10px;
+  padding-right: 8px;
+  padding-left: 8px;
 } 
 .list-group-item {
   padding: 10px;
+  border: 1px solid #00968869;
 }
 
 .sidebar-daily-hadith {
   border: 1px solid #dee2e6;
   background-color: #F8F9FA;
+  max-height: 300px;
+  overflow: auto;
 }
+/* Large devices (desktops, 991px and up) */
+@media (max-width: 991px) {
+  .sidebar-daily-hadith { 
+    display: none;
+  }
+  #hadith-book {
+    display: none;
+  }
+  #home {
+    display: none;
+  }
+
+}
+
 .sidebar-daily-hadith h6 {
   margin: 10px;
 }
 .sidebar-daily-hadith span {
-  color: blue;
+  color:#009688;
 }
 .sidebar-daily-hadith p {
   margin: 10px;
 }
 /* left sidebar end */
 
+
+
+
+
+
+
 /* book heading start */
 .hadith-name-headline {
-  border: 1px solid #dee2e6;
+  border: 1px solid #009688;
   padding: 10px;
 }
 .hadith-name-headline i {
   margin: 5px 5px 5px 15px;
-  color: blue;
+  color: #009688;
 }
 .hadith-name-headline h4 {
   margin: 5px 5px 5px 5px;
@@ -214,8 +300,9 @@ div.col-md-3.left-sidebar {
   border-bottom: 1px solid #dee2e6;
 }
 .book-subject-no {
-  background-color: blue;
+  background-color: #009688;
   color: white;
+  border: 0 !important;
 }
 .book-list-table a {
   color: #343a40;
@@ -224,6 +311,9 @@ div.col-md-3.left-sidebar {
 .book-list-table a:hover {
   color: black;
   text-decoration: none;
+}
+.table td {
+  border-top: 1px solid #009688;
 }
 /* book table end */
 /* book page end 
@@ -242,7 +332,7 @@ div.col-md-3.left-sidebar {
 }
 .box-two .chapter-no {
   float: left;
-  background-color: blue;
+  background-color: #009688;
   color: white;
   padding: 10px 18px;
 }
@@ -294,6 +384,7 @@ p.chapter-subject-details {
 p.hadith-in-arabic {
   margin: 0px 0px 30px 15px;
   font-size: 20px;
+  text-align: justify;
 }
 p.hadith-narrated {
   margin: 0px 0px 20px 15px;
@@ -301,6 +392,7 @@ p.hadith-narrated {
 }
 p.hadith-in-bengali {
   margin: 0px 0px 15px 15px;
+  text-align: justify;
 }
 p.hadith-reference {
   margin: 0px 0px 15px 15px;
@@ -322,7 +414,13 @@ p.hadith-reference {
   color: white;
   padding: 0px 5px;
 }
-.hadith-value-other {
+.hadith-value-hasan {
+  float: left;
+  background-color: green;
+  color: white;
+  padding: 0px 5px;
+}
+.hadith-value-daif {
   float: left;
   background-color: orange;
   color: white;
@@ -333,7 +431,7 @@ p.hadith-reference {
   margin-left: 10px;
 }
 .direct-hadith-link a {
-  color: gray;
+  color:#009688;
   text-decoration: none;
 }
 .direct-hadith-link a:hover {
@@ -346,7 +444,7 @@ p.hadith-reference {
   float: right;
 }
 .report a {
-  color: gray;
+  color: #e05140;
   text-decoration: none;
 }
 .report a:hover {
@@ -357,4 +455,13 @@ p.hadith-reference {
 }
 
 /* chapter page end 
+===================*/
+
+/* search main page begin
+===================*/
+.search-heading i {
+  color: gray;
+  margin: 0px 5px;
+}
+/* search main page end 
 ===================*/

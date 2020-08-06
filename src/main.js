@@ -31,6 +31,11 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 //let uploadPath = 'http://hadith.techsometimes.com/backend/hadithsite/public/';
 let uploadPath = 'http://alhadithbd.com/backend/hadithsite/public/';
 window.uploadPath = uploadPath;
+
+let sharePath = 'http://alhadithbd.com/single-hadith';
+window.sharePath = sharePath;
+
+
 //let loggedInUserId = localStorage.getItem("loggedInUserId");
 //window.loggedInUserId = loggedInUserId;
 //let loggedInUserName = localStorage.getItem("loggedInUserName");
@@ -44,7 +49,14 @@ import VueSocialSharing from 'vue-social-sharing'
 
 Vue.use(VueSocialSharing);
 
+import bnNum from 'bnnum'
+Vue.filter('engToBen', function (value) {
+  // return bnNum(value);
+  return bnNum(value);
+})
+
 Vue.config.productionTip = false
+
 new Vue({
   router,
   render: h => h(App)

@@ -9,7 +9,7 @@
         <div class="hadith-name-headline d-flex mb-3">
           <i class="fa fa-book fa-2x"></i>
           <h4>সার্চের ফলাফল</h4>
-          <p>( {{searchResult.length}} টি  হাদিস )</p>
+          <p>( {{searchResult.length | engToBen(searchResult.length)}} টি  হাদিস )</p>
         </div>
         <!-- <div class="box-two mb-3 mb-3">
           <div class="card">
@@ -29,12 +29,20 @@
         <!-- <div v-for="(hadith, index) in this.$route.query.search_result" :key="index" class="single-hadith-box mb-3"> -->
         <div v-for="(hadith, index) in searchResult" :key="index" class="single-hadith-box mb-3">
             <div class="card mb-3">
-                <div class="card-body">
-                    <div class="box-three d-flex">
-                        <i class="fa fa-book-open fa-2x"></i>
-                        <!-- <h6>{{singleBook.book_name}}/ অধ্যায়ঃ {{singleChapter.chapter_no}}</h6> -->
+                <div class="card-body d-flex">
+                    <div v-for="(book, indexbook) in books" :key="indexbook" class="search-heading">
+                        <h6 v-if="hadith.book_id == book.id">
+                          {{book.book_name}} <i class="fas fa-angle-right"></i>
+                        </h6>
                     </div>
-                    <p class="chapter-subject">{{hadith.hadith_subject}}</p>
+                    <div v-for="(chapter, indexchap) in chapters" :key="indexchap" class="search-heading">
+                      <h6 v-if="hadith.chapter_id == chapter.id">
+                        {{chapter.chapter_name}} <i class="fas fa-angle-right"></i>
+                      </h6>
+                    </div>
+                    <div class="search-heading">
+                      <h6>{{hadith.hadith_no}}</h6>
+                    </div>
                 </div>
             </div>
             <div class="card mb-3">
@@ -42,22 +50,25 @@
                     <div class="box-four">
                         <div class="single-hadith d-flex">
                             <i class="far fa-sun"></i>
-                            <h6>{{hadith.hadith_no}}</h6>
+                            <h6>{{hadith.hadith_no | engToBen(hadith.hadith_no)}}</h6>
                         </div>
                         <p class="hadith-in-arabic">{{hadith.hadith_name_ar}}</p>
                         <p class="hadith-narrated">{{hadith.narrated_by}}</p>
                         <p class="hadith-in-bengali" v-html="highlight(hadith.hadith_name_bn)">{{hadith.hadith_name_bn}}</p>
-                        <p class="hadith-reference">{{hadith.hadith_reference}}</p>
+                        <!-- <p class="hadith-reference">{{hadith.hadith_reference}}</p> -->
                         <div class="hadith-footer">
                             <div class="hadith-value-text">
                                 <p>হাদিসের মানঃ</p>
                             </div>
                             <div v-if="hadith.hadith_value == 1" class="hadith-value-sahi">
                                 সহীহ হাদিস
-                            </div>
-                            <div v-if="hadith.hadith_value == 2" class="hadith-value-other">
-                                অন্যান্য
-                            </div>
+                          </div>
+                          <div v-if="hadith.hadith_value == 2" class="hadith-value-hasan">
+                                হাসান
+                          </div>
+                          <div v-if="hadith.hadith_value == 3" class="hadith-value-daif">
+                                যঈফ
+                          </div>
                             <div class="direct-hadith-link">
                                 <router-link :to="{name:'single-hadith', params:{hadith_id:hadith.id}}"><i class="fa fa-external-link-alt"></i> সরাসরি</router-link>
                             </div>
@@ -119,10 +130,12 @@ import Sidebar from '@/components/Sidebar.vue'
 export default {
   components:{
     Sidebar
-    },
+  },
   data(){
     return {
       searchResult:[],
+      books:[],
+      chapters:[],
       // singleBook:'',
       // singleChapter:''
       isCollapsed: false,
@@ -169,6 +182,8 @@ export default {
       axios.get('/homepagesearch/'+this.$route.params.search_keyword)
         .then(response =>{
          this.searchResult = response.data.searched_hadith;
+         this.books = response.data.fetched_book;
+         this.chapters = response.data.fetched_chapter;
          //this.getSingleBooknChapter(response.data.searched_hadith.id)
         })
     },

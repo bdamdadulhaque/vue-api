@@ -17,7 +17,7 @@
   <body class="d-flex flex-column">
   <header class="mb-5">
   <!-- Fixed navbar -->
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color:blue">
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color:#009688">
     <div class="container">
     <router-link :to="{name:'home'}" class="navbar-brand img-responsive"><img :src="gettedLogo()" height="60px" alt="" srcset=""></router-link>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,7 +26,7 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <router-link :to="{name:'home'}" class="nav-link">Home</router-link>
+          <router-link :to="{name:'home'}" class="nav-link">হোম</router-link>
         </li>
         <li v-for="(menu, index) in menus" :key="index" class="nav-item">
           <a v-if="menu.menu_type == 1" class="nav-link" :href="menu.menu_link" target="_blank">{{menu.menu_name}}</a>

@@ -14,14 +14,17 @@
         <div class="box-two mb-3">
           <div class="card">
             <div class="card-body">
-              <div class="chapter-no">
-                {{singleChapter.chapter_no}}
+              <div v-if="singleChapter.chapter_no != null" class="chapter-no">
+                {{singleChapter.chapter_no | engToBen(singleChapter.chapter_no)}}
               </div>
               <div class="chapter-name">
                 <span><b>{{singleChapter.chapter_name}}</b></span>
               </div>
-              <div class="hadis-from-to">
-                {{singleChapter.hadith_no_begin}} - {{singleChapter.hadith_no_end}}
+              <div v-if="singleChapter.hadith_no_begin != null || singleChapter.hadith_no_end != null" class="hadis-from-to">
+                {{singleChapter.hadith_no_begin | engToBen(singleChapter.hadith_no_begin)}} - {{singleChapter.hadith_no_end | engToBen(singleChapter.hadith_no_end)}}
+              </div>
+              <div v-else class="hadis-from-to">
+                 - 
               </div>
             </div>
           </div>
@@ -31,7 +34,7 @@
                 <div class="card-body">
                     <div class="box-three d-flex">
                         <i class="fa fa-book-open fa-2x"></i>
-                        <h6>{{singleChapter.id}}/{{index+1}} অধ্যায়ঃ</h6>
+                        <h6>{{singleChapter.chapter_no | engToBen(singleChapter.chapter_no)}}/{{index+1 | engToBen(index+1)}} অধ্যায়ঃ</h6>
                     </div>
                     <p class="chapter-subject">{{hadith.hadith_subject}}</p>
                     <p class="chapter-subject-details">{{hadith.hadith_subject_details}}</p>
@@ -43,33 +46,35 @@
                     <div class="box-four">
                         <div class="single-hadith d-flex">
                             <i class="far fa-sun"></i>
-                            <h6>{{hadith.hadith_no}}</h6>
+                            <h6>{{hadith.hadith_no | engToBen(hadith.hadith_no)}}</h6>
 
-                            <!-- <div class="hello"> -->
-                            <!-- <facebook :url="url" scale="3"></facebook> -->
+                            <div class="hello">
+                            <!-- <facebook :url="0`${hadith.id}`" scale="3"></facebook> -->
                             <!-- <twitter :url="url" title="Check me on Github" scale="3"></twitter>
                             <linkedin :url="url" scale="3"></linkedin>
                             <whats-app :url="url" title="Hello" scale="3"></whats-app>
                             <pinterest :url="url" scale="3"></pinterest>
-                            <email :url="url" subject="Hello" scale="3"></email> -->
-                          <!-- </div> -->
-
+                            <email :url="url" subject="Hello" scale="3"></email>-->
+                          </div>
 
 
                         </div>
                         <p class="hadith-in-arabic">{{hadith.hadith_name_ar}}</p>
                         <p class="hadith-narrated">{{hadith.narrated_by}}</p>
-                        <p class="hadith-in-bengali">{{hadith.hadith_name_bn}}</p>
-                        <p class="hadith-reference">{{hadith.hadith_reference}}</p>
+                        <p class="hadith-in-bengali" v-html="hadith.hadith_name_bn">{{hadith.hadith_name_bn}}</p>
+                        <!-- <p class="hadith-reference">{{hadith.hadith_reference}}</p> -->
                         <div class="hadith-footer">
                           <div class="hadith-value-text">
                               <p>হাদিসের মানঃ</p>
                           </div>
                           <div v-if="hadith.hadith_value == 1" class="hadith-value-sahi">
-                              সহীহ হাদিস
+                                সহীহ হাদিস
                           </div>
-                          <div v-if="hadith.hadith_value == 2" class="hadith-value-other">
-                              অন্যান্য
+                          <div v-if="hadith.hadith_value == 2" class="hadith-value-hasan">
+                                হাসান
+                          </div>
+                          <div v-if="hadith.hadith_value == 3" class="hadith-value-daif">
+                                যঈফ
                           </div>
                           <div class="direct-hadith-link">
                               <!-- <a href="#"><i class="fa fa-external-link-alt"></i> সরাসরি</a> -->
@@ -129,31 +134,18 @@
   </div>
 </template>
 <script>
-//import bnNum from 'bnnum'
-import {
-  Facebook,
-  Twitter,
-  Linkedin,
-  Pinterest,
-  WhatsApp,
-  Email
-} from "vue-socialmedia-share";
-import Sidebar from '@/components/Sidebar.vue'
+import {Facebook,Twitter,Linkedin,Pinterest,WhatsApp,Email} from "vue-socialmedia-share";
+import Sidebar from '@/components/Sidebar.vue';
 export default {
-  filters: {
-  engToBen: function (value) {
-    return value;
-  }
-},
-    components:{
+   components:{
         Sidebar,
-        Facebook,
+        Facebook
         //Twitter,
         //Linkedin,
         //Pinterest,
         //WhatsApp,
         //Email
-    },
+   },
     data(){
         return {
           singleBook:'',
@@ -172,7 +164,8 @@ export default {
             //book_name:''
             hadith_id:''
           }),
-          url: 'http://alhadithbd.com/single-hadith/21'
+          // url: 'http://alhadithbd.com/single-hadith/21'
+          url: 'http://alhadithbd.com/single-hadith/'
         }
     },
     methods:{
@@ -232,7 +225,7 @@ export default {
 }
 </script>
 <style scoped>
-h1,
+/* h1,
 h2 {
   font-weight: normal;
 }
@@ -249,5 +242,5 @@ a {
 }
 .hello > span {
   padding: 1em;
-}
+} */
 </style>
