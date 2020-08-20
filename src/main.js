@@ -45,15 +45,29 @@ window.Form = Form;
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
+
+import VueMeta from 'vue-meta'
+Vue.use(VueMeta)
+
 import VueSocialSharing from 'vue-social-sharing'
 
-Vue.use(VueSocialSharing);
+//Vue.use(VueSocialSharing);
+
+Vue.use(VueSocialSharing, {
+  networks: {
+    fakeblock: 'https://fakeblock.com/share?url=@url&title=@title'
+  }
+})
+
+
 
 import bnNum from 'bnnum'
 Vue.filter('engToBen', function (value) {
   // return bnNum(value);
   return bnNum(value);
 })
+
+Vue.component('pagination', require('laravel-vue-pagination'));
 
 Vue.config.productionTip = false
 

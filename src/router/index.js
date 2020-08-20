@@ -181,6 +181,31 @@ const routes = [
         component:() => import('../views/admin/hadith/Hadith-list.vue')
       },
       {
+        path:'hadith-list-one',
+        name:'hadith-list-one',
+        component:() => import('../views/admin/hadith/Hadith-list-one.vue')
+      },
+      {
+        path:'hadith-list-two',
+        name:'hadith-list-two',
+        component:() => import('../views/admin/hadith/Hadith-list-two.vue')
+      },
+      {
+        path:'hadith-list-three',
+        name:'hadith-list-three',
+        component:() => import('../views/admin/hadith/Hadith-list-three.vue')
+      },
+      {
+        path:'hadith-list-four',
+        name:'hadith-list-four',
+        component:() => import('../views/admin/hadith/Hadith-list-four.vue')
+      },
+      {
+        path:'hadith-list-five',
+        name:'hadith-list-five',
+        component:() => import('../views/admin/hadith/Hadith-list-five.vue')
+      },
+      {
         path:'hadith-edit/:hadith_id',
         name:'hadith-edit',
         component:() => import('../views/admin/hadith/Hadith-edit.vue'),

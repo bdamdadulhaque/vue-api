@@ -118,7 +118,7 @@ form.home-big-search button {
 /* bello home big search begin */
 
 
-.home-daily-hadith p {
+#home-daily-hadith p {
   margin: 10px;
 }
 .home-search .nav-pills .active {
@@ -132,7 +132,7 @@ form.home-big-search button {
   color: gray;
   margin: 0px 0px 0px 10px;
 }
-.tab-content #home {
+.tab-content #home-daily-hadith {
   border: 1px solid #009688;
   background-color:#00968829;
 }
@@ -140,14 +140,43 @@ form.home-big-search button {
 
 /* home book list begin */
 .book-left {
-  padding: 0px 40px;
+  padding: 0px 0px 0px 40px;
   margin: 15px 0px;
 }
 .book-right {
-  padding: 0px 40px;
+  padding: 0px 40px 0px 0px;
   margin: 15px 0px;
+}
+/* Mobile devices (max width 991px ) */
+@media (max-width: 991px) {
+  #home-dh-nav {
+    display: none;
+  }
+  #home-daily-hadith {
+    display: none;
+  }
+
+
+
+  .book-left {
+    padding: 0px;
+    margin: 0px 15px;
+  }
+  .book-right {
+    padding: 0px;
+    margin: 0px 15px;
+  }
+  .home-book-item-left{
+    margin-bottom: 10px;
+  }
+  .home-book-item-right{
+    margin-bottom: 10px;
+  }
+
 
 }
+
+
 .home-book-item-left{
   border: 2px solid #00968838;
   padding: 5px;
@@ -218,8 +247,7 @@ form.home-big-search button {
 
 
 #hadith-book {
-  /* max-height: 355px; */
-  max-height: 200px;
+  max-height: 375px;
   overflow: scroll;
 }
 div.col-md-3.left-sidebar {
@@ -241,27 +269,23 @@ div.col-md-3.left-sidebar {
   border: 1px solid #00968869;
 }
 
-.sidebar-daily-hadith {
+/* .sidebar-daily-hadith {
   border: 1px solid #dee2e6;
   background-color: #F8F9FA;
   max-height: 300px;
   overflow: auto;
-}
-/* Large devices (desktops, 991px and up) */
+} */
+/* Mobile devices (max width 991px ) */
 @media (max-width: 991px) {
-  .sidebar-daily-hadith { 
+  /* .sidebar-daily-hadith { 
     display: none;
-  }
+  } */
   #hadith-book {
     display: none;
   }
-  #home {
-    display: none;
-  }
-
 }
 
-.sidebar-daily-hadith h6 {
+/* .sidebar-daily-hadith h6 {
   margin: 10px;
 }
 .sidebar-daily-hadith span {
@@ -269,7 +293,7 @@ div.col-md-3.left-sidebar {
 }
 .sidebar-daily-hadith p {
   margin: 10px;
-}
+} */
 /* left sidebar end */
 
 
@@ -296,8 +320,8 @@ div.col-md-3.left-sidebar {
 /* book heading end */
 /* book table begin */
 .book-list-table {
-  border-right: 1px solid #dee2e6; 
-  border-bottom: 1px solid #dee2e6;
+  border-right: 1px solid #9E9E9E; 
+  border-bottom: 1px solid #9E9E9E;
 }
 .book-subject-no {
   background-color: #009688;
@@ -313,7 +337,7 @@ div.col-md-3.left-sidebar {
   text-decoration: none;
 }
 .table td {
-  border-top: 1px solid #009688;
+  border-top: 1px solid #9E9E9E;
 }
 /* book table end */
 /* book page end 
@@ -371,7 +395,11 @@ p.chapter-subject-details {
 }
 
 
-.single-hadith i {
+/* .single-hadith i {
+  margin: 12px 5px 5px 10px;
+  color: grey;
+} */
+.hadith-no-icon {
   margin: 12px 5px 5px 10px;
   color: grey;
 }

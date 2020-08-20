@@ -10,7 +10,7 @@
                 <div class="d-flex justify-content-between">
                   <h3 class="card-title">Hadith List</h3>
                   <div>
-                    <router-link :to="{name:'hadith-list-five'}" class="btn btn-xs btn-secondary d-inline-block mr-1">
+                    <router-link :to="{name:'hadith-list-five'}" class="btn btn-xs btn-danger d-inline-block mr-1">
                       5
                     </router-link>
                     <router-link :to="{name:'hadith-list-four'}" class="btn btn-xs btn-secondary d-inline-block mr-1">
@@ -25,7 +25,7 @@
                     <router-link :to="{name:'hadith-list-one'}" class="btn btn-xs btn-secondary d-inline-block mr-1">
                       1
                     </router-link>
-                    <router-link :to="{name:'hadith-list'}" class="btn btn-xs btn-danger d-inline-block mr-1">
+                    <router-link :to="{name:'hadith-list'}" class="btn btn-xs btn-secondary d-inline-block mr-1">
                       Last 25
                     </router-link>
                     <router-link :to="{name:'hadith-add'}" v-if="userRole == 1 || userRole == 2" class="btn btn-xs btn-success d-inline-block mr-2">
@@ -122,10 +122,11 @@ export default {
   },
   methods:{
     hadithList(){
-      axios.get('/hadith')
+      axios.get('/hadithfive')
         .then(response =>{
           console.log("fetched hadith "+response.data.fetched_hadith)
           this.hadiths = response.data.fetched_hadith;
+          console.log("begin"+response.data.step_begin)
           // data table
           $(function() {
             if($.fn.dataTable.isDataTable('#example')){

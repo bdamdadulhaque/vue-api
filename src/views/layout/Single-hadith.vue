@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-    <div class="row">
+    <div class="row mb-5">
       <!-- Begin left sidebar -->
       <Sidebar/>
       <!-- End left sidebar -->
@@ -39,9 +39,25 @@
             <div class="card">
                 <div class="card-body">
                     <div class="box-four">
-                        <div v-if="singleHadith.hadith_no != null" class="single-hadith d-flex">
-                            <i class="far fa-sun"></i>
+                        <div v-if="singleHadith.hadith_no != null" class="single-hadith d-flex justify-content-between">
+                          <div class="d-flex">
+                            <i class="hadith-no-icon far fa-sun"></i>
                             <h6>{{singleHadith.hadith_no | engToBen(singleHadith.hadith_no)}}</h6>
+                          </div>
+                          <div class="share-network-list">
+                            <ShareNetwork v-for="network in networks"
+                              :network="network.network"
+                              :key="network.network"
+                              :style="{backgroundColor: network.color}"
+                              :url="'http://alhadithbd.com/single-hadith/'+singleHadith.id"
+                              :title="sharing.title"
+                              :description="`${singleHadith.hadith_name_bn}`"
+                              :twitterUser="sharing.twitterUser"
+                            >
+                              <i :class="network.icon"></i>
+                              <!-- <span>{{ network.name }}</span> -->
+                            </ShareNetwork>
+                          </div>
                         </div>
                         <p class="hadith-in-arabic">{{singleHadith.hadith_name_ar}}</p>
                         <p class="hadith-narrated">{{singleHadith.narrated_by}}</p>
@@ -122,6 +138,7 @@ export default {
       singleBook:'',
       hadithCount:'',
       singleChapter:'',
+      // singleHadith:'',
       singleHadith:'',
       form: new Form({
         report_type: '',
@@ -133,7 +150,40 @@ export default {
         // book_name:'',
         hadith_id:''
       }),
-      reportBox:true
+      reportBox:true,
+       sharing: {
+      //   // url: 'http://localhost:8080/single-hadith/'+this.$route.params.hadith_id,
+      //   url: 'http://alhadithbd.com/single-hadith/'+singleHadith.id,
+      title: 'AlHadithBd',
+      //   title:`${singleHadith.hadith_subject} - AlhadithBD`,
+      //   description: `${this.singleHadith.hadith_name_bn}`,
+      //   quote: 'This is quote', // this show 'This is quote'
+      //   hashtags: 'hastag1, hashtag2', // this show hastag1
+         twitterUser: 'youyuxi'
+       },
+      networks: [
+      { network: 'facebook', name: 'Facebook', icon: 'fab fah fa-lg fa-facebook', color: '#1877f2' },
+      { network: 'twitter', name: 'Twitter', icon: 'fab fah fa-lg fa-twitter', color: 'rgba(29,161,242,1.00)' }
+      ]
+    }
+  },
+  //insert the following code for vue-meta to work
+  metaInfo() {
+    return {
+      // title: `${this.singleHadith.hadith_subject} - AlhadithBD`,
+      title: 'AlHadithBd.com',
+      meta: [
+        // { name: 'description', content: 'Connect and follow ' + this.singleHadith.hadith_subject + ' on AlhadithBD'},
+        { name: 'description', content: this.singleHadith.hadith_subject},
+        // { property: 'og:title', content: this.singleHadith.hadith_subject + ' - AlhadithBD'},
+        { property: 'og:title', content: 'AlHadithBd.com'},
+        { property: 'og:site_name', content: 'AlhadithBD'},
+        // { property: 'og:description', content: 'Connect and follow ' + this.singleHadith.hadith_name_bn + ' on AlhadithBD'},
+        { property: 'og:description', content: this.singleHadith.hadith_name_bn },
+        { property: 'og:type', content: 'website'},
+        { property: 'og:url', content: 'http://alhadithbd.com/single-hadith/' + this.singleHadith.id},
+       // { property: 'og:image', content: this.aws_url + '/users/' + this.userData.profileurl + '-main.jpg' }    
+      ]
     }
   },
   watch: {
@@ -152,14 +202,16 @@ export default {
           //this.form.chapter_no = response.data.fetched_single_chapter.chapter_no;
           this.singleHadith = response.data.fetched_single_hadith;
           //this.form.hadith_no = response.data.fetched_single_hadith.hadith_no;
+          //this.sharing.description = response.data.fetched_single_hadith.hadith_name_bn;
+          //this.sharing.title = response.data.fetched_single_hadith.hadith_subject;
         })
         .catch(error => {
-          iziToast.error({
-          title: "Error",
-          message: "Something wrong, record not fetched!",
-          position: "topRight",
-          timeout: 2000
-          });
+          // iziToast.error({
+          // title: "Error",
+          // message: "Something wrong, record not fetched!",
+          // position: "topRight",
+          // timeout: 2000
+          // });
         });
     },
     reportSend(hadithId) {
@@ -189,3 +241,39 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .share-network-list {
+    display: flex;
+    /* flex-direction: row; */
+    /* flex-wrap: wrap; */
+    justify-content: center;
+    /* max-width: 1000px; */
+    /* margin: auto; */
+  }
+  a[class^="share-network-"] {
+    flex: none;
+    color: #FFFFFF;
+    background-color: #333;
+    border-radius: 35px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 0 7px 7px 0;
+  }
+  a[class^="share-network-"] .fah {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 7px;
+    flex: 0 1 auto;
+  }
+  a[class^="share-network-"] span {
+    padding: 0 7px;
+    flex: 1 1 0%;
+    font-weight: 500;
+  }
+  .fa-lg {
+    line-height: 1em;
+  }
+</style>

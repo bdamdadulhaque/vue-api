@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-    <div class="row">
+    <div class="row mb-5">
       <!-- Begin left sidebar -->
       <Sidebar/>
       <!-- End left sidebar -->

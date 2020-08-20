@@ -10,24 +10,6 @@
                 <div class="d-flex justify-content-between">
                   <h3 class="card-title">Hadith List</h3>
                   <div>
-                    <router-link :to="{name:'hadith-list-five'}" class="btn btn-xs btn-secondary d-inline-block mr-1">
-                      5
-                    </router-link>
-                    <router-link :to="{name:'hadith-list-four'}" class="btn btn-xs btn-secondary d-inline-block mr-1">
-                      4
-                    </router-link>
-                    <router-link :to="{name:'hadith-list-three'}" class="btn btn-xs btn-secondary d-inline-block mr-1">
-                      3
-                    </router-link>
-                    <router-link :to="{name:'hadith-list-two'}" class="btn btn-xs btn-secondary d-inline-block mr-1">
-                      2
-                    </router-link>
-                    <router-link :to="{name:'hadith-list-one'}" class="btn btn-xs btn-secondary d-inline-block mr-1">
-                      1
-                    </router-link>
-                    <router-link :to="{name:'hadith-list'}" class="btn btn-xs btn-danger d-inline-block mr-1">
-                      Last 25
-                    </router-link>
                     <router-link :to="{name:'hadith-add'}" v-if="userRole == 1 || userRole == 2" class="btn btn-xs btn-success d-inline-block mr-2">
                       <i class="fas fa-plus"></i> Add New
                     </router-link>
@@ -53,7 +35,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(hadith, index) in hadiths" :key="index">
+                  <tr v-for="(hadith, index) in laravelData.data" :key="index">
                     <td>
                       <span v-if="hadith.hadith_no != null">{{hadith.hadith_no}}</span>
                       <span v-else>N/A</span>
@@ -97,6 +79,13 @@
                   </tr>
                 </tfoot>
               </table>
+
+              <!-- <pagination :data="laravelData" @pagination-change-page="getResults"></pagination> -->
+              <pagination :data="laravelData">
+	<span slot="prev-nav">&lt; Previous</span>
+	<span slot="next-nav">Next &gt;</span>
+</pagination>
+
               </div>
               <!-- /.card-body -->
             </div>
@@ -117,46 +106,57 @@ export default {
     return{
       hadiths:[],
       moment,
-      userRole:localStorage.getItem('userRole')
+      userRole:localStorage.getItem('userRole'),
+      // Our data object that holds the Laravel paginator data
+			laravelData: {},
     }
   },
   methods:{
+    // Our method to GET results from a Laravel endpoint
+		getResults() {
+			axios.get('/hadith')
+				.then(response => {
+					this.laravelData = response.data.fetched_hadith;
+				});
+    },
+    
+
     hadithList(){
       axios.get('/hadith')
         .then(response =>{
           console.log("fetched hadith "+response.data.fetched_hadith)
           this.hadiths = response.data.fetched_hadith;
           // data table
-          $(function() {
-            if($.fn.dataTable.isDataTable('#example')){
-              var table = $('#example').DataTable();
-            }
-            else{
-              table = $('#example').DataTable({
-                paging: true,
-                "order":[[0,"desc"]],
-                dom: 'Bfrtip',
-                initComplete: function () {
-                    this.api().columns([0, 1, 2, 4, 5]).every( function () {
-                        var column = this;
-                        var select = $('<select><option value="">All</option></select>')
-                            .appendTo( $(column.header()).empty() )
-                            .on( 'change', function () {
-                                var val = $.fn.dataTable.util.escapeRegex(
-                                    $(this).val()
-                                );
-                                column
-                                    .search( val ? '^'+val+'$' : '', true, false )
-                                    .draw();
-                            } );  
-                        column.data().unique().sort().each( function ( d, j ) {
-                            select.append( '<option value="'+d+'">'+d+'</option>' )
-                        } );
-                    } );
-                }
-              });
-            }
-          });
+          // $(function() {
+          //   if($.fn.dataTable.isDataTable('#example')){
+          //     var table = $('#example').DataTable();
+          //   }
+          //   else{
+          //     table = $('#example').DataTable({
+          //       paging: true,
+          //       "order":[[0,"asc"]],
+          //       dom: 'Bfrtip',
+          //       initComplete: function () {
+          //           this.api().columns([0, 1, 2, 4, 5]).every( function () {
+          //               var column = this;
+          //               var select = $('<select><option value="">All</option></select>')
+          //                   .appendTo( $(column.header()).empty() )
+          //                   .on( 'change', function () {
+          //                       var val = $.fn.dataTable.util.escapeRegex(
+          //                           $(this).val()
+          //                       );
+          //                       column
+          //                           .search( val ? '^'+val+'$' : '', true, false )
+          //                           .draw();
+          //                   } );  
+          //               column.data().unique().sort().each( function ( d, j ) {
+          //                   select.append( '<option value="'+d+'">'+d+'</option>' )
+          //               } );
+          //           } );
+          //       }
+          //     });
+          //   }
+          // });
         // data table
       })
       .catch(error => {
@@ -217,6 +217,8 @@ export default {
   },
   mounted(){
     this.hadithList();
+    // Fetch initial results
+		this.getResults();
   }
 }
 </script>

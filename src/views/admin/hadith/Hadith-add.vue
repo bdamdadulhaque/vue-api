@@ -31,7 +31,7 @@
                       <label for="hadithChapter">Chapter <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
                       <select v-model="form.chapter_id" name="chapter_id" :class="{'is-invalid': form.errors.has('chapter_id')}" class="form-control" id="hadithChapter">
                         <option disabled value="">Select Chapter</option>
-                        <option v-for="(chapter,index) in chapters" :key="index" :value="chapter.id">{{chapter.chapter_name}}</option>
+                        <option v-for="(chapter,index) in chapters" :key="index" :value="chapter.id">{{chapter.chapter_no}} - {{chapter.chapter_name}}</option>
                       </select>
                       <has-error :form="form" field="chapter_id"></has-error>
                     </div>

@@ -31,8 +31,6 @@
                     </div> -->
                 </div>
 
-                
-
 
                 <div id="search-hadith" class="container tab-pane fade">
                 <form @submit.prevent="searchByHadithNo()">
@@ -46,11 +44,10 @@
                 </div>
             </div>
             <!--Begin daily hadith -->
-            <div class="sidebar-daily-hadith">
+            <!-- <div class="sidebar-daily-hadith">
                 <h6><span>Daily Hadith:</span> {{dailyHadithData.daily_hadith_date}}</h6>
-                <!-- <p><b>Narrted:</b> {{dailyHadithData.narrated_by}}</p> -->
                 <p>{{dailyHadithData.daily_hadith}}.. <a v-if="dailyHadithData.daily_hadith_link != null" :href="dailyHadithData.daily_hadith_link">Details</a></p>
-            </div> 
+            </div>  -->
             <!--End daily hadith --> 
 
         </div><!-- End left sidebar -->

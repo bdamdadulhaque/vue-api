@@ -19,22 +19,22 @@
         <div class="col-md-8 offset-md-2 home-search">
             <!-- Nav pills -->
             <ul class="nav nav-pills justify-content-center" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" data-toggle="pill" href="#home">Daily Hadith <span class="nav-item-separator">|</span></a>
+            <li id="home-dh-nav" class="nav-item">
+                <a class="nav-link active" data-toggle="pill" href="#home-daily-hadith">Daily Hadith <span class="nav-item-separator">|</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#menu1">Advance Search <span class="nav-item-separator">|</span></a>
+                <a class="nav-link" data-toggle="pill" href="#home-advance-search">Advance Search <span class="nav-item-separator">|</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#menu2">Search by Hadith No.</a>
+                <a class="nav-link" data-toggle="pill" href="#home-search-by-hadith-no">Search by Hadith No.</a>
             </li>
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
-            <div id="home" class="container tab-pane active home-daily-hadith">
+            <div id="home-daily-hadith" class="container tab-pane active">
                 <p>{{dailyHadithRow.daily_hadith}}</p>
             </div>
-            <div id="menu1" class="container tab-pane fade">
+            <div id="home-advance-search" class="container tab-pane fade">
               <form @submit.prevent="advanceSearch()" class="form-inline">
                 <label for="books" class="mb-2 mr-sm-2 offset-sm-2">Books:</label>
                 <select v-model="book_id" name="book_id" class="form-control mb-2 mr-sm-2" id="books" @change="getChapters()">
@@ -49,7 +49,7 @@
                 <button type="submit" class="btn btn-primary mb-2">Go</button>
               </form>
             </div>
-            <div id="menu2" class="container tab-pane fade">
+            <div id="home-search-by-hadith-no" class="container tab-pane fade">
               <form @submit.prevent="searchByHadithNo()" class="form-inline">
                 <label for="books" class="mb-2 mr-sm-2 offset-sm-1">Books:</label>
                 <!-- <input type="text" class="form-control mb-2 mr-sm-2" id="books" name="books"> -->

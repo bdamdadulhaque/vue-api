@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-    <div class="row">
+    <div class="row mb-5">
       <!-- Begin left sidebar -->
       <Sidebar/>
       <!-- End left sidebar -->
@@ -44,17 +44,24 @@
             <div v-if="hadith.hadith_no != null && hadith.hadith_name_ar != null && hadith.narrated_by != null && hadith.hadith_name_bn != null" class="card">
                 <div class="card-body">
                     <div class="box-four">
-                        <div class="single-hadith d-flex">
-                            <i class="far fa-sun"></i>
+                        <div class="single-hadith d-flex justify-content-between">
+                          <div class="d-flex">
+                            <i class="hadith-no-icon  far fa-sun"></i>
                             <h6>{{hadith.hadith_no | engToBen(hadith.hadith_no)}}</h6>
-
-                            <div class="hello">
-                            <!-- <facebook :url="0`${hadith.id}`" scale="3"></facebook> -->
-                            <!-- <twitter :url="url" title="Check me on Github" scale="3"></twitter>
-                            <linkedin :url="url" scale="3"></linkedin>
-                            <whats-app :url="url" title="Hello" scale="3"></whats-app>
-                            <pinterest :url="url" scale="3"></pinterest>
-                            <email :url="url" subject="Hello" scale="3"></email>-->
+                          </div>
+                          <div class="share-network-list">
+                            <ShareNetwork v-for="network in networks"
+                              :network="network.network"
+                              :key="network.network"
+                              :style="{backgroundColor: network.color}"
+                              :url="'http://alhadithbd.com/single-hadith/'+hadith.id"
+                              :title="sharing.title"
+                              :description="`${hadith.hadith_name_bn}`"
+                              :twitterUser="sharing.twitterUser"
+                            >
+                              <i :class="network.icon"></i>
+                              <!-- <span>{{ network.name }}</span> -->
+                            </ShareNetwork>
                           </div>
 
 
@@ -164,8 +171,20 @@ export default {
             //book_name:''
             hadith_id:''
           }),
-          // url: 'http://alhadithbd.com/single-hadith/21'
-          url: 'http://alhadithbd.com/single-hadith/'
+           sharing: {
+      //   // url: 'http://localhost:8080/single-hadith/'+this.$route.params.hadith_id,
+      //   url: 'http://alhadithbd.com/single-hadith/'+singleHadith.id,
+      title: 'AlHadithBd',
+      //   title:`${singleHadith.hadith_subject} - AlhadithBD`,
+      //   description: `${this.singleHadith.hadith_name_bn}`,
+      //   quote: 'This is quote', // this show 'This is quote'
+      //   hashtags: 'hastag1, hashtag2', // this show hastag1
+         twitterUser: 'youyuxi'
+       },
+      networks: [
+      { network: 'facebook', name: 'Facebook', icon: 'fab fah fa-lg fa-facebook', color: '#1877f2' },
+      { network: 'twitter', name: 'Twitter', icon: 'fab fah fa-lg fa-twitter', color: 'rgba(29,161,242,1.00)' }
+      ]
         }
     },
     methods:{
@@ -225,22 +244,38 @@ export default {
 }
 </script>
 <style scoped>
-/* h1,
-h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-.hello > span {
-  padding: 1em;
-} */
+  .share-network-list {
+    display: flex;
+    /* flex-direction: row; */
+    /* flex-wrap: wrap; */
+    justify-content: center;
+    /* max-width: 1000px; */
+    /* margin: auto; */
+  }
+  a[class^="share-network-"] {
+    flex: none;
+    color: #FFFFFF;
+    background-color: #333;
+    border-radius: 35px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 0 7px 7px 0;
+  }
+  a[class^="share-network-"] .fah {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 7px;
+    flex: 0 1 auto;
+  }
+  a[class^="share-network-"] span {
+    padding: 0 7px;
+    flex: 1 1 0%;
+    font-weight: 500;
+  }
+  .fa-lg {
+    line-height: 1em;
+  }
 </style>
