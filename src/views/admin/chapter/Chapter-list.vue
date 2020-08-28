@@ -27,9 +27,10 @@
                     <th>Chapter Id</th>
                     <th>Chapter No</th>
                     <th>Chapter Name</th>
+                    <th>Chapter Name En</th>
                     <th>Book</th>
-                    <th>Created By</th>
-                    <th>Updated By</th>
+                    <!-- <th>Created By</th>
+                    <th>Updated By</th> -->
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -39,12 +40,13 @@
                     <td>{{chapter.id}}</td>
                     <td>{{chapter.chapter_no}}</td>
                     <td>{{chapter.chapter_name}}</td>
+                    <td>{{chapter.chapter_name_en}}</td>
                     <td>{{chapter.book.book_name}}</td>
-                    <td>{{chapter.created_user.name}}</td>
-                    <td>
+                    <!-- <td>{{chapter.created_user.name}}</td> -->
+                    <!-- <td>
                       <span v-if="chapter.updated_by != null">{{chapter.updated_user.name}}</span>
                       <span v-else>Not Updated</span>
-                    </td>
+                    </td> -->
                     <td>
                       <span v-if="chapter.chapter_status == 1" class="badge bg-success">Active</span>
                       <span v-if="chapter.chapter_status == 0" class="badge bg-warning">Inactive</span>
@@ -65,9 +67,10 @@
                     <th>Chapter Id</th>
                     <th>Chapter No</th>
                     <th>Chapter Name</th>
+                    <th>Chapter Name En</th>
                     <th>Book</th>
-                    <th>Created By</th>
-                    <th>Updated By</th>
+                    <!-- <th>Created By</th>
+                    <th>Updated By</th> -->
                     <th>Status</th>
                     <th>Action</th>
                   </tr>

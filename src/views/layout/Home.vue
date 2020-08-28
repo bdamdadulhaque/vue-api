@@ -69,12 +69,12 @@
         <div class="row home-book">
           <div class="col-md-6 book-left">
             <div v-for="(book, index) in booksLeft" :key="index" class="home-book-item-left">
-              <router-link :to="{name:'books', params:{book_id:book.id}}" class="home-book-align"> {{book.book_name}}</router-link>
+              <router-link :to="{name:'books', params:{book_id:book.id, book_name:book.book_name_en}}" class="home-book-align"> {{book.book_name}}</router-link>
             </div>
           </div>
           <div class="col-md-6 book-right">
             <div v-for="(book, index) in booksRight" :key="index" class="home-book-item-right">
-              <router-link :to="{name:'books', params:{book_id:book.id}}" class="home-book-align"> {{book.book_name}}</router-link>
+              <router-link :to="{name:'books', params:{book_id:book.id, book_name:book.book_name_en}}" class="home-book-align"> {{book.book_name}}</router-link>
             </div>
           </div>
         </div>

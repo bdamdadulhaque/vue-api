@@ -54,7 +54,7 @@
                               :network="network.network"
                               :key="network.network"
                               :style="{backgroundColor: network.color}"
-                              :url="'http://alhadithbd.com/single-hadith/'+hadith.id"
+                              :url="'http://alhadithbd.com/books/' + singleBook.book_name_en + 'hadith/' + hadith.hadith_no"
                               :title="sharing.title"
                               :description="`${hadith.hadith_name_bn}`"
                               :twitterUser="sharing.twitterUser"
@@ -85,7 +85,7 @@
                           </div>
                           <div class="direct-hadith-link">
                               <!-- <a href="#"><i class="fa fa-external-link-alt"></i> সরাসরি</a> -->
-                              <router-link :to="{name:'single-hadith', params:{hadith_id:hadith.id}}"><i class="fa fa-external-link-alt"></i> সরাসরি</router-link>
+                              <router-link :to="{name:'single-hadith', params:{hadith_id:hadith.id, hadith_no:hadith.hadith_no, book_name:singleBook.book_name_en}}"><i class="fa fa-external-link-alt"></i> সরাসরি</router-link>
                           </div>
                           <div class="report">
                             <!-- <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">

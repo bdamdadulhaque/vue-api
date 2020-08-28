@@ -49,7 +49,7 @@
                               :network="network.network"
                               :key="network.network"
                               :style="{backgroundColor: network.color}"
-                              :url="'http://alhadithbd.com/single-hadith/'+singleHadith.id"
+                              :url="'http://alhadithbd.com/books/' + singleBook.book_name_en + 'hadith/'+singleHadith.hadith_no"
                               :title="sharing.title"
                               :description="`${singleHadith.hadith_name_bn}`"
                               :twitterUser="sharing.twitterUser"
@@ -136,6 +136,7 @@ export default {
   data(){
     return {
       singleBook:'',
+      bookName:'',
       hadithCount:'',
       singleChapter:'',
       // singleHadith:'',
@@ -174,14 +175,14 @@ export default {
       title: 'AlHadithBd.com',
       meta: [
         // { name: 'description', content: 'Connect and follow ' + this.singleHadith.hadith_subject + ' on AlhadithBD'},
-        { name: 'description', content: this.singleHadith.hadith_subject},
+        { name: 'description', content: this.singleHadith.hadith_name_bn},
         // { property: 'og:title', content: this.singleHadith.hadith_subject + ' - AlhadithBD'},
         { property: 'og:title', content: 'AlHadithBd.com'},
         { property: 'og:site_name', content: 'AlhadithBD'},
         // { property: 'og:description', content: 'Connect and follow ' + this.singleHadith.hadith_name_bn + ' on AlhadithBD'},
         { property: 'og:description', content: this.singleHadith.hadith_name_bn },
         { property: 'og:type', content: 'website'},
-        { property: 'og:url', content: 'http://alhadithbd.com/single-hadith/' + this.singleHadith.id},
+        { property: 'og:url', content: 'http://alhadithbd.com/books/' + this.bookName + '/hadith/' + this.singleHadith.hadith_no},
        // { property: 'og:image', content: this.aws_url + '/users/' + this.userData.profileurl + '-main.jpg' }    
       ]
     }
@@ -196,7 +197,7 @@ export default {
       axios.get("/singlehadith/"+this.$route.params.hadith_id)
         .then(response => {
           this.singleBook = response.data.fetched_single_book;
-          //this.form.book_name = response.data.fetched_single_book.book_name;
+          this.bookName = response.data.fetched_single_book.book_name_en;
           this.hadithCount = response.data.fetched_hadith_count;
           this.singleChapter = response.data.fetched_single_chapter;
           //this.form.chapter_no = response.data.fetched_single_chapter.chapter_no;

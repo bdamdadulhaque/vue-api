@@ -25,6 +25,11 @@
                       <has-error :form="form" field="book_name"></has-error>
                     </div>
                     <div class="form-group col-md-4">
+                      <label for="bookNameEn">Book Name En <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
+                      <input v-model="form.book_name_en" name="book_name_en" :class="{'is-invalid': form.errors.has('book_name_en')}" type="text" class="form-control" id="bookNameEn" placeholder="Enter book by english language"/>
+                      <has-error :form="form" field="book_name_en"></has-error>
+                    </div>
+                    <div class="form-group col-md-4">
                       <label for="bookStatus" class="mr-4">Status</label><br>
                       <div class="custom-control custom-radio custom-control-inline">
                         <input v-model="form.book_status" value="1" type="radio" id="customRadioInline1" name="book_status" class="custom-control-input">
@@ -74,6 +79,7 @@ export default {
     return {
       form: new Form({
         book_name: '',
+        book_name_en: '',
         book_status: '',
         updated_by: ''
       })

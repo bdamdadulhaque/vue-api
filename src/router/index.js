@@ -43,12 +43,15 @@ const routes = [
         component:() => import('../views/layout/Home.vue')
       },
       {
-        path:'books/:book_id',
+        path:'books/:book_name/:book_id',
+        // path: "/account/:id/todo/:todoId",
         name:'books',
         component:() => import('../views/layout/Books.vue')
       },
       {
-        path:'chapters/:chapter_id',
+        // path:'chapters/:chapter_id',
+        // path:'books/:book_name/chapter/:chapter_id',
+        path:'books/:book_name/chapter/:chapter_name',
         name:'chapters',
         component:() => import('../views/layout/Chapters.vue')
       },
@@ -78,7 +81,9 @@ const routes = [
         component:() => import('../views/layout/Search-single-sidebar.vue')
       },
       {
-        path:'single-hadith/:hadith_id',
+        // path:'single-hadith/:hadith_id',
+        // path:'hadith/:hadith_id',
+        path:'books/:book_name/hadith/:hadith_no',
         name:'single-hadith',
         component:() => import('../views/layout/Single-hadith.vue')
       }

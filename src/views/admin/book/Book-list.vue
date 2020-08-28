@@ -26,6 +26,7 @@
                     <tr>
                       <th>ID</th>
                       <th>Book Name</th>
+                      <th>Book Name En</th>
                       <th>Created By</th>
                       <th>Updated By</th>
                       <th>Status</th>
@@ -36,6 +37,7 @@
                     <tr v-for="(book, index) in books" :key="index">
                       <td>{{book.id}}</td>
                       <td>{{book.book_name}}</td>
+                      <td>{{book.book_name_en}}</td>
                       <td>{{book.created_user.name}}</td>
                       <td>
                         <span v-if="book.updated_by != null">{{book.updated_user.name}}</span>
@@ -60,6 +62,7 @@
                     <tr>
                       <th>ID</th>
                       <th>Book Name</th>
+                      <th>Book Name En</th>
                       <th>Created By</th>
                       <th>Updated By</th>
                       <th>Status</th>

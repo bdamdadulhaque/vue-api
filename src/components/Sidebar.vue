@@ -14,33 +14,30 @@
             <!-- Tab panes -->
             <div class="tab-content mb-3">
                 <div id="hadith-book" class="container tab-pane active">
-                    <div v-for="(book, index) in books" :key="index" class="list-group">
-                        <router-link :to="{name:'books', params:{book_id:book.id}}" class="list-group-item list-group-item-action">{{book.book_name}}</router-link>
+                    <div id="hadith-book-web" v-for="(book, index) in books" :key="index" class="list-group">
+                        <router-link :to="{name:'books', params:{book_id:book.id, book_name:book.book_name_en}}" class="list-group-item list-group-item-action">{{book.book_name}}</router-link>
+                    </div>
+                    <div id="hadith-book-mobile">
+                        <select v-model="bookOption" name="bookOption" @change="changeRoute()" class="form-control">
+                            <option :value="0">Select Book hb</option>
+                            <option v-for="(book, index) in books" :key="index" :value="book.id" class="list-group">
+                                    {{book.book_name}}
+                            </option>
+                        </select>
+                        <!-- <div v-for="(book, index) in books" :key="index" class="list-group">
+                            <router-link :to="{name:'books', params:{book_id:book.id}}" class="list-group-item list-group-item-action">{{book.book_name}}</router-link>
+                        </div> -->
                     </div>
                 </div>
-
-                <div id="hadith-book-mobile" class="container tab-pane active">
-                    <select v-model="bookOption" name="bookOption" @change="changeRoute()" class="form-control">
-                        <option :value="0">Select Book</option>
-                        <option v-for="(book, index) in books" :key="index" :value="book.id" class="list-group">
-                                {{book.book_name}}
-                        </option>
-                    </select>
-                    <!-- <div v-for="(book, index) in books" :key="index" class="list-group">
-                        <router-link :to="{name:'books', params:{book_id:book.id}}" class="list-group-item list-group-item-action">{{book.book_name}}</router-link>
-                    </div> -->
-                </div>
-
-
                 <div id="search-hadith" class="container tab-pane fade">
-                <form @submit.prevent="searchByHadithNo()">
-                    <select v-model="book_id" name="book_id" class="form-control mb-2 mr-sm-2" id="books">
-                        <option :value="0">Select Book</option>
-                        <option v-for="(book, index2) in books" :key="index2" :value="book.id">{{book.book_name}}</option>
-                    </select>
-                    <input v-model="hadith_no" name="hadith_no" type="text" class="form-control mb-2 mr-sm-2" id="hadithNo" placeholder="Hadith no.">
-                    <button type="submit" class="btn btn-primary mb-2">Go</button>
-                </form>
+                    <form @submit.prevent="searchByHadithNo()">
+                        <select v-model="book_id" name="book_id" class="form-control mb-2 mr-sm-2" id="books">
+                            <option :value="0">Select Book sbh</option>
+                            <option v-for="(book, index2) in books" :key="index2" :value="book.id">{{book.book_name}}</option>
+                        </select>
+                        <input v-model="hadith_no" name="hadith_no" type="text" class="form-control mb-2 mr-sm-2" id="hadithNo" placeholder="Hadith no.">
+                        <button type="submit" class="btn btn-primary mb-2">Go</button>
+                    </form>
                 </div>
             </div>
             <!--Begin daily hadith -->
@@ -61,7 +58,8 @@ export default {
             book_id:'0',
             hadith_no:'',
             dailyHadithData:'',
-            bookOption:'0'
+            bookOption:'0',
+            routeChange:0
         }
     },
     methods:{
@@ -81,7 +79,22 @@ export default {
             });
         },
         changeRoute() {
-            this.$router.push({path:'/books/' + this.bookOption })
+            this.routeChange = 1
+            axios
+                .get("/bookpagedata/" + this.bookOption)
+                .then(response => {
+                    var bookNameEn = response.data.fetched_single_book.book_name_en
+                    this.$router.push({path:'/books/' + bookNameEn + '/' + this.bookOption })
+                })
+                .catch(error => {
+                    iziToast.error({
+                    title: "Error",
+                    message: "Something wrong, record not fetched!",
+                    position: "topRight",
+                    timeout: 2000
+                });
+            });
+           // this.$router.push({path:'/books/' + bbb + '/' + this.bookOption })
         },
         dailyHadith(){
             axios.get('/homepagedailyhadith')
@@ -115,6 +128,9 @@ export default {
     mounted() {
         this.bookList();
         this.dailyHadith();
+        if(this.routeChange == 1){
+            this.changeRoute();
+        }
     }
 }
 </script>
