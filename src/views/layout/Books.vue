@@ -17,7 +17,7 @@
             <tbody>
                 <tr v-for="(chapter, index) in chapters" :key="index">
                     <th class="text-center book-subject-no" scope="row" width="6%">{{chapter.chapter_no | engToBen(chapter.chapter_no)}}</th>
-                    <td><router-link :to="{name:'chapters', params:{chapter_id:chapter.id, chapter_name:chapter.chapter_name_en}}">{{chapter.chapter_name}}</router-link></td>
+                    <td><router-link :to="{name:'chapters', params:{chapter_id:chapter.id, chapter_id:chapter.id}}">{{chapter.chapter_name}}</router-link></td>
                     <!-- <td class="text-right" width="20%">৪২২ - ৫৬৫</td> -->
                     <td v-if="chapter.hadith_no_begin != null || chapter.hadith_no_begin != null" class="text-right" width="37%">{{chapter.hadith_no_begin | engToBen(chapter.hadith_no_begin)}} - {{chapter.hadith_no_end | engToBen(chapter.hadith_no_end)}}</td>
                     <td v-else class="text-right" width="20%"> - </td>

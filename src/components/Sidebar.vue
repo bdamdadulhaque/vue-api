@@ -19,7 +19,7 @@
                     </div>
                     <div id="hadith-book-mobile">
                         <select v-model="bookOption" name="bookOption" @change="changeRoute()" class="form-control">
-                            <option :value="0">Select Book hb</option>
+                            <option :value="0">Select Book</option>
                             <option v-for="(book, index) in books" :key="index" :value="book.id" class="list-group">
                                     {{book.book_name}}
                             </option>
@@ -32,7 +32,7 @@
                 <div id="search-hadith" class="container tab-pane fade">
                     <form @submit.prevent="searchByHadithNo()">
                         <select v-model="book_id" name="book_id" class="form-control mb-2 mr-sm-2" id="books">
-                            <option :value="0">Select Book sbh</option>
+                            <option :value="0">Select Book</option>
                             <option v-for="(book, index2) in books" :key="index2" :value="book.id">{{book.book_name}}</option>
                         </select>
                         <input v-model="hadith_no" name="hadith_no" type="text" class="form-control mb-2 mr-sm-2" id="hadithNo" placeholder="Hadith no.">

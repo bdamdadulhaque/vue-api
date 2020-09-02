@@ -445,6 +445,7 @@ p.hadith-reference {
   color: black;
   margin: 0px 5px 0px 15px;
 }
+/** hadith value begin **/
 .hadith-value-sahi {
   float: left;
   background-color: green;
@@ -463,6 +464,56 @@ p.hadith-reference {
   color: white;
   padding: 0px 5px;
 }
+.hadith-value-maktu {
+  float: left;
+  background-color: lightgreen;
+  color: white;
+  padding: 0px 5px;
+}
+.hadith-value-mawkuf {
+  float: left;
+  background-color: lightgreen;
+  color: white;
+  padding: 0px 5px;
+}
+.hadith-value-munkar-always {
+  float: left;
+  background-color: lightblue;
+  color: white;
+  padding: 0px 5px;
+}
+.hadith-value-saaj {
+  float: left;
+  background-color: #e75480;
+  color: white;
+  padding: 0px 5px;
+}
+.hadith-value-munkar {
+  float: left;
+  background-color: darkorange;
+  color: white;
+  padding: 0px 5px;
+}
+.hadith-value-nirnitonoi {
+  float: left;
+  background-color: yellow;
+  color: white;
+  padding: 0px 5px;
+}
+.hadith-value-onnano {
+  float: left;
+  background-color: darkblue;
+  color: white;
+  padding: 0px 5px;
+}
+.hadith-value-durbolhadis {
+  float: left;
+  background-color: red;
+  color: white;
+  padding: 0px 5px;
+}
+
+/** hadith value end **/
 .direct-hadith-link {
   float: right;
   margin-left: 10px;

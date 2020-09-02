@@ -83,6 +83,31 @@
                           <div v-if="hadith.hadith_value == 3" class="hadith-value-daif">
                                 যঈফ
                           </div>
+
+                          <div v-if="hadith.hadith_value == 4" class="hadith-value-maktu">
+                                সহিহ মাকতু
+                          </div>
+                          <div v-if="hadith.hadith_value == 5" class="hadith-value-mawkuf">
+                                সহিহ মাওকুফ
+                          </div>
+                          <div v-if="hadith.hadith_value == 6" class="hadith-value-munkar-always">
+                                মুনকার (সর্বদা পরিত্যক্ত)
+                          </div>
+                          <div v-if="hadith.hadith_value == 7" class="hadith-value-saaj">
+                                শা'জ
+                          </div>
+                          <div v-if="hadith.hadith_value == 8" class="hadith-value-munkar">
+                                মুনকার
+                          </div>
+                          <div v-if="hadith.hadith_value == 9" class="hadith-value-nirnitonoi">
+                                নির্ণীত নয়
+                          </div>
+                          <div v-if="hadith.hadith_value == 10" class="hadith-value-onnano">
+                                অন্যান্য
+                          </div>
+                          <div v-if="hadith.hadith_value == 11" class="hadith-value-durbolhadis">
+                                দুর্বল হাদিস
+                          </div>
                           <div class="direct-hadith-link">
                               <!-- <a href="#"><i class="fa fa-external-link-alt"></i> সরাসরি</a> -->
                               <router-link :to="{name:'single-hadith', params:{hadith_id:hadith.id, hadith_no:hadith.hadith_no, book_name:singleBook.book_name_en}}"><i class="fa fa-external-link-alt"></i> সরাসরি</router-link>

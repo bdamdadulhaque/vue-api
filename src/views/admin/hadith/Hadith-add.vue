@@ -49,8 +49,9 @@
                   <div class="form-row">
                     <div class="form-group col-md-3">
                       <label for="hadithNo">Hadith No <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
-                      <input v-model="form.hadith_no" name="hadith_no" type="number" :class="{'is-invalid': form.errors.has('hadith_no')}" class="form-control" id="hadithNo" placeholder="Enter hadith no"/>
+                      <input v-model="form.hadith_no" name="hadith_no" type="number" :class="{'is-invalid': form.errors.has('hadith_no')}" class="form-control" id="hadithNo" placeholder="Enter hadith no" @mouseleave="hadithNoEntryCheck()"/>
                       <has-error :form="form" field="hadith_no"></has-error>
+                      <p v-if="hadithNoOkMsg==true" class="error-show"> Hadith no. should be {{currentHadithNo+1}}</p>
                     </div>
                     <div class="form-group col-md-3">
                       <label for="hadithValue">Hadith Value <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
@@ -59,6 +60,14 @@
                         <option value="1">সহীহ হাদিস</option>
                         <option value="2">হাসান</option>
                         <option value="3">যঈফ</option>
+                        <option value="4">সহিহ মাকতু</option>
+                        <option value="5">সহিহ মাওকুফ</option>
+                        <option value="6">মুনকার (সর্বদা পরিত্যক্ত)</option>
+                        <option value="7">শা'জ</option>
+                        <option value="8">মুনকার</option>
+                        <option value="9">নির্ণীত নয়</option>
+                        <option value="10">অন্যান্য</option>
+                        <option value="11">দুর্বল হাদিস</option>
                       </select>
                       <has-error :form="form" field="hadith_value"></has-error>
                     </div>
@@ -152,11 +161,33 @@ export default {
       }),
       books:[],
       chapters:[],
-      hadithBnCheck:false
+      hadithBnCheck:false,
+      // duplicateCheck:false,
+      //hadithDuplicateCheckMsg:false,
+      currentHadithNo:'',
+     // hadithNoShould:'',
+      hadithNoOkMsg:false
+      
     };
+  },
+  computed:{
+    //  hadithNoOkMsg(){
+    //    if(this.form.hadith_no != this.hadithNoShould+1){
+    //      return this.hadithNoOkMsg
+    //    }
+    //  },
+    //  isDuplicateMsg(){
+    //    //this.hadithNoShould = this.currentHadithNo+1;
+    //    if(this.form.hadith_no != this.hadithNoShould+1){
+    //      return this.hadithDuplicateCheckMsg = true
+    //    }
+    //  }
   },
    mounted() {
     this.form.created_by = localStorage.getItem("loggedInUserId");
+    // if(this.book_id > 0){
+    //   this.getMaxHadithNo();
+    // }
   },
   methods: {
     getBooks(){
@@ -174,6 +205,8 @@ export default {
         });
     },
     getChapters(){
+      this.getMaxHadithNo();
+      //this.hadithNoOkMsg = true;
       axios.get('/chapterbyid/'+this.form.book_id)
         .then(response =>{
           this.chapters = response.data.fetched_chapter;
@@ -187,8 +220,37 @@ export default {
           });
         });
     },
+    getMaxHadithNo(){
+      axios.get('/maxhadithno/'+ this.form.book_id)
+      .then(response =>{
+          //console.log("max hadith no"+response.data.fetched_max_hadith_no);
+          if(response.data.fetched_max_hadith_no == null){
+            this.currentHadithNo = 0;
+          }
+          else{
+            this.currentHadithNo = response.data.fetched_max_hadith_no;
+          }
+        })
+        .catch(error => {
+          iziToast.error({
+            title: "Error",
+            message: "Something wrong, Hadith no. not fetched!",
+            position: "topRight",
+            timeout: 2000
+          });
+        });
+        
+    },
+    hadithNoEntryCheck(){
+      if(this.form.hadith_no == this.currentHadithNo+1){
+        this.hadithNoOkMsg = false
+      }
+      else{
+        this.hadithNoOkMsg = true
+      }
+    },
     hadithSave() {
-      if(this.form.hadith_name_bn != ''){
+      if(this.form.hadith_name_bn != '' && this.form.hadith_no == this.currentHadithNo+1){
        
         this.form.post('/hadith')
         .then(response => {
@@ -210,7 +272,13 @@ export default {
         });
       }
        else{
-          this.hadithBnCheck = true;
+         if(this.form.hadith_no != this.currentHadithNo+1){
+          //  alert("not matched");
+          this.hadithNoOkMsg = true
+         }
+         if(this.form.hadith_name_bn == ''){
+           this.hadithBnCheck = true;
+         }   
        }
       
     }

@@ -51,7 +51,7 @@ const routes = [
       {
         // path:'chapters/:chapter_id',
         // path:'books/:book_name/chapter/:chapter_id',
-        path:'books/:book_name/chapter/:chapter_name',
+        path:'books/:book_name/chapter/:chapter_id',
         name:'chapters',
         component:() => import('../views/layout/Chapters.vue')
       },

@@ -57,6 +57,14 @@
                         <option value="1">সহীহ হাদিস</option>
                         <option value="2">হাসান</option>
                         <option value="3">যঈফ</option>
+                        <option value="4">সহিহ মাকতু</option>
+                        <option value="5">সহিহ মাওকুফ</option>
+                        <option value="6">মুনকার (সর্বদা পরিত্যক্ত)</option>
+                        <option value="7">শা'জ</option>
+                        <option value="8">মুনকার</option>
+                        <option value="9">নির্ণীত নয়</option>
+                        <option value="10">অন্যান্য</option>
+                        <option value="11">দুর্বল হাদিস</option>
                       </select>
                       <has-error :form="form" field="hadith_value"></has-error>
                     </div>
