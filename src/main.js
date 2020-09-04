@@ -23,12 +23,10 @@ window.axios = axios;
 let token = localStorage.getItem('AToken');
 window.token = token; 
 //axios.defaults.baseURL = 'http://localhost/hadithsite/public/api';
-//axios.defaults.baseURL = 'http://hadith.techsometimes.com/backend/hadithsite/public/api';
 axios.defaults.baseURL = 'http://alhadithbd.com/backend/hadithsite/public/api';
 axios.defaults.headers.common['Authorization'] = 'Bearer '+ token;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 //let uploadPath = 'http://localhost/hadithsite/public/';
-//let uploadPath = 'http://hadith.techsometimes.com/backend/hadithsite/public/';
 let uploadPath = 'http://alhadithbd.com/backend/hadithsite/public/';
 window.uploadPath = uploadPath;
 
