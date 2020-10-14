@@ -41,6 +41,13 @@
                       </div>
                     </div>
                   </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-12">
+                      <label for="bookDescription">Book Description <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
+                      <vue-editor v-model="form.book_description"></vue-editor>
+                      <p v-if="bookDescriptionCheck == true" class="error-show"> Book description is required!</p>
+                    </div>
+                  </div>
                   <!-- <div class="form-group">
                     <label for="inputAddress">Address</label>
                     <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
@@ -74,15 +81,22 @@
   </div>
 </template>
 <script>
+// Import the editor
+import { VueEditor } from "vue2-editor";
 export default {
+  components: {
+        VueEditor
+  },
   data() {
     return {
       form: new Form({
         book_name: '',
         book_name_en: '',
+        book_description:'',
         book_status: '',
         updated_by: ''
-      })
+      }),
+      bookDescriptionCheck:false
     };
   },
   methods: {
@@ -104,24 +118,29 @@ export default {
         });
     },
     bookUpdate() {
-      this.form.put('/book/'+this.$route.params.book_id)
-        .then(response => {
-          iziToast.success({
-            title: "OK",
-            message: "Successfully updated record!",
-            position: 'topRight',
-            timeout: 2000
+      if(this.form.book_description != ''){
+        this.form.put('/book/'+this.$route.params.book_id)
+          .then(response => {
+            iziToast.success({
+              title: "OK",
+              message: "Successfully updated record!",
+              position: 'topRight',
+              timeout: 2000
+            });
+            this.$router.push({ name: "book-list" });
+          })
+          .catch(error => {
+            iziToast.warning({
+              title: "Warning",
+              message: "Something wrong, record not updated!",
+              position: 'topRight',
+              timeout: 2000
+            });
           });
-          this.$router.push({ name: "book-list" });
-        })
-        .catch(error => {
-          iziToast.warning({
-            title: "Warning",
-            message: "Something wrong, record not updated!",
-            position: 'topRight',
-            timeout: 2000
-          });
-        });
+         }
+       else{
+          this.bookDescriptionCheck = true;
+       }
     }
   },
   mounted(){
@@ -132,5 +151,8 @@ export default {
 <style scoped>
 .custom-control-label{
   color:rgba(0, 0, 0, 0.5);
+}
+.error-show {
+  color: red;
 }
 </style>

@@ -33,7 +33,7 @@
                         <i class="fa fa-book-open fa-2x"></i>
                         <h6>অধ্যায়ঃ {{singleChapter.chapter_no | engToBen(singleChapter.chapter_no)}}</h6>
                     </div>
-                    <p class="chapter-subject">{{singleHadith.hadith_subject}}</p>
+                    <p v-if="singleHadith.hadith_subject != null" class="chapter-subject">{{singleHadith.hadith_subject}}</p>
                 </div>
             </div>
             <div class="card">
@@ -180,9 +180,9 @@ export default {
        sharing: {
       //   // url: 'http://localhost:8080/single-hadith/'+this.$route.params.hadith_id,
       //   url: 'http://alhadithbd.com/single-hadith/'+singleHadith.id,
-      title: 'AlHadithBd',
-      //   title:`${singleHadith.hadith_subject} - AlhadithBD`,
-      //   description: `${this.singleHadith.hadith_name_bn}`,
+        // title:`${singleHadith.hadith_subject} - AlhadithBD`,
+        title:'Sharing from AlhadithBD',
+       // description: `${this.singleHadith.hadith_name_bn}`,
       //   quote: 'This is quote', // this show 'This is quote'
       //   hashtags: 'hastag1, hashtag2', // this show hastag1
          twitterUser: 'youyuxi'
@@ -197,12 +197,12 @@ export default {
   metaInfo() {
     return {
       // title: `${this.singleHadith.hadith_subject} - AlhadithBD`,
-      title: 'AlHadithBd.com',
+      title: 'AlHadithBd.com single from vue meta',
       meta: [
         // { name: 'description', content: 'Connect and follow ' + this.singleHadith.hadith_subject + ' on AlhadithBD'},
         { name: 'description', content: this.singleHadith.hadith_name_bn},
         // { property: 'og:title', content: this.singleHadith.hadith_subject + ' - AlhadithBD'},
-        { property: 'og:title', content: 'AlHadithBd.com'},
+        { property: 'og:title', content: 'AlHadithBd.com single from vue meta'},
         { property: 'og:site_name', content: 'AlhadithBD'},
         // { property: 'og:description', content: 'Connect and follow ' + this.singleHadith.hadith_name_bn + ' on AlhadithBD'},
         { property: 'og:description', content: this.singleHadith.hadith_name_bn },

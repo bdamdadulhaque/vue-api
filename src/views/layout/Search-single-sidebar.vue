@@ -30,7 +30,7 @@
       
         <!-- <div v-for="(hadith, index) in this.$route.query.search_result" :key="index" class="single-hadith-box mb-3"> -->
         <div v-if="searchRow != null" class="single-hadith-box mb-3">
-            <div class="card mb-3">
+            <div v-if="searchRow.hadith_subject != null" class="card mb-3">
                 <div class="card-body">
                     <!-- <div class="box-three d-flex">
                         <i class="fa fa-book-open fa-2x"></i>

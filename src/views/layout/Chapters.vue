@@ -36,8 +36,8 @@
                         <i class="fa fa-book-open fa-2x"></i>
                         <h6>{{singleChapter.chapter_no | engToBen(singleChapter.chapter_no)}}/{{index+1 | engToBen(index+1)}} অধ্যায়ঃ</h6>
                     </div>
-                    <p class="chapter-subject">{{hadith.hadith_subject}}</p>
-                    <p class="chapter-subject-details">{{hadith.hadith_subject_details}}</p>
+                    <p v-if="hadith.hadith_subject != null" class="chapter-subject">{{hadith.hadith_subject}}</p>
+                    <p v-if="hadith.hadith_subject_details != null" class="chapter-subject-details">{{hadith.hadith_subject_details}}</p>
                 </div>
             </div>
             <!-- <div v-if="hadith.hadith_no != null && hadith.hadith_name_ar != null && hadith.narrated_by != null && hadith.hadith_name_bn != null && hadith_value != null" class="card"> -->
@@ -63,8 +63,6 @@
                               <!-- <span>{{ network.name }}</span> -->
                             </ShareNetwork>
                           </div>
-
-
                         </div>
                         <p class="hadith-in-arabic">{{hadith.hadith_name_ar}}</p>
                         <p class="hadith-narrated">{{hadith.narrated_by}}</p>
@@ -83,7 +81,6 @@
                           <div v-if="hadith.hadith_value == 3" class="hadith-value-daif">
                                 যঈফ
                           </div>
-
                           <div v-if="hadith.hadith_value == 4" class="hadith-value-maktu">
                                 সহিহ মাকতু
                           </div>
@@ -166,17 +163,10 @@
   </div>
 </template>
 <script>
-import {Facebook,Twitter,Linkedin,Pinterest,WhatsApp,Email} from "vue-socialmedia-share";
 import Sidebar from '@/components/Sidebar.vue';
 export default {
    components:{
-        Sidebar,
-        Facebook
-        //Twitter,
-        //Linkedin,
-        //Pinterest,
-        //WhatsApp,
-        //Email
+        Sidebar
    },
     data(){
         return {

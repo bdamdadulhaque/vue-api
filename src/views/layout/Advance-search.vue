@@ -34,7 +34,8 @@
                         <i class="fa fa-book-open fa-2x"></i>
                         <h6>{{singleChapter.chapter_no | engToBen(singleChapter.chapter_no)}}/ অধ্যায়ঃ {{index+1 | engToBen(index+1)}}</h6>
                     </div>
-                    <p class="chapter-subject">{{hadith.hadith_subject}}</p>
+                    <p v-if="hadith.hadith_subject != null" class="chapter-subject">{{hadith.hadith_subject}}</p>
+                    <p v-if="hadith.hadith_subject_details != null" class="chapter-subject-details">{{hadith.hadith_subject_details}}</p>
                 </div>
             </div>
             <div class="card mb-3">

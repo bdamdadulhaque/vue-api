@@ -57,13 +57,22 @@ Vue.use(VueSocialSharing, {
   }
 })
 
-
+import ReadMore from 'vue-read-more';
+ 
+ Vue.use(ReadMore);
 
 import bnNum from 'bnnum'
 Vue.filter('engToBen', function (value) {
   // return bnNum(value);
   return bnNum(value);
 })
+
+// Vue.filter('truncate', function (value, limit) {
+//   if (value.length > limit) {
+//       value = value.substring(0, (limit - 3)) + '...';
+//   }
+//   return value
+// })
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 

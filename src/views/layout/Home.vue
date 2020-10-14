@@ -82,7 +82,7 @@
           <div class="col-md-6 offset-md-3">
             <div class="connetc-us">
               <p>Connect us on
-                <a href="#" target="blank">
+                <a href="https://www.facebook.com/AlHadithB" target="blank">
                   <i class="fab fa-facebook"></i>
                 </a>
                 <a href="#" target="blank">

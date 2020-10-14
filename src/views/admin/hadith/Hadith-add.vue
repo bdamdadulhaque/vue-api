@@ -49,9 +49,10 @@
                   <div class="form-row">
                     <div class="form-group col-md-3">
                       <label for="hadithNo">Hadith No <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
-                      <input v-model="form.hadith_no" name="hadith_no" type="number" :class="{'is-invalid': form.errors.has('hadith_no')}" class="form-control" id="hadithNo" placeholder="Enter hadith no" @mouseleave="hadithNoEntryCheck()"/>
+                      <!-- <input v-model="form.hadith_no" name="hadith_no" type="number" :class="{'is-invalid': form.errors.has('hadith_no')}" class="form-control" id="hadithNo" placeholder="Enter hadith no" @mouseleave="hadithNoEntryCheck()"/> -->
+                      <input v-model="form.hadith_no" name="hadith_no" type="number" :class="{'is-invalid': form.errors.has('hadith_no')}" class="form-control" id="hadithNo" placeholder="Enter hadith no"/>
                       <has-error :form="form" field="hadith_no"></has-error>
-                      <p v-if="hadithNoOkMsg==true" class="error-show"> Hadith no. should be {{currentHadithNo+1}}</p>
+                      <!-- <p v-if="hadithNoOkMsg==true" class="error-show"> Hadith no. should be {{currentHadithNo+1}}</p> -->
                     </div>
                     <div class="form-group col-md-3">
                       <label for="hadithValue">Hadith Value <sup><i class="fas fa-asterisk" style="color:red;font-size:8px;"></i></sup></label>
@@ -162,32 +163,13 @@ export default {
       books:[],
       chapters:[],
       hadithBnCheck:false,
-      // duplicateCheck:false,
-      //hadithDuplicateCheckMsg:false,
-      currentHadithNo:'',
-     // hadithNoShould:'',
-      hadithNoOkMsg:false
+      // currentHadithNo:'',
+      // hadithNoOkMsg:false
       
     };
   },
-  computed:{
-    //  hadithNoOkMsg(){
-    //    if(this.form.hadith_no != this.hadithNoShould+1){
-    //      return this.hadithNoOkMsg
-    //    }
-    //  },
-    //  isDuplicateMsg(){
-    //    //this.hadithNoShould = this.currentHadithNo+1;
-    //    if(this.form.hadith_no != this.hadithNoShould+1){
-    //      return this.hadithDuplicateCheckMsg = true
-    //    }
-    //  }
-  },
    mounted() {
     this.form.created_by = localStorage.getItem("loggedInUserId");
-    // if(this.book_id > 0){
-    //   this.getMaxHadithNo();
-    // }
   },
   methods: {
     getBooks(){
@@ -205,8 +187,7 @@ export default {
         });
     },
     getChapters(){
-      this.getMaxHadithNo();
-      //this.hadithNoOkMsg = true;
+      //this.getMaxHadithNo();
       axios.get('/chapterbyid/'+this.form.book_id)
         .then(response =>{
           this.chapters = response.data.fetched_chapter;
@@ -220,37 +201,37 @@ export default {
           });
         });
     },
-    getMaxHadithNo(){
-      axios.get('/maxhadithno/'+ this.form.book_id)
-      .then(response =>{
-          //console.log("max hadith no"+response.data.fetched_max_hadith_no);
-          if(response.data.fetched_max_hadith_no == null){
-            this.currentHadithNo = 0;
-          }
-          else{
-            this.currentHadithNo = response.data.fetched_max_hadith_no;
-          }
-        })
-        .catch(error => {
-          iziToast.error({
-            title: "Error",
-            message: "Something wrong, Hadith no. not fetched!",
-            position: "topRight",
-            timeout: 2000
-          });
-        });
+    // getMaxHadithNo(){
+    //   axios.get('/maxhadithno/'+ this.form.book_id)
+    //   .then(response =>{
+    //       if(response.data.fetched_max_hadith_no == null){
+    //         this.currentHadithNo = 0;
+    //       }
+    //       else{
+    //         this.currentHadithNo = response.data.fetched_max_hadith_no;
+    //       }
+    //     })
+    //     .catch(error => {
+    //       iziToast.error({
+    //         title: "Error",
+    //         message: "Something wrong, Hadith no. not fetched!",
+    //         position: "topRight",
+    //         timeout: 2000
+    //       });
+    //     });
         
-    },
-    hadithNoEntryCheck(){
-      if(this.form.hadith_no == this.currentHadithNo+1){
-        this.hadithNoOkMsg = false
-      }
-      else{
-        this.hadithNoOkMsg = true
-      }
-    },
+    // },
+    // hadithNoEntryCheck(){
+    //   if(this.form.hadith_no == this.currentHadithNo+1){
+    //     this.hadithNoOkMsg = false
+    //   }
+    //   else{
+    //     this.hadithNoOkMsg = true
+    //   }
+    // },
     hadithSave() {
-      if(this.form.hadith_name_bn != '' && this.form.hadith_no == this.currentHadithNo+1){
+      // if(this.form.hadith_name_bn != '' && this.form.hadith_no == this.currentHadithNo+1){
+      if(this.form.hadith_name_bn != ''){
        
         this.form.post('/hadith')
         .then(response => {
@@ -272,13 +253,13 @@ export default {
         });
       }
        else{
-         if(this.form.hadith_no != this.currentHadithNo+1){
-          //  alert("not matched");
-          this.hadithNoOkMsg = true
-         }
-         if(this.form.hadith_name_bn == ''){
+        //  if(this.form.hadith_no != this.currentHadithNo+1){
+        //   this.hadithNoOkMsg = true
+        //  }
+        //  if(this.form.hadith_name_bn == ''){
+        //    this.hadithBnCheck = true;
+        //  }   
            this.hadithBnCheck = true;
-         }   
        }
       
     }

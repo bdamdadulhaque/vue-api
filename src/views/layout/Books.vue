@@ -8,10 +8,19 @@
         <!-- End left sidebar -->
         <!-- Begin book heading and table -->
         <div class="col-md-9">
-            <div class="hadith-name-headline d-flex mb-3">
-            <i class="fa fa-book fa-2x"></i>
-            <h4>{{singleBook.book_name}}</h4>
-            <p>( {{hadithCount | engToBen(hadithCount)}} টি  হাদিস )</p>
+            <div class="book-name-header">
+                <div class="hadith-name-headline d-flex mb-3">
+                    <i class="fa fa-book fa-2x"></i>
+                    <h4>{{singleBook.book_name}}</h4>
+                    <p>( {{hadithCount | engToBen(hadithCount)}} টি  হাদিস )</p>
+                    <!-- <p><router-link :to="{name:'book-info', params:{book_id:singleBook.id, book_name:singleBook.book_name_en}}">বিস্তারিত</router-link></p> -->
+                </div>
+                <div class="book-description-on-header"> 
+                    <!-- <p v-html="longText">{{longText.slice(0,200)}} <a  href="#">Read more...</a></p> -->
+                    <read-more more-str="আরও পড়ুন" :text="longText" link="#" less-str="... উপরে যান" :max-chars="200"></read-more>
+                    <!-- {{ longText | truncate(20) }} -->
+                    <!-- <div v-html="longText | truncate"></div> * You can't use a filter in a directive -->
+                </div>
             </div>
             <table class="table book-list-table">
             <tbody>
@@ -38,7 +47,9 @@ export default {
         return {
             singleBook:'',
             hadithCount:'',
-            chapters:[]
+            chapters:[],
+            longText:'',
+            readMoreActivated: false
         }
     },
     watch: {   
@@ -54,6 +65,7 @@ export default {
                 .then(response => {
                     console.log(response.data.fetched_test);
                     this.singleBook = response.data.fetched_single_book;
+                    this.longText = response.data.fetched_single_book.book_description;
                     this.hadithCount = response.data.fetched_hadith_count;
                     this.chapters = response.data.fetched_chapter;
 

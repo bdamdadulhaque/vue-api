@@ -43,10 +43,31 @@ const routes = [
         component:() => import('../views/layout/Home.vue')
       },
       {
+        path:'about',
+        name:'about',
+        component:() => import('../views/layout/About.vue')
+      },
+      {
+        path:'contact',
+        name:'contact',
+        component:() => import('../views/layout/Contact.vue')
+      },
+      {
+        path:'support',
+        name:'support',
+        component:() => import('../views/layout/Support.vue')
+      },
+      {
         path:'books/:book_name/:book_id',
         // path: "/account/:id/todo/:todoId",
         name:'books',
         component:() => import('../views/layout/Books.vue')
+      },
+      {
+        path:'book-info/:book_name/:book_id',
+        // path: "/account/:id/todo/:todoId",
+        name:'book-info',
+        component:() => import('../views/layout/Book-info.vue')
       },
       {
         // path:'chapters/:chapter_id',

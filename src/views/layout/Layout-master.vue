@@ -56,8 +56,9 @@
       <a href="#">Link2</a>| 
       <a href="#">Link3</a>|
       <a href="#">Link4</a> -->
-        <a v-for="(menu, index) in menus" :key="index" :href="menu.menu_link" target="_blank"><span v-if="menu.menu_type == 2">{{menu.menu_name}}</span></a>
+        <a v-for="(menu, index) in menus" :key="index" :href="menu.menu_link"><span v-if="menu.menu_type == 2">{{menu.menu_name}}</span></a>
   </div>
+  <ScrollTopArrow></ScrollTopArrow>
 </footer>
 <!-- <script src="assets/js/jquery-3.5.1.slim.min.js"></script> -->
 <!-- <script src="assets/js/bootstrap.bundle.js"></script> -->
@@ -71,7 +72,14 @@ import '../../layout-assets/js/bootstrap.bundle.js';
 import '../../layout-assets/css/all.css';
 import '../../layout-assets/css/bootstrap.css';
 import '../../layout-assets/style.css';
+
+// import ScrollTopArrow from '@/components/ScrollTopArrow';
+// import ScrollTopArrow from '../../components/ScrollTopArrow';
+import ScrollTopArrow from '@/components/ScrollTopArrow.vue'
 export default {
+  components: {
+    ScrollTopArrow
+  },
   data(){
     return {
       search_keyword:'',
