@@ -106,6 +106,7 @@
 </template>
 <script>
 export default {
+  // middleware: ['super-admin'],
   data(){
     return{
       form: new Form({
