@@ -10,9 +10,12 @@
                 <div class="d-flex justify-content-between">
                   <h3 class="card-title">Account List</h3>
                   <div>
-                    <router-link :to="{name:'account-add'}" class="btn btn-xs btn-success d-inline-block mr-2">
+                    <router-link :to="{name:'account-add'}" v-if="userRole == 1 || userRole == 2" class="btn btn-xs btn-success d-inline-block mr-2">
                       <i class="fas fa-plus"></i> Add New
                     </router-link>
+                    <button @click="$router.go(-1)" class="btn btn-xs btn-default d-inline-block mr-1">
+                      <i class="fas fa-arrow-left"></i> Back
+                    </button>
                   </div>
                 </div>
               </div>
@@ -74,12 +77,13 @@
 export default {
   data(){
     return{
-      accounts:[]
+      accounts:[],
+      moment,
     }
   },
   methods:{
     accountList(){
-      axios.get('account-list')
+      axios.get('/account-list')
         .then(response =>{
           console.log("fetched account "+response.data.fetched_account)
           this.accounts = response.data.fetched_account;

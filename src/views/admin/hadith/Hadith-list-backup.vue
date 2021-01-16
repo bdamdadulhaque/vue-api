@@ -8,11 +8,14 @@
             <div class="card card-primary">
               <div class="card-header">
                 <div class="d-flex justify-content-between">
-                  <h3 class="card-title">Account List</h3>
+                  <h3 class="card-title">Hadith List</h3>
                   <div>
-                    <router-link :to="{name:'account-add'}" class="btn btn-xs btn-success d-inline-block mr-2">
+                    <router-link :to="{name:'hadith-add'}" v-if="userRole == 1 || userRole == 2" class="btn btn-xs btn-success d-inline-block mr-2">
                       <i class="fas fa-plus"></i> Add New
                     </router-link>
+                    <button @click="$router.go(-1)" class="btn btn-xs btn-default d-inline-block mr-1">
+                      <i class="fas fa-arrow-left"></i> Back
+                    </button>
                   </div>
                 </div>
               </div>
@@ -21,38 +24,58 @@
               <table id="example" class="table table-bordered table-striped text-center">
                 <thead>
                   <tr>
-                    <th>Account Name</th>
-                    <th>Bank</th>
-                    <th>Account No</th>
-                    <th>Branch</th>
-                    <th>Account Type</th>
-                    <th>Actions</th>
+                    <th>Hadith No</th>
+                    <th>Book</th>
+                    <th>Chapter</th>
+                    <th>Hadith Subject</th>
+                    <th>Created By</th>
+                    <th>Updated By</th>
+                    <th>Status</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(account, index) in accounts" :key="index">
-                    <td>{{account.account_name}}</td>
-                    <td>{{account.financial_organization_id}}</td>
-                    <td>{{account.branch}}</td>
-                    <td>{{account.account_type}}</td>
-                    
+                  <tr v-for="(hadith, index) in hadiths" :key="index">
                     <td>
+                      <span v-if="hadith.hadith_no != null">{{hadith.hadith_no}}</span>
+                      <span v-else>N/A</span>
+                    </td>
+                    <td>{{hadith.book.book_name}}</td>
+                    <td>{{hadith.chapter.chapter_name}}</td>
+                    <td>{{hadith.hadith_subject}}</td>
+                    <td>{{hadith.created_user.name}}</td>
+                    <td>
+                      <span v-if="hadith.updated_by != null">{{hadith.updated_user.name}}</span>
+                      <span v-else>Not Updated</span>
+                    </td>
+                    <td>
+                      <span v-if="hadith.hadith_status == 1" class="badge bg-success">Active</span>
+                      <span v-if="hadith.hadith_status == 0" class="badge bg-warning">Inactive</span>
+                      <span v-if="hadith.hotd_status == 1" class="badge bg-primary ml-2"><i class="fa fa-clock"></i></span>
+                    </td>
+                    <td v-if="userRole == 1 || userRole == 2">
                       <div class="btn-group">
-                        <router-link :to="{name:'account-edit', params:{account_id:account.id}}" class="btn btn-sm btn-outline-warning">Edit</router-link>
-                        <button  @click.prevent="accountDelete(account.id)" class="btn btn-sm btn-outline-danger">Delete</button>
+                        <router-link :to="{name:'hadith-view', params:{hadith_id:hadith.id}}" class="btn btn-sm btn-outline-success">View</router-link>
+                        <router-link :to="{name:'hadith-edit', params:{hadith_id:hadith.id}}" class="btn btn-sm btn-outline-warning">Edit</router-link>
+                        <!-- <router-link :to="{name:'hotd', params:{hadith_id:hadith.id}}" class="btn btn-sm btn-outline-primary">HOTD</router-link> -->
+                        <button v-if="userRole == 1" @click.prevent="hadithDelete(hadith.id)" class="btn btn-sm btn-outline-danger">Delete</button>
                       </div>
                     </td>
-              
+                    <td v-else>
+                      <span>Not Allowed</span>
+                    </td>
                   </tr>
                 </tbody>
                 <tfoot>
                   <tr>
-                    <th>Account Name</th>
-                    <th>Bank</th>
-                    <th>Account No</th>
-                    <th>Branch</th>
-                    <th>Account Type</th>
-                    <th>Actions</th>
+                    <th>Hadith No</th>
+                    <th>Book</th>
+                    <th>Chapter</th>
+                    <th>Hadith Subject</th>
+                    <th>Created By</th>
+                    <th>Updated By</th>
+                    <th>Status</th>
+                    <th>Action</th>
                   </tr>
                 </tfoot>
               </table>
@@ -74,15 +97,30 @@
 export default {
   data(){
     return{
-      accounts:[]
+      hadiths:[],
+      moment,
+      userRole:localStorage.getItem('userRole')
     }
   },
   methods:{
-    accountList(){
-      axios.get('account-list')
+    hadithList(){
+      axios.get('/hadith')
         .then(response =>{
-          console.log("fetched account "+response.data.fetched_account)
-          this.accounts = response.data.fetched_account;
+          console.log("fetched hadith "+response.data.fetched_hadith)
+          this.hadiths = response.data.fetched_hadith;
+          // data table
+          // $(function() {
+          //   if($.fn.dataTable.isDataTable('#example1')){
+          //     var table = $('#example1').DataTable();
+          //   }
+          //   else{
+          //     table = $('#example1').DataTable({
+          //       paging: true,
+          //       "order":[[0,"asc"]]
+          //     });
+          //   }
+          // }); 
+          // data table
           // data table
           $(function() {
             if($.fn.dataTable.isDataTable('#example')){
@@ -91,7 +129,7 @@ export default {
             else{
               table = $('#example').DataTable({
                 paging: true,
-                "order":[[0,"desc"]],
+                "order":[[0,"asc"]],
                 dom: 'Bfrtip',
                 initComplete: function () {
                     this.api().columns([0, 1, 2, 4, 5]).every( function () {
@@ -125,7 +163,7 @@ export default {
         });
       })
     },
-    accountDelete(account_id) {
+    hadithDelete(hadith_id) {
     let localThis = this;
       iziToast.question({
       timeout: 20000,
@@ -139,9 +177,9 @@ export default {
       position: 'center',
       buttons: [
         ['<button><b>YES</b></button>', function (instance, toast) {
-          axios.delete("/account/" + account_id)
+          axios.delete("/hadith/" + hadith_id)
             .then(response => {
-              localThis.accountList();
+              localThis.hadithList();
               iziToast.warning({
                 title: "Caution",
                 message: "Successfully deleted record!",
@@ -173,7 +211,7 @@ export default {
     }
   },
   mounted(){
-    this.accountList();
+    this.hadithList();
   }
 }
 </script>
